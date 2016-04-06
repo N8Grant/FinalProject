@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0" styleClass="background" stylesheets="@../../../bin/application/view/JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.MainMenuController">
+   <children>
+      <Button fx:id="bookTrip" layoutX="400.0" layoutY="133.0" mnemonicParsing="false" onAction="#bookTrip" text="Book A Trip" AnchorPane.bottomAnchor="334.0" />
+      <Button fx:id="checkSchedule" layoutX="400.0" layoutY="210.0" mnemonicParsing="false" onAction="#checkSchedule" text="Check &amp; Edit Scedule" AnchorPane.bottomAnchor="244.0" />
+      <Button fx:id="busManagement" layoutX="400.0" layoutY="309.0" mnemonicParsing="false" onAction="#manageBusses" text="Manage Busses" AnchorPane.bottomAnchor="154.0" />
+      <Button fx:id="quitButton" layoutX="400.0" layoutY="404.0" mnemonicParsing="false" onAction="#exitProgram" text="Quit" />
+      <Text layoutX="48.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ABC Bus Company">
+         <font>
+            <Font size="64.0" />
+         </font>
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#5c5af5" />
+                  <Stop color="WHITE" offset="0.42605633802816895" />
+                  <Stop color="WHITE" offset="0.7359154929577464" />
+                  <Stop color="#4542eb" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
+      <ImageView fitHeight="327.0" fitWidth="304.0" layoutX="48.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="63.0" AnchorPane.topAnchor="133.0">
+         <image>
+            <Image url="@busimage.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -1,9 +1,7 @@
 package application.view.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import application.Main;
 import javafx.event.ActionEvent;
@@ -14,8 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -62,8 +58,6 @@ public class MainMenuController extends Main
 		 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ScheduleWindow.fxml"));
-		ScheduleWindow controller = loader.<ScheduleWindow>getController();
-		controller.setCustomerSelect(getAllNames(fetchXML()));
 		root = (AnchorPane) loader.load();  
 		 
 		Scene scene = new Scene(root);

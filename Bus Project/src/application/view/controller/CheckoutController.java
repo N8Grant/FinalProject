@@ -1,7 +1,10 @@
 package application.view.controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -13,6 +16,7 @@ import application.model.Trip;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.print.PrinterJob;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,8 +28,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class CheckoutController extends Main
+public class CheckoutController extends Main implements Initializable
 {
+	/*
+	 * GUI Element variables
+	 */
 	@FXML
 	private Label totalLabel;
 
@@ -71,13 +78,11 @@ public class CheckoutController extends Main
 		alert.setContentText("Trip has been added to the registry!!");
 		Optional<ButtonType> result = alert.showAndWait();
 		
+		/*
+		 * If User confrims pop-up dialog box
+		 */
 		if (result.get() == ButtonType.OK)
 		{
-			/*
-			 * Marshalls data to an xml file
-			 */
-			addToXML(getTripList());
-			
 			Stage stage;
 			AnchorPane root;
 			stage = (Stage) cancelTrans.getScene().getWindow();
@@ -90,6 +95,9 @@ public class CheckoutController extends Main
 			stage.setScene(scene);
 			stage.show();
 		}
+		/*
+		 * Else close the alert
+		 */
 		else
 		{
 			alert.close();	   // closes the alert if cancel is pressed
@@ -99,6 +107,9 @@ public class CheckoutController extends Main
     @FXML
     void printReport(ActionEvent event) throws IOException, XPathExpressionException, 
     									ParserConfigurationException, SAXException 
+    /*
+     * If user clicks on print report button
+     */
     {
     	AnchorPane root;
 					
@@ -107,7 +118,7 @@ public class CheckoutController extends Main
 		PrinterController controller = loader.<PrinterController>getController();
 		BookTripController iterate = loader.<BookTripController>getController();
 		root = (AnchorPane) loader.load();
-		for (Trip trp: getSpecificTrip(iterate.orgName))
+		for (Trip trp: getSpecificTrip(iterate.getName()))
 		{
 			controller.customerLabel.setText(trp.getName());
 		}	 
@@ -125,6 +136,9 @@ public class CheckoutController extends Main
     
     @FXML
     void editInfo(ActionEvent event) 
+    /*
+     * 
+     */
     {
     	FXMLLoader fxmlLoader = new FXMLLoader();
 		BookTripController controller = fxmlLoader.<BookTripController>getController();
@@ -183,4 +197,10 @@ public class CheckoutController extends Main
         assert Confirm != null : "fx:id=\"Confirm\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert tripInfo != null : "fx:id=\"tripInfo\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+		
+	}
 }

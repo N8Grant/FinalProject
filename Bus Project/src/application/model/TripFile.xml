@@ -1,1 +1,9 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Trips/>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Trips>
+    <Trip>
+        <Name>Nathan</Name>
+        <ID>8a7d1026-e1e1-4750-827a-8f147e7a4a16</ID>
+        <GroupSize>66</GroupSize>
+        <Depart>2016-04-19</Depart>
+        <Return>2016-04-16</Return>
+    </Trip>
+<Trip><Name>Lee</Name><ID>2fb90e7e-a109-4c9a-ad3c-58e98fab7360</ID><GroupSize>66</GroupSize><Depart>2016-04-08</Depart><Return>2016-04-07</Return></Trip></Trips>

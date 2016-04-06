@@ -157,7 +157,10 @@ public class BookTripController extends Main
 	}
 	 
 	@FXML
-	void openCheckout(ActionEvent event) throws IOException, SAXException 
+	void openCheckout(ActionEvent event) throws IOException, SAXException
+	/*
+	 * Method for when continue button is pressed
+	 */
 	{
 		/*
 		 * Resets all values and fields
@@ -227,9 +230,9 @@ public class BookTripController extends Main
 				//nameError.setText("Name already used!!");
 				//in = false;
 			//}
-			/*
-			 * Else field is valid
-			 */
+			
+			// * Else field is valid
+			 
 			//else
 			//{
 				in = true;
@@ -286,6 +289,12 @@ public class BookTripController extends Main
 			 * @param arrive
 			 */
 			tripData.add(new Trip (orgName, grpSz, arr, dpt));
+			
+			/*
+			 * Marshalls data to an xml file
+			 */
+
+			addToXML(tripData);
 			
 			/*
 			 * Loads the checkout window

@@ -87,14 +87,14 @@ public class Main extends Application
 	public Boolean checkName (String name)
 	{
 		Boolean t = false;
-		if (setCustomerSelect(fetchXML()) == null)
+		if (getAllNames(fetchXML()) == null)
 		{
 			t = false;
 		}
 		
-		else if (setCustomerSelect(fetchXML()) != null)
+		else if (getAllNames(fetchXML()) != null)
 		{
-			for (String nm: setCustomerSelect(fetchXML()))
+			for (String nm: getAllNames(fetchXML()))
 			{
 				if (nm == name)
 				{
@@ -104,7 +104,7 @@ public class Main extends Application
 		}
 		return t;
 	}
-	*/
+*/	
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 
 																		   SAXException, IOException, 
 																		   XPathExpressionException
