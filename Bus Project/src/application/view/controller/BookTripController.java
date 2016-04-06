@@ -27,6 +27,8 @@ import javafx.stage.Stage;
 
 public class BookTripController extends Main
 {
+	// change made
+	
 	/*
 	 * Declares all of the GUI elements
 	 * @FXML
