@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 
 public class MainMenuController extends Main
 {
+	/*
+	 * GUI Element Variables
+	 */
 	@FXML
 	private Button bookTrip;
 
@@ -32,36 +35,10 @@ public class MainMenuController extends Main
 
 	@FXML
 	private Button busManagement;
-	 
-	@FXML
-	private ResourceBundle resources;
-
-	@FXML
-	private URL location;
-
-	@FXML
-	private Label sizeLabel;
-
-	@FXML
-	private Label idLabel;
-
-	@FXML
-	private Label departLabel;
-
-	@FXML
-	private ScrollPane selector;
-
-	@FXML
-	private Label arriveLabel;
-
-	@FXML
-	private Label nameLabel;
-	    
-	@FXML 
-	private Button homeButton;
 	    
 	@FXML
 	void bookTrip(ActionEvent event) throws IOException 
+	
 	{
 	    Stage stage;
 	    AnchorPane root;
@@ -85,6 +62,8 @@ public class MainMenuController extends Main
 		 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ScheduleWindow.fxml"));
+		ScheduleWindow controller = loader.<ScheduleWindow>getController();
+		controller.setCustomerSelect(getAllNames(fetchXML()));
 		root = (AnchorPane) loader.load();  
 		 
 		Scene scene = new Scene(root);

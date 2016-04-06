@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 
 import application.Main;
 import application.model.Trip;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ScheduleWindow extends MainMenuController
+public class ScheduleWindow extends Main
 {
 	@FXML
 	private ResourceBundle resources;
@@ -73,7 +74,6 @@ public class ScheduleWindow extends MainMenuController
     {
     	if (t == 0)
     	{
-    		customerSelect.setItems(setCustomerSelect(fetchXML()));
     		loadSelectButton.setText("Select");
     		t++;
     	}
@@ -92,7 +92,10 @@ public class ScheduleWindow extends MainMenuController
     	}
     }
     
-	
+	public void setCustomerSelect (ObservableList <String> list)
+	{
+		customerSelect.setItems(list);
+	}
 	    
 	@FXML
 	void returnMain(ActionEvent event) throws IOException 

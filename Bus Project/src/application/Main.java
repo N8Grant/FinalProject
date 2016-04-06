@@ -67,7 +67,7 @@ public class Main extends Application
 		}
 	}
 	
-	public ObservableList<String> setCustomerSelect(ObservableList <Trip> list)
+	public ObservableList<String> getAllNames(ObservableList <Trip> list)
 	{
 		ObservableList<String> names = FXCollections.observableArrayList();
 		if (list == null)
@@ -83,7 +83,7 @@ public class Main extends Application
 			return names;
 		}
 	}
-	
+/*
 	public Boolean checkName (String name)
 	{
 		Boolean t = false;
@@ -104,7 +104,7 @@ public class Main extends Application
 		}
 		return t;
 	}
-	
+	*/
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 
 																		   SAXException, IOException, 
 																		   XPathExpressionException
