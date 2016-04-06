@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="550.0" styleClass="background" stylesheets="@JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.BookTripController">
+   <children>
+      <Button fx:id="Return" layoutX="84.0" layoutY="372.0" mnemonicParsing="false" onAction="#returntoMain" text="Home" />
+      <Text fill="WHITE" layoutX="66.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Organization Name:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputName" layoutX="66.0" layoutY="93.0" onAction="#inputNameAction" promptText="Name" />
+      <Text fill="WHITE" layoutX="66.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Departure Date:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <DatePicker fx:id="inputDepart" layoutX="67.0" layoutY="187.0" onAction="#inputDepartAction" />
+      <Text fill="WHITE" layoutX="296.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Return Date:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <DatePicker fx:id="inputReturn" layoutX="298.0" layoutY="187.0" onAction="#inputReturnAction" />
+      <TextArea editable="false" layoutX="293.0" layoutY="88.0" prefHeight="33.0" prefWidth="200.0" promptText="Make sure all fields are filled out completly and correctly." />
+      <Text fill="WHITE" layoutX="62.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Number of People">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="inputNumPeople" layoutX="69.0" layoutY="273.0" onAction="#inputPeopleAction" promptText="People" />
+      <Text fill="#386df2" layoutX="177.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Get A Quote">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Button fx:id="continueCheckout" layoutX="329.0" layoutY="372.0" mnemonicParsing="false" onAction="#openCheckout" text="Confirm" />
+      <Label fx:id="nameError" layoutX="67.0" layoutY="116.0" prefHeight="17.0" textFill="RED" />
+      <Label fx:id="peopleError" layoutX="67.0" layoutY="299.0" prefHeight="17.0" textFill="RED" />
+      <Label fx:id="returnError" layoutX="298.0" layoutY="217.0" prefHeight="17.0" textFill="RED" />
+      <Label fx:id="departError" layoutX="66.0" layoutY="217.0" prefHeight="17.0" textFill="RED" />
+      <Text fill="WHITE" layoutX="296.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="destinationName" editable="false" layoutX="296.0" layoutY="273.0" onAction="#getDestinationNm" promptText="Not Yet Finished" />
+   </children>
+</AnchorPane>
