@@ -338,6 +338,9 @@ public class BookTripController extends Main
 	 */
 	@FXML
 	void initialize() 
+	/*
+	 * Initialize all of the GUI elements
+	 */
 	{
 		assert inputNumPeople != null : "fx:id=\"inputNumPeople\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert nameError != null : "fx:id=\"nameError\" was not injected: check your FXML file 'BookTrip.fxml'.";

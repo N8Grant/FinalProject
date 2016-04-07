@@ -34,37 +34,37 @@ public class CheckoutController extends Main implements Initializable
 	 * GUI Element variables
 	 */
 	@FXML
-	private Label totalLabel;
+	private Label totalLabel;		// Label for total amount of money
 
 	@FXML
-	private Button editInfo;
+	private Button editInfo;		// Edit the info that was inputed
 
 	@FXML
-	private Label orgNameLb;
+	private Label orgNameLb;		// Label for name
 
 	@FXML
-	private Label dptLabel;
+	private Label dptLabel;			// Label for depart date
 
 	@FXML
-	private Label bussesLabel;
+	private Label bussesLabel;		// Label for number of busses
 
 	@FXML
-	private Button print;
+	private Button print;			// Button to print receipt
+
+	@FXML	
+	private Label grpLabel;			// Label for the number of people
 
 	@FXML
-	private Label grpLabel;
+	private Button cancelTrans;		// Button to cancel the transaction
 
 	@FXML
-	private Button cancelTrans;
+	private Label retLabel;			// Label for the date of return
 
 	@FXML
-	private Label retLabel;
+	private Button Confirm;			// Button to finalize transaction
 
 	@FXML
-	private Button Confirm;
-
-	@FXML
-	private GridPane tripInfo;
+	private GridPane tripInfo;		// Gridpane for trip info
 	    
     @FXML
     void finalizeTrip(ActionEvent event) throws IOException, SAXException 
