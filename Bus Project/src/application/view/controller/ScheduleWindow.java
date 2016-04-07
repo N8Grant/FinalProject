@@ -11,7 +11,6 @@ import org.xml.sax.SAXException;
 
 import application.Main;
 import application.model.Trip;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +25,9 @@ import javafx.stage.Stage;
 
 public class ScheduleWindow extends Main implements Initializable
 {
+	/*
+	 * GUI element variables
+	 */
 	@FXML
 	private ResourceBundle resources;
 
@@ -61,8 +63,6 @@ public class ScheduleWindow extends Main implements Initializable
 
 	@FXML
     private Button loadSelectButton;
-
-	int t = 0;
 	
 	@FXML
     void editPersonInfo(ActionEvent event)
@@ -73,35 +73,23 @@ public class ScheduleWindow extends Main implements Initializable
     @FXML
     void loadSelect(ActionEvent event) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException 
     {
-    	if (t == 0)
-    	{
-    		loadSelectButton.setText("Select");
-    		t++;
-    	}
-    	else
-    	{
-    		editPerson.setDisable(false);
-    		for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
-    		{
-    			System.out.print(trp.toString());
-    			nameLabel.setText(trp.getName());
-    			idLabel.setText(trp.getId());
-    			departLabel.setText(trp.getDepartStr());
-    			arriveLabel.setText(trp.getArriveStr());
-    			sizeLabel.setText(Integer.toString(trp.getGroupSize()));
-    		}	 
-    	}
-    }
     
-	public void setCustomerSelect (ObservableList <String> list)
-	{
-		customerSelect.setItems(list);
-	}
+    	loadSelectButton.setText("Select");
+    	
+    	for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
+    	{
+    		System.out.print(trp.toString());
+    		nameLabel.setText(trp.getName());
+    		idLabel.setText(trp.getId());
+    		departLabel.setText(trp.getDepartStr());
+    		arriveLabel.setText(trp.getArriveStr());
+    		sizeLabel.setText(Integer.toString(trp.getGroupSize()));
+    	}	 
+    }
 	    
 	@FXML
 	void returnMain(ActionEvent event) throws IOException 
 	{
-		t = 0;
 		Stage stage;
 		AnchorPane root;
 		stage = (Stage) homeButton.getScene().getWindow();
