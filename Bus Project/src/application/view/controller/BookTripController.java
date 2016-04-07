@@ -34,29 +34,29 @@ public class BookTripController extends Main
 	@FXML
 	private ResourceBundle resources;
     @FXML
-    private URL location;
+    private URL location;					// location in storage of fxml
 	@FXML
-	private TextField inputNumPeople;
+	private TextField inputNumPeople;		// input box for number of people
 	@FXML
-	private Label nameError;
+	private Label nameError;				// error message under name box
 	@FXML
-	private Button continueCheckout;
+	private Button continueCheckout;		// button to continue to next window
 	@FXML
-	private Label returnError;
+	private Label returnError;				// error under return date picker
 	@FXML
-    private Button Return;
+    private Button Return;					// button to return to main menu
     @FXML
-	private TextField destinationName;
+	private TextField destinationName;		// UNDER CONSTRUCTION
     @FXML
-	private DatePicker inputDepart;
+	private DatePicker inputDepart;			// date picker for departure date
 	@FXML
-	private Label departError;
+	private Label departError;				// error under depart date picker
 	@FXML
-	private Label peopleError;
+	private Label peopleError;				// error under number people box
 	@FXML
-	private TextField inputName;
+	private TextField inputName;			// input box for customer/organization name
 	@FXML
-	private DatePicker inputReturn;
+	private DatePicker inputReturn;			// input box for date of return
 
 	/******************/
 	/* Temp Variables */
