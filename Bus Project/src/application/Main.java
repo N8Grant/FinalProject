@@ -189,7 +189,7 @@ public class Main extends Application
 			else 
 			{
 				System.out.println("File is already existed!");
-				return getTripFile();
+				return null;
 			}
 		} 
 		catch (IOException e) 
@@ -197,27 +197,6 @@ public class Main extends Application
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	/**
-	 * Returns the trip file preference, i.e. the file that was last opened.
-	 * The preference is read from the OS specific registry. If no such
-	 * preference can be found, null is returned.
-	 * 
-	 * @return
-	 */
-	public File getTripFile() 
-	{
-	    Preferences prefs = Preferences.userNodeForPackage(Main.class);
-	    String filePath = prefs.get("filePath", null);
-	    if (filePath != null)
-	    {
-	        return new File(filePath);
-	    } 
-	    else 
-	    {
-	        return null;
-	    }
 	}
 	
 	public static ObservableList <Trip> fetchXML()
