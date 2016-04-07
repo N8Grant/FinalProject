@@ -48,7 +48,11 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
-		createFile();
+		createFile();	// makes sure that there is a file that exist
+		
+		/*
+		 * Loads the main menu
+		 */
 		FXMLLoader loader;
 		loader = new FXMLLoader(Main.class.getResource("view/MainMenu.fxml"));
 		try 
@@ -109,6 +113,9 @@ public class Main extends Application
 																		   SAXException, IOException, 
 																		   XPathExpressionException
 	{
+		/*
+		 * ObservableList for one specific trip
+		 */
 		ObservableList<Trip> specTrip = FXCollections.observableArrayList();
 		try
 		{
@@ -162,12 +169,10 @@ public class Main extends Application
 	
 	public static String getFilePath ()
 	{
-		String filename = "TripFile.xml";
-		String workingDirectory = System.getProperty("user.dir");
+		String filename = "TripFile.xml"; // the name of the xml
+		String workingDirectory = System.getProperty("user.dir"); // workspace location
 			
-		//****************//
-			
-		String absoluteFilePath = null;
+		String absoluteFilePath = null;	// string for absolute file path
 			
 		//absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
 		absoluteFilePath = workingDirectory + File.separator + "src" + File.separator + "application" 
@@ -179,13 +184,19 @@ public class Main extends Application
 	{
 		try 
 		{
-			File file = new File(getFilePath());
+			File file = new File(getFilePath());	// makes a new file 
 
+			/*
+			 * If new file is created
+			 */
 			if (file.createNewFile()) 
 			{
 				System.out.println("File is created!");
 				return file;
 			} 
+			/*
+			 * Else return null
+			 */
 			else 
 			{
 				System.out.println("File is already existed!");
@@ -201,7 +212,7 @@ public class Main extends Application
 	
 	public static ObservableList <Trip> fetchXML()
 	{
-		ObservableList <Trip> tripList = FXCollections.observableArrayList();
+		ObservableList <Trip> tripList = FXCollections.observableArrayList();	// get a list of trips
 		try 
 		{
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
