@@ -220,25 +220,6 @@ public class Main extends Application
 	    }
 	}
 	
-	/**
-	 * Sets the file path of the currently loaded file. The path is persisted in
-	 * the OS specific registry.
-	 * 
-	 * @param file the file or null to remove the path
-	 */
-	public void setTripFilePath(File file) 
-	{
-	    Preferences prefs = Preferences.userNodeForPackage(Main.class);
-	    if (file != null) 
-	    {
-	        prefs.put("filePath", file.getPath());
-	    } 
-	    else 
-	    {
-	        prefs.remove("filePath");
-	    }
-	}
-	
 	public static ObservableList <Trip> fetchXML()
 	{
 		ObservableList <Trip> tripList = FXCollections.observableArrayList();
