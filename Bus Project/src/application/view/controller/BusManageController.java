@@ -17,31 +17,33 @@ import javafx.stage.Stage;
 
 public class BusManageController 
 {
+	/*
+	 * GUI element variables
+	 */
+    @FXML
+    private ResourceBundle resources;		// Controller Resources
 
     @FXML
-    private ResourceBundle resources;
+    private URL location;					// Location in storage
 
     @FXML
-    private URL location;
+    private ToggleGroup busView;			// The group of toggle buttons
 
     @FXML
-    private ToggleGroup busView;
-
-    @FXML
-    private RadioButton subRent;
-    
+    private RadioButton subRent;			// Toggle button for busses from other
+    										// company
     @FXML 
-    private Button cancelButton;
+    private Button cancelButton;			// Button to return to main menu
     
     @FXML
-    private Button viewBusInfo;
-
+    private Button viewBusInfo;				// Button to select the currently chosen
+    										// radio button
     @FXML
-    private RadioButton bussesOut;
-
+    private RadioButton bussesOut;			// Toggle button for busses that are out
+   
     @FXML
-    private RadioButton finances;
-
+    private RadioButton finances;			// Toggle button for income statement or 
+    										// balance sheet
     @FXML
     void returntoMain(ActionEvent event) throws IOException 
     {
