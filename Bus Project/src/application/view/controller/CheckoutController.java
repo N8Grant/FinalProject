@@ -34,6 +34,12 @@ public class CheckoutController extends Main implements Initializable
 	 * GUI Element variables
 	 */
 	@FXML
+	private ResourceBundle resources;
+
+	@FXML
+	private URL location;
+	
+	@FXML
 	private Label totalLabel;		// Label for total amount of money
 
 	@FXML
@@ -120,7 +126,7 @@ public class CheckoutController extends Main implements Initializable
 		root = (AnchorPane) loader.load();
 		for (Trip trp: getSpecificTrip(iterate.getName()))
 		{
-			controller.customerLabel.setText(trp.getName());
+			controller.getCustomerLabel().setText(trp.getName());
 		}	 
 		
     	PrinterJob job = PrinterJob.createPrinterJob();

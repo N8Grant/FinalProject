@@ -55,6 +55,7 @@ public class Main extends Application
 		 */
 		FXMLLoader loader;
 		loader = new FXMLLoader(Main.class.getResource("view/MainMenu.fxml"));
+		
 		try 
 		{
 			Parent root;
@@ -73,7 +74,7 @@ public class Main extends Application
 	
 	public ObservableList<String> getAllNames(ObservableList <Trip> list)
 	{
-		ObservableList<String> names = FXCollections.observableArrayList();
+		ObservableList<String> names = FXCollections.observableArrayList();	// List of names
 		if (list == null)
 		{
 			return null;
@@ -119,6 +120,9 @@ public class Main extends Application
 		ObservableList<Trip> specTrip = FXCollections.observableArrayList();
 		try
 		{
+			/*
+			 * XML un-marshaller
+			 */
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(getFilePath()); // uri to your file
@@ -230,6 +234,9 @@ public class Main extends Application
 				{
 					 Element eElement = (Element) nNode; 
 					 
+					 /*
+					  * Adds info from xml element to trip list
+					  */
 					 tripList.add(new Trip(eElement.getElementsByTagName("Name").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("ID").item(0).getTextContent(),
 				        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
@@ -252,35 +259,56 @@ public class Main extends Application
 	{
 		try
         {
+			/*
+			 * XML file builder
+			 */
         	DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();
         	DocumentBuilder build = dFact.newDocumentBuilder();
 			Document doc = build.newDocument();
 			
-	        Element root = doc.createElement("Trips");
+	        Element root = doc.createElement("Trips");	// Finds the child "Trips"
 	        doc.appendChild(root);
 	        for (Trip dtl : list) 
 	        {
+	        	/*
+	        	 * Gets the Individual trip child
+	        	 */
 		        Element Details = doc.createElement("Trip");
 		        root.appendChild(Details);
 		        
+		        /*
+		         * Outputs the the customers name to the xml file
+		         */
 	        	Element name = doc.createElement("Name");
 	            name.appendChild(doc.createTextNode(String.valueOf(dtl
 	                    .getName())));
 	            Details.appendChild(name);
 	            
+	            /*
+	             * Outputs the the customers ID to the xml file
+	             */
 	            Element id = doc.createElement("ID");
 	            id.appendChild(doc.createTextNode(String.valueOf(dtl
 	                    .getId())));
 	            Details.appendChild(id);
 	
+	            /*
+	             * Outputs the groups size
+	             */
 	            Element grp = doc.createElement("GroupSize");
 	            grp.appendChild(doc.createTextNode(String.valueOf(dtl.getGroupSize())));
 	            Details.appendChild(grp);
 	            
+	            /*
+	             * Outputs the date of departure
+	             */
 	            Element dpt = doc.createElement("Depart");
 	            dpt.appendChild(doc.createTextNode(String.valueOf(dtl.getDepart())));
 	            Details.appendChild(dpt);
 	            
+	            /*
+	             * 
+	             */
 	            Element arr = doc.createElement("Return");
 	            arr.appendChild(doc.createTextNode(String.valueOf(dtl.getArrive())));
 	            Details.appendChild(arr);
