@@ -28,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class CheckoutController extends Main implements Initializable
+public class CheckoutController extends BookTripController implements Initializable
 {
 	/*
 	 * GUI Element variables
@@ -71,6 +71,8 @@ public class CheckoutController extends Main implements Initializable
 
 	@FXML
 	private GridPane tripInfo;		// Gridpane for trip info
+
+	public String name;
 	    
     @FXML
     void finalizeTrip(ActionEvent event) throws IOException, SAXException 
@@ -147,6 +149,7 @@ public class CheckoutController extends Main implements Initializable
 
     public void setInfo (String org, String grp, String arr, String dpt)
     {
+    	name = org;
     	orgNameLb.setText(org);
     	grpLabel.setText(grp);
     	dptLabel.setText(dpt);
@@ -181,8 +184,6 @@ public class CheckoutController extends Main implements Initializable
 		     alert.close();
 		 }
     }
-
-    
     
     @FXML
     void initialize()
@@ -203,6 +204,7 @@ public class CheckoutController extends Main implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		
+		setInfo(getName(), Integer.toString(getGroupSize()),
+				getDepart().toString(), getArr().toString());
 	}
 }

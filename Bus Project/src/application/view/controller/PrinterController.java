@@ -4,9 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class PrinterController extends BookTripController
+public class PrinterController extends CheckoutController implements Initializable
 {
 	  @FXML
 	    private ResourceBundle resources;
@@ -22,14 +23,18 @@ public class PrinterController extends BookTripController
 			return customerLabel;
 		}
 
+	    public void populateReceipt (String nm)
+	    {
+	    	customerLabel.setText(nm);
+	    }
 		@FXML
 	    void initialize() 
 	    {
-	        assert getCustomerLabel() != null : "fx:id=\"customerLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
+	        assert customerLabel != null : "fx:id=\"customerLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
 	    }
 	    
 		public void initialize(URL arg0, ResourceBundle arg1) 
 		{
-			customerLabel.setText(getName());;
+			populateReceipt(name);
 		}
 }

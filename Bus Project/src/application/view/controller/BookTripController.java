@@ -305,8 +305,6 @@ public class BookTripController extends Main
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/CheckoutWindow.fxml"));
 			root = (AnchorPane) loader.load();   
-			CheckoutController controller = loader.<CheckoutController>getController();
-			controller.setInfo(orgName, Integer.toString(grpSz), arr.toString(), dpt.toString());
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
