@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class PrinterController 
+public class PrinterController extends BookTripController
 {
 	  @FXML
 	    private ResourceBundle resources;
@@ -28,8 +28,8 @@ public class PrinterController
 	        assert getCustomerLabel() != null : "fx:id=\"customerLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
 	    }
 	    
-	    public void initialize(URL arg0, ResourceBundle arg1) 
+		public void initialize(URL arg0, ResourceBundle arg1) 
 		{
-			getCustomerLabel().setText(null);
+			customerLabel.setText(getName());;
 		}
 }

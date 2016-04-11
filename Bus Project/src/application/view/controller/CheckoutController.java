@@ -121,13 +121,7 @@ public class CheckoutController extends Main implements Initializable
 					
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/PrintConfirmation.fxml"));
-		PrinterController controller = loader.<PrinterController>getController();
-		BookTripController iterate = loader.<BookTripController>getController();
 		root = (AnchorPane) loader.load();
-		for (Trip trp: getSpecificTrip(iterate.getName()))
-		{
-			controller.getCustomerLabel().setText(trp.getName());
-		}	 
 		
     	PrinterJob job = PrinterJob.createPrinterJob();
     	if (job != null && job.showPrintDialog(stage))
@@ -188,6 +182,8 @@ public class CheckoutController extends Main implements Initializable
 		 }
     }
 
+    
+    
     @FXML
     void initialize()
     {
