@@ -39,11 +39,18 @@ import javafx.stage.Stage;
 public class Main extends Application 
 {
 	protected Stage stage;
+	final int ABCBUSSES = 14;
 	
-	/**
+	/*
      * The data as an observable list of Trips.
      */
 	public ObservableList<Trip> tripData = FXCollections.observableArrayList();
+	
+	/*
+	 * Makes a blank array for just ABC busses
+	 */
+	public int[] busses = new int[ABCBUSSES];
+	
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException
