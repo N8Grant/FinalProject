@@ -3,7 +3,6 @@ package application;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.prefs.Preferences;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,6 +25,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import application.model.Bus;
 import application.model.Trip;
 
 import javafx.application.Application;
@@ -49,13 +49,22 @@ public class Main extends Application
 	/*
 	 * Makes a blank array for just ABC busses
 	 */
-	public int[] busses = new int[ABCBUSSES];
+	public Bus[] busses = new Bus[ABCBUSSES];
+	
+	/*
+	 * Make an array liat of trips 
+	 */
 	
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
 		createFile();	// makes sure that there is a file that exist
+		
+		for (int i = 0; i < busses.length; i++)
+		{
+			busses[i] = new Bus(i++);
+		}
 		
 		/*
 		 * Loads the main menu

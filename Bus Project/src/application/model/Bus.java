@@ -13,9 +13,42 @@ public class Bus
 	{
 		this.busNumber = busNum;
 		this.status = false;
-		this.depart = null;
-		this.ret = null;
+		this.setDepart(null);
+		this.setRet(null);
 	}
 	
+	public int getBusNumber ()
+	{
+		return busNumber;	
+	}
 	
+	public boolean getStatus()
+	{
+		return status;
+	}
+	
+	public void setStatus (boolean stat)
+	{
+		this.status = stat;
+	}
+
+	public LocalDate getDepart()
+	{
+		return depart;
+	}
+
+	public void setDepart(LocalDate depart) 
+	{
+		this.depart = depart;
+	}
+
+	public LocalDate getRet() 
+	{
+		return ret;
+	}
+
+	public void setRet(LocalDate ret) 
+	{
+		this.ret = ret;
+	}
 }
