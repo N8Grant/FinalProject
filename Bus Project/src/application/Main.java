@@ -3,6 +3,8 @@ package application;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -126,6 +128,61 @@ public class Main extends Application
 		return t;
 	}
 */	
+	public String getBusses(LocalDate depart, LocalDate ret, int grpSz)
+	{	
+		ArrayList <Integer> temp = new ArrayList <Integer>();
+		
+		for (int i = 1; i < ABCBUSSES; i++)
+		{
+			temp.add(new Integer(i));
+		}
+		
+		for (Bus bus: getDates(getTripList()))
+		{
+			if ((bus.getDepart().isAfter(depart) || 
+				 bus.getDepart().isEqual(depart)) &&
+				(bus.getRet().isBefore(ret) ||
+				 bus.getRet().isEqual(ret)))
+			{
+				temp.remove(bus.getBusNumber());
+			}
+		}
+		
+		if (temp.isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			int bussesNeeded = grpSz / 20;
+			if (bussesNeeded == 0)
+			{
+				return null;
+			}
+			else if (grpSz % 20 >= 10)
+			{
+				bussesNeeded++;
+			}
+			
+			String busNumbers = "";
+			for (int i = 0; i < bussesNeeded; i++)
+			{
+				busNumbers = busNumbers + " " + temp.get(i);
+			}
+			return busNumbers;
+		}
+	}
+	
+	public ArrayList <Bus> getDates(ObservableList <Trip> trip)
+	{
+		ArrayList <Bus> y = new ArrayList <Bus>();
+		for (Trip trp: trip)
+		{
+			String[] str_array = trp.getBusNumbers().split(" ");
+			y.add(new Bus(Integer.parseInt(str_array[])));
+		}
+		return null;
+	}
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 
 																		   SAXException, IOException, 
 																		   XPathExpressionException
@@ -316,6 +373,13 @@ public class Main extends Application
 	            Details.appendChild(grp);
 	            
 	            /*
+	             * Outputs the bus number
+	             */
+	            Element bus = doc.createElement("BusNumber");
+	            bus.appendChild(doc.createTextNode("1"));
+	            Details.appendChild(bus);
+	            
+	            /*
 	             * Outputs the date of departure
 	             */
 	            Element dpt = doc.createElement("Depart");
@@ -323,7 +387,7 @@ public class Main extends Application
 	            Details.appendChild(dpt);
 	            
 	            /*
-	             * 
+	             * Outputs the date of return
 	             */
 	            Element arr = doc.createElement("Return");
 	            arr.appendChild(doc.createTextNode(String.valueOf(dtl.getArrive())));
@@ -402,6 +466,10 @@ public class Main extends Application
 	            Element grp = dom.createElement("GroupSize");
 	            grp.appendChild(dom.createTextNode(String.valueOf(trp.getGroupSize())));
 	            Details.appendChild(grp);
+	            
+	            Element bus = dom.createElement("BusNumber");
+	            grp.appendChild(dom.createTextNode(String.valueOf(trp.getBusNumbers())));
+	            Details.appendChild(bus);
 	            
 	            Element dpt = dom.createElement("Depart");
 	            dpt.appendChild(dom.createTextNode(String.valueOf(trp.getDepart())));

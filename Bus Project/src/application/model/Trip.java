@@ -14,6 +14,7 @@ public class Trip
 {
 	private StringProperty organizationName;
     private IntegerProperty groupSize;
+    private StringProperty busNumbers;
     private StringProperty ID;
     private ObjectProperty<LocalDate> depart;
     private ObjectProperty<LocalDate> arrive;
@@ -138,4 +139,19 @@ public class Trip
     {
         return arrive;
     }
+
+	public String getBusNumbers()
+	{
+		return busNumbers.get();
+	}
+
+	public void setBusNumbers(String busNumber) 
+	{
+		this.busNumbers.set(busNumber);
+	}
+	
+	public StringProperty busNumbers()
+	{
+		return busNumbers;
+	}
 }
