@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.regex.PatternSyntaxException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -135,7 +134,8 @@ public class Main extends Application
 		
 		for (int i = 1; i <= ABCBUSSES; i++)
 		{
-			temp.add(new Integer(i));
+			temp.add(i);
+			System.out.println(temp.toString());
 		}
 		
 		for (Bus bus: getDates(getTripList()))
@@ -145,7 +145,8 @@ public class Main extends Application
 				(bus.getRet().isBefore(ret) ||
 				 bus.getRet().isEqual(ret)))
 			{
-				temp.remove(bus.getBusNumber());
+				temp.remove(new Integer(bus.getBusNumber()));
+				System.out.println(temp.toString());
 			}
 		}
 		
@@ -166,20 +167,46 @@ public class Main extends Application
 				}
 				else
 				{
-					busNumbers = busNumbers + ", " + temp.get(i);
+					try
+					{
+						busNumbers = busNumbers + ", " + temp.get(i);
+					}
+					/**
+					 * 
+					 * 
+					 * NEEDS WORK
+					 * 
+					 * 
+					 */
+					catch (IndexOutOfBoundsException ex)
+					{
+						busNumbers =  "" + busNumbers;
+						getSubRent((bussesNeeded - 1));
+						//", You are going to need " +
+						//(bussesNeeded - i) + " more busses from ABD Busses";
+					}
 				}	
 			}
 			return busNumbers;
 		}
 	}
 	
+	/*
+	 * 
+	 * NEEDS WORK
+	 * 
+	 */
+	public String getSubRent (int subNeeded)
+	{
+		
+		return null;
+	}
 	public String getBussesNeeded(int grpSz)
 	{
 		int bussesNeeded = grpSz / 20;
 		if (grpSz % 20 >= 10)
 		{
-			bussesNeeded++;
-			
+			bussesNeeded++;	
 		}
 		
 		return Integer.toString(bussesNeeded);
@@ -197,6 +224,7 @@ public class Main extends Application
 					
 				for (int i = 0; i < str_array.length; i++)
 				{
+					System.out.println(str_array[i]);
 					y.add(new Bus(Integer.parseInt(str_array[i]), trp.getDepart(), trp.getArrive()));
 				}
 			}
@@ -348,15 +376,20 @@ public class Main extends Application
 		
 	}
 	
+	public static ObservableList <Trip> getTripList()
+	{
+		return tripData;
+	}
+	
 	public void writeBlankXmlFile(ObservableList<Trip> list) throws IOException, SAXException
 	{
 		try
-        {
+	    {
 			/*
 			 * XML file builder
 			 */
-        	DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();
-        	DocumentBuilder build = dFact.newDocumentBuilder();
+	    	DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();
+	    	DocumentBuilder build = dFact.newDocumentBuilder();
 			Document doc = build.newDocument();
 			
 	        Element root = doc.createElement("Trips");	// Finds the child "Trips"
@@ -447,18 +480,13 @@ public class Main extends Application
 		        System.out.println("Error outputting document");
 	
 		    } 
-        }
+	    }
 		catch (ParserConfigurationException ex) 
 		{
 		    System.out.println("Error building document");
 		}  
 	}
-	
-	public static ObservableList <Trip> getTripList()
-	{
-		return tripData;
-	}
-	
+
 	public void addToXML(ObservableList<Trip> list) throws IOException
 	{	
 		try
@@ -505,11 +533,17 @@ public class Main extends Application
 	        try 
 	        {
 	            Transformer tr = TransformerFactory.newInstance().newTransformer();
-	            tr.setOutputProperty(OutputKeys.INDENT, "yes");
-	            tr.setOutputProperty(OutputKeys.METHOD, "xml");
-	            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-	            tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
-	            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	           // tr.setOutputProperty(OutputKeys.INDENT, "yes");
+	           // tr.setOutputProperty(OutputKeys.METHOD, "xml");
+	           // tr.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+	           // tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "TripFile.xml");
+	           // tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	            tr.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+	        	
+		        tr.setOutputProperty(
+		                "{http://xml.apache.org/xslt}indent-amount", "4");
+		        tr.setOutputProperty(OutputKeys.INDENT, "yes");
+	
 	            
 	            DOMSource source = new DOMSource(dom);
 	            // send DOM to file
