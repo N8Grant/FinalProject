@@ -488,7 +488,7 @@ public class Main extends Application
 	            Details.appendChild(grp);
 	            
 	            Element bus = dom.createElement("BusNumbers");
-	            grp.appendChild(dom.createTextNode(String.valueOf(trp.getBusNumbers())));
+	            bus.appendChild(dom.createTextNode(String.valueOf(trp.getBusNumbers())));
 	            Details.appendChild(bus);
 	            
 	            Element dpt = dom.createElement("Depart");

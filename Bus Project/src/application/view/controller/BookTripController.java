@@ -293,9 +293,8 @@ public class BookTripController extends Main implements Initializable
 			tripData.add(new Trip (orgName, grpSz, arr, dpt, bsNms));
 			
 			/*
-			 * Marshalls data to an xml file
+			 * Marshals data to an XML file
 			 */
-
 			addToXML(tripData);
 			
 			/*
