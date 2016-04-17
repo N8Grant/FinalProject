@@ -2,6 +2,7 @@ package application.view.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -11,7 +12,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 import application.Main;
-import application.model.Trip;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,10 +34,10 @@ public class CheckoutController extends BookTripController implements Initializa
 	 * GUI Element variables
 	 */
 	@FXML
-	private ResourceBundle resources;
+	private ResourceBundle resources; // The packages that class is inside of
 
 	@FXML
-	private URL location;
+	private URL location;			// the url location of the trip
 	
 	@FXML
 	private Label totalLabel;		// Label for total amount of money
@@ -45,6 +45,9 @@ public class CheckoutController extends BookTripController implements Initializa
 	@FXML
 	private Button editInfo;		// Edit the info that was inputed
 
+	@FXML
+	private Label busNumbers;		// The numbers of each individual bus
+	
 	@FXML
 	private Label orgNameLb;		// Label for name
 
@@ -70,8 +73,11 @@ public class CheckoutController extends BookTripController implements Initializa
 	private Button Confirm;			// Button to finalize transaction
 
 	@FXML
-	private GridPane tripInfo;		// Gridpane for trip info
+	private GridPane tripInfo;		// GridPane to contain trip info
 
+	/*
+	 * Temp Variables
+	 */
 	public String name;
 	    
     @FXML
@@ -124,8 +130,9 @@ public class CheckoutController extends BookTripController implements Initializa
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/PrintConfirmation.fxml"));
 		root = (AnchorPane) loader.load();
-		
-    	PrinterJob job = PrinterJob.createPrinterJob();
+		PrinterController controller = loader.<PrinterController>getController();
+    	controller.populateReceipt(name);
+		PrinterJob job = PrinterJob.createPrinterJob();
     	if (job != null && job.showPrintDialog(stage))
     	{
     	    boolean success = job.printPage(root);
@@ -142,18 +149,20 @@ public class CheckoutController extends BookTripController implements Initializa
      * 
      */
     {
-    	FXMLLoader fxmlLoader = new FXMLLoader();
-		BookTripController controller = fxmlLoader.<BookTripController>getController();
-    	System.out.print(controller.getName());
+    	//FXMLLoader fxmlLoader = new FXMLLoader();
+		//BookTripController controller = fxmlLoader.<BookTripController>getController();
+    	//System.out.print(controller.getName());
     }
 
-    public void setInfo (String org, String grp, String arr, String dpt)
+    public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt, String busNms)
     {
     	name = org;
     	orgNameLb.setText(org);
     	grpLabel.setText(grp);
-    	dptLabel.setText(dpt);
-    	retLabel.setText(arr);
+    	dptLabel.setText(dpt.toString());
+    	retLabel.setText(arr.toString());
+    	bussesLabel.setText(getBussesNeeded(Integer.parseInt(grp)));
+    	busNumbers.setText(busNms);
     }
     
     @FXML
@@ -198,13 +207,13 @@ public class CheckoutController extends BookTripController implements Initializa
         assert cancelTrans != null : "fx:id=\"cancelTrans\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert retLabel != null : "fx:id=\"retLabel\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert Confirm != null : "fx:id=\"Confirm\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
+        assert busNumbers != null : "fx:id=\"busNumbers\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert tripInfo != null : "fx:id=\"tripInfo\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
     }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		setInfo(getName(), Integer.toString(getGroupSize()),
-				getDepart().toString(), getArr().toString());
+	
 	}
 }

@@ -9,32 +9,34 @@ import javafx.scene.control.Label;
 
 public class PrinterController extends CheckoutController implements Initializable
 {
-	  @FXML
-	    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-	    @FXML
-	    private URL location;
+	@FXML
+	private URL location;
+	  
+	@FXML
+	private Label customerLabel;
 
-	    @FXML
-	    private Label customerLabel;
+	public Label getCustomerLabel() 
+	{
+		return customerLabel;
+	}
 
-	    public Label getCustomerLabel() 
-	    {
-			return customerLabel;
-		}
-
-	    public void populateReceipt (String nm)
-	    {
-	    	customerLabel.setText(nm);
-	    }
-		@FXML
-	    void initialize() 
-	    {
-	        assert customerLabel != null : "fx:id=\"customerLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
-	    }
+	public void populateReceipt (String nm)
+	{
+		customerLabel.setText(nm);
+	}
+		
+	@FXML
+	void initialize() 
+	{
+		assert customerLabel != null : "fx:id=\"customerLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
+	}
 	    
-		public void initialize(URL arg0, ResourceBundle arg1) 
-		{
-			populateReceipt(name);
-		}
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+			
+	}
 }

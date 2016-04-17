@@ -14,6 +14,7 @@ import application.model.Trip;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class BookTripController extends Main
+public class BookTripController extends Main implements Initializable
 {
 	/*
 	 * Declares all of the GUI elements
@@ -281,6 +282,7 @@ public class BookTripController extends Main
 		 */
 		if (in == true && ip == true && ir == true && id == true)
 		{		
+			String bsNms = getBusses(dpt, arr, grpSz);
 			/*
 			 * Adds the new information to the observable list
 			 * @param Name
@@ -288,7 +290,7 @@ public class BookTripController extends Main
 			 * @param depart
 			 * @param arrive
 			 */
-			tripData.add(new Trip (orgName, grpSz, arr, dpt));
+			tripData.add(new Trip (orgName, grpSz, arr, dpt, bsNms));
 			
 			/*
 			 * Marshalls data to an xml file
@@ -307,33 +309,13 @@ public class BookTripController extends Main
 			root = (AnchorPane) loader.load();   
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
+			CheckoutController controller = loader.<CheckoutController>getController();
+			controller.setInfo(orgName, Integer.toString(grpSz), arr, 
+							   dpt, bsNms);
 			stage.show();
 		}
 	}
 
-	public String getName()
-	{
-		return orgName;
-	}
-	
-	public int getGroupSize ()
-	{
-		return grpSz;
-	}
-	
-	public LocalDate getDepart ()
-	{
-		return dpt;
-	}
-	
-	public LocalDate getArr ()
-	{
-		return arr;
-	}
-	
-	/* 
-	 * Initializes all of the GUI elements 
-	 */
 	@FXML
 	void initialize() 
 	/*
@@ -351,5 +333,12 @@ public class BookTripController extends Main
 	    assert peopleError != null : "fx:id=\"peopleError\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputName != null : "fx:id=\"inputName\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputReturn != null : "fx:id=\"InputReturn\" was not injected: check your FXML file 'BookTrip.fxml'.";
+	
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) 
+	{
+		
 	}
 }

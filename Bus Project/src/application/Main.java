@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.regex.PatternSyntaxException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,12 +42,12 @@ import javafx.stage.Stage;
 public class Main extends Application 
 {
 	protected Stage stage;
-	final int ABCBUSSES = 14;
+	final static int ABCBUSSES = 14;
 	
 	/*
      * The data as an observable list of Trips.
      */
-	public ObservableList<Trip> tripData = FXCollections.observableArrayList();
+	public static ObservableList<Trip> tripData = FXCollections.observableArrayList();
 	
 	/*
 	 * Makes a blank array for just ABC busses
@@ -132,7 +133,7 @@ public class Main extends Application
 	{	
 		ArrayList <Integer> temp = new ArrayList <Integer>();
 		
-		for (int i = 1; i < ABCBUSSES; i++)
+		for (int i = 1; i <= ABCBUSSES; i++)
 		{
 			temp.add(new Integer(i));
 		}
@@ -150,38 +151,57 @@ public class Main extends Application
 		
 		if (temp.isEmpty())
 		{
-			return null;
+			return "Need to Subrent!!";
 		}
 		else
 		{
-			int bussesNeeded = grpSz / 20;
-			if (bussesNeeded == 0)
-			{
-				return null;
-			}
-			else if (grpSz % 20 >= 10)
-			{
-				bussesNeeded++;
-			}
+			int bussesNeeded = Integer.parseInt(getBussesNeeded(grpSz));
 			
 			String busNumbers = "";
 			for (int i = 0; i < bussesNeeded; i++)
 			{
-				busNumbers = busNumbers + " " + temp.get(i);
+				if (i == 0)
+				{
+					busNumbers = temp.get(i) + "";
+				}
+				else
+				{
+					busNumbers = busNumbers + ", " + temp.get(i);
+				}	
 			}
 			return busNumbers;
 		}
 	}
 	
+	public String getBussesNeeded(int grpSz)
+	{
+		int bussesNeeded = grpSz / 20;
+		if (grpSz % 20 >= 10)
+		{
+			bussesNeeded++;
+			
+		}
+		
+		return Integer.toString(bussesNeeded);
+	}
+	
 	public ArrayList <Bus> getDates(ObservableList <Trip> trip)
 	{
 		ArrayList <Bus> y = new ArrayList <Bus>();
-		for (Trip trp: trip)
+		if (trip != null)
 		{
-			String[] str_array = trp.getBusNumbers().split(" ");
-			y.add(new Bus(Integer.parseInt(str_array[])));
+			for (Trip trp: trip)
+			{
+				String delims = "[, ]+";
+				String[] str_array = trp.getBusNumbers().split(delims);
+					
+				for (int i = 0; i < str_array.length; i++)
+				{
+					y.add(new Bus(Integer.parseInt(str_array[i]), trp.getDepart(), trp.getArrive()));
+				}
+			}
 		}
-		return null;
+		return y;
 	}
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 
 																		   SAXException, IOException, 
@@ -375,8 +395,8 @@ public class Main extends Application
 	            /*
 	             * Outputs the bus number
 	             */
-	            Element bus = doc.createElement("BusNumber");
-	            bus.appendChild(doc.createTextNode("1"));
+	            Element bus = doc.createElement("BusNumbers");
+	            bus.appendChild(doc.createTextNode(String.valueOf(dtl.getBusNumbers())));
 	            Details.appendChild(bus);
 	            
 	            /*
@@ -434,7 +454,7 @@ public class Main extends Application
 		}  
 	}
 	
-	public ObservableList <Trip> getTripList()
+	public static ObservableList <Trip> getTripList()
 	{
 		return tripData;
 	}
@@ -467,7 +487,7 @@ public class Main extends Application
 	            grp.appendChild(dom.createTextNode(String.valueOf(trp.getGroupSize())));
 	            Details.appendChild(grp);
 	            
-	            Element bus = dom.createElement("BusNumber");
+	            Element bus = dom.createElement("BusNumbers");
 	            grp.appendChild(dom.createTextNode(String.valueOf(trp.getBusNumbers())));
 	            Details.appendChild(bus);
 	            

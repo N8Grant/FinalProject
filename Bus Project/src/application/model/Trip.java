@@ -14,7 +14,7 @@ public class Trip
 {
 	private StringProperty organizationName;
     private IntegerProperty groupSize;
-    private StringProperty busNumbers;
+    private SimpleStringProperty busNumbers;
     private StringProperty ID;
     private ObjectProperty<LocalDate> depart;
     private ObjectProperty<LocalDate> arrive;
@@ -26,7 +26,7 @@ public class Trip
      */
     public Trip() 
     {
-        this(null, 0, null, null);
+        this(null, 0, null, null, null);
     }
 
     /**
@@ -37,7 +37,7 @@ public class Trip
      * @param departDate
      * @param arriveDate
      */
-    public Trip(String Name, int grpSz, LocalDate dpt, LocalDate arr) 
+    public Trip(String Name, int grpSz, LocalDate dpt, LocalDate arr, String bsNm) 
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
@@ -45,6 +45,7 @@ public class Trip
     	this.ID = new SimpleStringProperty(uniqueID);
         this.depart = new SimpleObjectProperty<LocalDate>(dpt);
         this.arrive = new SimpleObjectProperty<LocalDate>(arr);
+        this.busNumbers = new SimpleStringProperty(bsNm);
     }
     
     public Trip(String Name, String ID, int grpSz, String dpt, String arr) 
@@ -144,14 +145,13 @@ public class Trip
 	{
 		return busNumbers.get();
 	}
+	public StringProperty busNumbersProperty()
+	{
+        return busNumbers;
+    }
 
 	public void setBusNumbers(String busNumber) 
 	{
-		this.busNumbers.set(busNumber);
-	}
-	
-	public StringProperty busNumbers()
-	{
-		return busNumbers;
+		this.busNumbers.set(busNumber);;
 	}
 }

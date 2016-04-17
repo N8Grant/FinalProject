@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" stylesheets="@JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.CheckoutController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" stylesheets="@JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.CheckoutController">
    <children>
       <SplitPane dividerPositions="0.7919799498746867" prefHeight="500.0" prefWidth="700.0">
         <items>
@@ -22,6 +25,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
@@ -51,7 +55,7 @@
                               <Font size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Total:" textFill="WHITE" GridPane.rowIndex="5">
+                        <Label text="Total:" textFill="WHITE" GridPane.rowIndex="6">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -81,11 +85,13 @@
                               <Font size="12.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalLabel" text="Label" textFill="#f2ff00" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <Label fx:id="totalLabel" text="Label" textFill="#f2ff00" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <font>
                               <Font size="12.0" />
                            </font>
                         </Label>
+                        <Label text="Bus Numbers" textFill="WHITE" GridPane.rowIndex="5" />
+                        <Label fx:id="busNumbers" text="Label" textFill="#f2ff00" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                </children>

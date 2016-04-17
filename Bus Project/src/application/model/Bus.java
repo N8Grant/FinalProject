@@ -17,7 +17,12 @@ public class Bus
 		this.setRet(null);
 	}
 	
-	
+	public Bus (int busNum, LocalDate dpt, LocalDate ret)
+	{
+		this.busNumber = busNum;
+		this.depart = dpt;
+		this.ret = ret;
+	}
 	
 	public int getBusNumber ()
 	{

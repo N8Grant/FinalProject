@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Trips>
     <Trip>
-        <Name>Nathan</Name>
-        <ID>8a7d1026-e1e1-4750-827a-8f147e7a4a16</ID>
-        <GroupSize>66</GroupSize>
-        <Depart>2016-04-19</Depart>
-        <Return>2016-04-16</Return>
+        <Name>Nate</Name>
+        <ID>a9c86852-99b3-44ec-a996-244d1db07efb</ID>
+        <GroupSize>120</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6</BusNumbers>
+        <Depart>2016-04-21</Depart>
+        <Return>2016-04-18</Return>
     </Trip>
-<Trip><Name>Lee</Name><ID>2fb90e7e-a109-4c9a-ad3c-58e98fab7360</ID><GroupSize>66</GroupSize><Depart>2016-04-08</Depart><Return>2016-04-07</Return></Trip><Trip><Name>Mike</Name><ID>99a179b1-5cdf-4266-a0cc-b1b4371e044e</ID><GroupSize>90</GroupSize><Depart>2016-04-23</Depart><Return>2016-04-19</Return></Trip><Trip><Name>Ryan</Name><ID>ff49ce56-f702-4f95-b9bd-b82fbdf772f7</ID><GroupSize>90</GroupSize><Depart>2016-04-12</Depart><Return>2016-04-08</Return></Trip><Trip><Name>Billy</Name><ID>0c7d2a4c-1df8-4032-ae66-a9af28ffed16</ID><GroupSize>90</GroupSize><Depart>2016-04-26</Depart><Return>2016-04-14</Return></Trip><Trip><Name>Tony</Name><ID>4081d84a-084d-48ea-9844-88659ed40a63</ID><GroupSize>55</GroupSize><Depart>2016-04-27</Depart><Return>2016-04-21</Return></Trip><Trip><Name>Nate</Name><ID>3c5ea424-b41c-4bb4-bd2f-ca5d95b67071</ID><GroupSize>34</GroupSize><Depart>2016-04-29</Depart><Return>2016-04-14</Return></Trip></Trips>
+<Trip><Name>Nate</Name><ID>a9c86852-99b3-44ec-a996-244d1db07efb</ID><GroupSize>1201, 2, 3, 4, 5, 6</GroupSize><BusNumbers/><Depart>2016-04-21</Depart><Return>2016-04-18</Return></Trip><Trip><Name>Tucker</Name><ID>0a3eab0d-44c4-49bc-af68-5f500cb367d4</ID><GroupSize>301, 3</GroupSize><BusNumbers/><Depart>2016-04-20</Depart><Return>2016-04-19</Return></Trip><Trip><Name>Nate</Name><ID>a9c86852-99b3-44ec-a996-244d1db07efb</ID><GroupSize>1201, 2, 3, 4, 5, 6</GroupSize><BusNumbers/><Depart>2016-04-21</Depart><Return>2016-04-18</Return></Trip><Trip><Name>Tucker</Name><ID>0a3eab0d-44c4-49bc-af68-5f500cb367d4</ID><GroupSize>301, 3</GroupSize><BusNumbers/><Depart>2016-04-20</Depart><Return>2016-04-19</Return></Trip><Trip><Name>Mom</Name><ID>d52c5b6f-03e6-4540-8749-a7030542a195</ID><GroupSize>501, 5, 7</GroupSize><BusNumbers/><Depart>2016-04-20</Depart><Return>2016-04-19</Return></Trip></Trips>
