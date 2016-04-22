@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><Trips>
+    <Trip>
+        <Name>Nathan</Name>
+        <ID>425</ID>
+        <GroupSize>70</GroupSize>
+        <BusNumbers>1, 2, 3, 4</BusNumbers>
+        <Depart>2016-04-22</Depart>
+        <Return>2016-04-20</Return>
+    </Trip>
+<Trip><Name>Danny</Name><ID>757</ID><GroupSize>50</GroupSize><BusNumbers>1, 2, 3</BusNumbers><Depart>2016-05-11</Depart><Return>2016-04-29</Return></Trip><Trip><Name>Tucker</Name><ID>135</ID><GroupSize>50</GroupSize><BusNumbers>1, 2, 3</BusNumbers><Depart>2016-04-26</Depart><Return>2016-04-22</Return></Trip><Trip><Name>Nt Grant</Name><ID>339</ID><GroupSize>60</GroupSize><BusNumbers>1, 2, 3</BusNumbers><Depart>2016-04-25</Depart><Return>2016-04-22</Return></Trip></Trips>

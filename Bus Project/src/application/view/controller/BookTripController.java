@@ -281,7 +281,9 @@ public class BookTripController extends Main implements Initializable
 		 * If all of the vales are acceptable
 		 */
 		if (in == true && ip == true && ir == true && id == true)
-		{		
+		{	
+			tripData.clear();
+			
 			String bsNms = getBusses(dpt, arr, grpSz);
 			/*
 			 * Adds the new information to the observable list

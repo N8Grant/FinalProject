@@ -11,15 +11,19 @@ import org.xml.sax.SAXException;
 
 import application.Main;
 import application.model.Trip;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -50,6 +54,9 @@ public class ScheduleWindow extends Main implements Initializable
 	private Label arriveLabel;
 
 	@FXML
+	private Label busNumbersLabel;
+	
+	@FXML
 	private Label nameLabel;
 	    
 	@FXML 
@@ -60,9 +67,20 @@ public class ScheduleWindow extends Main implements Initializable
 
 	@FXML
 	public ListView<String> customerSelect;
+	
+	@FXML
+	private ChoiceBox <String> sortSelect;
 
 	@FXML
     private Button loadSelectButton;
+	
+	@FXML
+	private Button sortButton;
+	
+	@FXML
+	private TextArea tripNotes;
+	
+	ObservableList<String> sortItems = FXCollections.observableArrayList();
 	
 	@FXML
     void editPersonInfo(ActionEvent event)
@@ -72,19 +90,44 @@ public class ScheduleWindow extends Main implements Initializable
 	
     @FXML
     void loadSelect(ActionEvent event) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException 
-    {
-    
-    	loadSelectButton.setText("Select");
-    	
+    { 	
     	for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
     	{
-    		System.out.print(trp.toString());
+    		System.out.println(trp.toString());
     		nameLabel.setText(trp.getName());
     		idLabel.setText(trp.getId());
     		departLabel.setText(trp.getDepartStr());
     		arriveLabel.setText(trp.getArriveStr());
     		sizeLabel.setText(Integer.toString(trp.getGroupSize()));
+    		System.out.println(trp.getBusNumbers());
+    		busNumbersLabel.setText(trp.getBusNumbers());
     	}	 
+    }
+    
+    @FXML
+    void sortAction(ActionEvent event)
+    {
+    	String temp = sortSelect.getValue();
+    	if (temp == "Name A-Z")
+    	{
+    		customerSelect.setItems(getAllNames(fetchXML(), 1));
+    	}
+    	else if (temp == "Name Z-A")
+    	{
+    		
+    	}
+    	else if (temp == "Group Size Decending")
+    	{
+    		
+    	}
+    	else if (temp == "Group Size Acending")
+    	{
+    		
+    	}
+    	else
+    	{
+    		customerSelect.setItems(getAllNames(fetchXML(), 0));
+    	}
     }
 	    
 	@FXML
@@ -106,21 +149,29 @@ public class ScheduleWindow extends Main implements Initializable
 	@FXML
 	void initialize() 
 	{
-	    assert sizeLabel != null : "fx:id=\"sizeLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-	    assert idLabel != null : "fx:id=\"idLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-	    assert departLabel != null : "fx:id=\"departLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-	    assert selector != null : "fx:id=\"selector\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-	    assert arriveLabel != null : "fx:id=\"arriveLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-	    assert nameLabel != null : "fx:id=\"nameLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-	    assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-        assert customerSelect != null : "fx:id=\"customerSelect\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+		assert nameLabel != null : "fx:id=\"nameLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert departLabel != null : "fx:id=\"departLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert arriveLabel != null : "fx:id=\"arriveLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert idLabel != null : "fx:id=\"idLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert sizeLabel != null : "fx:id=\"sizeLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert editPerson != null : "fx:id=\"editPerson\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert tripNotes != null : "fx:id=\"tripNotes\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
         assert loadSelectButton != null : "fx:id=\"loadSelectButton\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
-
+        assert customerSelect != null : "fx:id=\"customerSelect\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert sortButton != null : "fx:id=\"sortButton\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert sortSelect != null : "fx:id=\"sortSelect\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert busNumbersLabel != null : "fx:id=\"busNumbersLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		customerSelect.setItems(getAllNames(fetchXML()));
+		customerSelect.setItems(getAllNames(fetchXML(), 0));
+		sortItems.add("Name A-Z");
+		sortItems.add("Name Z-A");
+		sortItems.add("Group Size Decending");
+		sortItems.add("Group Size Acending");
+		sortSelect.setItems(sortItems);
 	}
 }

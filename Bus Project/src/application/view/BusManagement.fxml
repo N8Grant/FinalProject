@@ -14,7 +14,7 @@
             <Font size="12.0" />
          </font>
       </Text>
-      <RadioButton fx:id="bussesOut" layoutX="48.0" layoutY="51.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="152.0" text="Busses Outstanding" AnchorPane.leftAnchor="48.0" AnchorPane.rightAnchor="200.0">
+      <RadioButton fx:id="bussesOut" layoutX="61.0" layoutY="51.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="152.0" text="Bus Schedule" AnchorPane.leftAnchor="61.0" AnchorPane.rightAnchor="187.0">
          <toggleGroup>
             <ToggleGroup fx:id="busView" />
          </toggleGroup>

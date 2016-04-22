@@ -1,7 +1,6 @@
 package application.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -15,6 +14,7 @@ public class Trip
 	private StringProperty organizationName;
     private IntegerProperty groupSize;
     private SimpleStringProperty busNumbers;
+    private SimpleStringProperty tripNote;
     private StringProperty ID;
     private ObjectProperty<LocalDate> depart;
     private ObjectProperty<LocalDate> arrive;
@@ -41,20 +41,23 @@ public class Trip
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
-    	String uniqueID = UUID.randomUUID().toString();
+    	String uniqueID = Integer.toString(100 + (int)(Math.random() *
+    					  (1000 - 100) + 1));
     	this.ID = new SimpleStringProperty(uniqueID);
         this.depart = new SimpleObjectProperty<LocalDate>(dpt);
         this.arrive = new SimpleObjectProperty<LocalDate>(arr);
         this.busNumbers = new SimpleStringProperty(bsNm);
+        this.tripNote = null;
     }
     
-    public Trip(String Name, String ID, int grpSz, String dpt, String arr) 
+    public Trip(String Name, String ID, int grpSz, String busNm, String dpt, String arr) 
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
     	this.ID = new SimpleStringProperty(ID);
         this.departString = new SimpleStringProperty(dpt);
         this.arriveString = new SimpleStringProperty(arr);
+        this.busNumbers = new SimpleStringProperty(busNm);
     }
 
     public String getId() 
@@ -153,5 +156,20 @@ public class Trip
 	public void setBusNumbers(String busNumber) 
 	{
 		this.busNumbers.set(busNumber);;
+	}
+	
+	public String getTripNote()
+	{
+		return tripNote.get();
+	}
+	
+	public StringProperty tripNoteProperty()
+	{
+		return tripNote;
+	}
+	
+	public void setTripNote(String trpNt)
+	{
+		this.tripNote.set(trpNt);
 	}
 }

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,26 +49,11 @@ public class Main extends Application
      */
 	public static ObservableList<Trip> tripData = FXCollections.observableArrayList();
 	
-	/*
-	 * Makes a blank array for just ABC busses
-	 */
-	public Bus[] busses = new Bus[ABCBUSSES];
-	
-	/*
-	 * Make an array liat of trips 
-	 */
-	
-	
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
 		createFile();	// makes sure that there is a file that exist
-		
-		for (int i = 0; i < busses.length; i++)
-		{
-			busses[i] = new Bus(i++);
-		}
-		
+	
 		/*
 		 * Loads the main menu
 		 */
@@ -90,21 +76,48 @@ public class Main extends Application
 		}
 	}
 	
-	public ObservableList<String> getAllNames(ObservableList <Trip> list)
+	public ObservableList<String> getAllNames(ObservableList <Trip> list, int sort)
 	{
 		ObservableList<String> names = FXCollections.observableArrayList();	// List of names
+		
+		/*
+		 * If there are no names in the list
+		 */
 		if (list == null)
 		{
 			return null;
 		}
+		/*
+		 * Else iterate through list and add into list of strings
+		 */
 		else
 		{
-			for (Trip trp: list)
+			if (sort == 0)
 			{
-				names.add(trp.getName());
+				for (Trip trp: list)
+				{
+					names.add(trp.getName());
+				}
+				return names;	// return list of all names
+		
 			}
-			return names;
-		}
+			else if (sort == 1)
+			{
+				for (Trip trp: list)
+				{
+					names.add(trp.getName());
+				}
+				return names.sorted(Comparator.<String>naturalOrder());
+			}
+			else
+			{
+				for (Trip trp: list)
+				{
+					names.add(trp.getName());
+				}
+				return names;	// return list of all names 
+			}
+		}	
 	}
 /*
 	public Boolean checkName (String name)
@@ -130,14 +143,23 @@ public class Main extends Application
 */	
 	public String getBusses(LocalDate depart, LocalDate ret, int grpSz)
 	{	
+		/*
+		 * A temporary list of integers representing all of the busses
+		 */
 		ArrayList <Integer> temp = new ArrayList <Integer>();
 		
+		/*
+		 * For loop to insert bus numbers into list
+		 */
 		for (int i = 1; i <= ABCBUSSES; i++)
 		{
 			temp.add(i);
 			System.out.println(temp.toString());
 		}
 		
+		/*
+		 * For loop to check availability during specified dates
+		 */
 		for (Bus bus: getDates(getTripList()))
 		{
 			if ((bus.getDepart().isAfter(depart) || 
@@ -145,31 +167,49 @@ public class Main extends Application
 				(bus.getRet().isBefore(ret) ||
 				 bus.getRet().isEqual(ret)))
 			{
-				temp.remove(new Integer(bus.getBusNumber()));
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
 				System.out.println(temp.toString());
 			}
 		}
 		
+		/*
+		 * If all busses are booked
+		 */
 		if (temp.isEmpty())
 		{
 			return "Need to Subrent!!";
 		}
+		/*
+		 * Else assign busses
+		 */
 		else
 		{
+			/*
+			 * Int for busses needed for the trip
+			 */
 			int bussesNeeded = Integer.parseInt(getBussesNeeded(grpSz));
 			
-			String busNumbers = "";
+			String busNumbers = "";	// Blank string 
+			/*
+			 * For loop to add busses needed
+			 */
 			for (int i = 0; i < bussesNeeded; i++)
 			{
+				/*
+				 * If its the first iteration
+				 */
 				if (i == 0)
 				{
-					busNumbers = temp.get(i) + "";
+					busNumbers = temp.get(i) + "";	// first bus available
 				}
 				else
 				{
+					/*
+					 * Try to get next bus in list
+					 */
 					try
 					{
-						busNumbers = busNumbers + ", " + temp.get(i);
+						busNumbers = busNumbers + ", " + temp.get(i);	// , next bus
 					}
 					/**
 					 * 
@@ -177,6 +217,9 @@ public class Main extends Application
 					 * NEEDS WORK
 					 * 
 					 * 
+					 */
+					/*
+					 * Catch if there are no more ABC Busses left
 					 */
 					catch (IndexOutOfBoundsException ex)
 					{
@@ -187,7 +230,7 @@ public class Main extends Application
 					}
 				}	
 			}
-			return busNumbers;
+			return busNumbers;	// return string of bus numbers
 		}
 	}
 	
@@ -202,19 +245,36 @@ public class Main extends Application
 		return null;
 	}
 	public String getBussesNeeded(int grpSz)
+	/*
+	 * Precondition:  Program doesnt have value for number of busses needed
+	 * Postcondition: String value is passed back with number of busses 
+	 * 				  needed in accordance to group size
+	 */
 	{
-		int bussesNeeded = grpSz / 20;
+		int bussesNeeded = grpSz / 20;	// integer division to find busses needed
+		
+		/*
+		 * If there is more than 10 people for another bus
+		 */
 		if (grpSz % 20 >= 10)
 		{
 			bussesNeeded++;	
 		}
 		
-		return Integer.toString(bussesNeeded);
+		return Integer.toString(bussesNeeded);	// bussesNeeded -> string
 	}
 	
 	public ArrayList <Bus> getDates(ObservableList <Trip> trip)
+	/*
+	 * Precondition:  Program has data in type Trip but needs dates for type Bus
+	 * Postcondition: List returned with all of the trip dates and bus numbers 
+	 */
 	{
-		ArrayList <Bus> y = new ArrayList <Bus>();
+		ArrayList <Bus> y = new ArrayList <Bus>();	// blank array list for busses
+		
+		/*
+		 * If there are trips
+		 */
 		if (trip != null)
 		{
 			for (Trip trp: trip)
@@ -265,8 +325,10 @@ public class Main extends Application
 			    specTrip.add(new Trip(eElement.getElementsByTagName("Name").item(0).getTextContent(),
 			        	  eElement.getElementsByTagName("ID").item(0).getTextContent(),
 			        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
+			        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 			        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
-			        	  eElement.getElementsByTagName("Return").item(0).getTextContent()));
+			        	  eElement.getElementsByTagName("Return").item(0).getTextContent()
+			        	  ));
 			} 
 			else 
 			{
@@ -362,7 +424,8 @@ public class Main extends Application
 				        	  eElement.getElementsByTagName("ID").item(0).getTextContent(),
 				        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
 				        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
-				        	  eElement.getElementsByTagName("Return").item(0).getTextContent()));
+				        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
+				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent()));
 				}
 	        }
 	        return tripList;
@@ -532,19 +595,13 @@ public class Main extends Application
 	        }
 	        try 
 	        {
-	            Transformer tr = TransformerFactory.newInstance().newTransformer();
-	           // tr.setOutputProperty(OutputKeys.INDENT, "yes");
-	           // tr.setOutputProperty(OutputKeys.METHOD, "xml");
-	           // tr.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-	           // tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "TripFile.xml");
-	           // tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	        	Transformer tr = TransformerFactory.newInstance().newTransformer();
+	            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+	            tr.setOutputProperty(OutputKeys.METHOD, "xml");
 	            tr.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-	        	
-		        tr.setOutputProperty(
-		                "{http://xml.apache.org/xslt}indent-amount", "4");
-		        tr.setOutputProperty(OutputKeys.INDENT, "yes");
-	
-	            
+	            tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "TripFile.xml");
+	            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+	         
 	            DOMSource source = new DOMSource(dom);
 	            // send DOM to file
 	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
