@@ -1,6 +1,10 @@
-package application.model;
+package application.model; // Package containing bus class
 
+/*
+ * Imports Section
+ */
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -11,15 +15,24 @@ import javafx.beans.property.StringProperty;
 
 public class Trip 
 {
-	private StringProperty organizationName;
-    private IntegerProperty groupSize;
-    private SimpleStringProperty busNumbers;
-    private SimpleStringProperty tripNote;
-    private StringProperty ID;
-    private ObjectProperty<LocalDate> depart;
-    private ObjectProperty<LocalDate> arrive;
-    private SimpleStringProperty departString;
-    private SimpleStringProperty arriveString;
+	/*
+	 * Variables
+	 */
+	private StringProperty organizationName;	// Name of organization
+    private IntegerProperty groupSize;			// Size of group
+    private SimpleStringProperty busNumbers;	// String of bus numbers
+    private SimpleStringProperty tripNote;		// Note or reminder for trip
+    private StringProperty ID;					// Unique id for trip
+    private ObjectProperty<LocalDate> depart;	// Date of departure
+    private ObjectProperty<LocalDate> arrive;	// Date of return
+    private SimpleStringProperty departString;	// String of depart date
+    private SimpleStringProperty arriveString;	// String of return date
+    
+    /*
+     * The format for the date
+     */
+    final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	
 
     /**
      * Default constructor.
@@ -55,22 +68,33 @@ public class Trip
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
     	this.ID = new SimpleStringProperty(ID);
-        this.departString = new SimpleStringProperty(dpt);
-        this.arriveString = new SimpleStringProperty(arr);
+    	LocalDate dpt1 = LocalDate.parse(dpt, dtf);
+        this.depart = new SimpleObjectProperty<LocalDate>(dpt1);
+        LocalDate arr1 = LocalDate.parse(dpt, dtf);
+        this.arrive = new SimpleObjectProperty<LocalDate>(arr1);
         this.busNumbers = new SimpleStringProperty(busNm);
     }
 
     public String getId() 
+    /*
+     * Getter for string of trip ID
+     */
     {
         return ID.get();
     }
 
     public void setId(String id)
+    /*
+     * Setter for trip ID
+     */
     {
         this.ID.set(id);
     }
 
     public StringProperty ID() 
+    /*
+     * Returns a string representation of this StringProperty object
+     */
     {
         return ID;
     }
@@ -85,6 +109,9 @@ public class Trip
     }
 
     public StringProperty nameProperty()
+    /*
+     * Returns a string representation of this StringProperty object
+     */
     {
         return organizationName;
     }
@@ -100,6 +127,9 @@ public class Trip
     }
 
     public IntegerProperty groupSize() 
+    /*
+     * Returns a int representation of this StringProperty object
+     */
     {
         return groupSize;
     }
@@ -120,6 +150,9 @@ public class Trip
     }
 
     public ObjectProperty<LocalDate> departProperty() 
+    /*
+     * Returns a object representation of this StringProperty object
+     */
     {
         return depart;
     }
@@ -140,6 +173,9 @@ public class Trip
     }
 
     public ObjectProperty<LocalDate> arriveProperty() 
+    /*
+     * Returns a object representation of this StringProperty object
+     */
     {
         return arrive;
     }

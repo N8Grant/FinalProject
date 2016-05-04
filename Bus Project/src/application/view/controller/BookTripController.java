@@ -223,22 +223,39 @@ public class BookTripController extends Main implements Initializable
 				id = true;
 			}
 			
+			Boolean t = false;
+			try
+			{
+				for (String nm: getAllNames(fetchXML(), 0))
+				{
+					if (nm == inputName.getText())
+					{
+						t = true;
+						System.out.println("Error");
+					}	
+				}
+			}
+			catch (NullPointerException e)
+			{
+				e.getMessage();
+			}
+			
 			/*
 			 * If name has been used
 			 */
-			//if (checkName(inputName.getText()))
-			//{
-				//nameError.setText("Name already used!!");
-				//in = false;
-			//}
+			if (t)
+			{
+				nameError.setText("Name already used!!");
+				in = false;
+			}
 			
-			// * Else field is valid
+			// Else field is valid
 			 
-			//else
-			//{
+			else if (t == false)
+			{
 				in = true;
 				orgName = inputName.getText();	
-			//}
+			}
 		}
 		
 		/*
@@ -292,7 +309,7 @@ public class BookTripController extends Main implements Initializable
 			 * @param depart
 			 * @param arrive
 			 */
-			tripData.add(new Trip (orgName, grpSz, arr, dpt, bsNms));
+			tripData.add(new Trip (orgName, grpSz, dpt, arr, bsNms));
 			
 			/*
 			 * Marshals data to an XML file

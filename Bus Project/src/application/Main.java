@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -60,6 +61,9 @@ public class Main extends Application
 		FXMLLoader loader;
 		loader = new FXMLLoader(Main.class.getResource("view/MainMenu.fxml"));
 		
+		/*
+		 * Try to load the window and set title
+		 */
 		try 
 		{
 			Parent root;
@@ -70,6 +74,9 @@ public class Main extends Application
 			stage.setScene(scene);
 			stage.show();
 		} 
+		/*
+		 * If window file cant be found
+		 */
 		catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -83,7 +90,7 @@ public class Main extends Application
 		/*
 		 * If there are no names in the list
 		 */
-		if (list == null)
+		if (list.isEmpty())
 		{
 			return null;
 		}
@@ -92,55 +99,144 @@ public class Main extends Application
 		 */
 		else
 		{
+			/*
+			 * if no sort preference 
+			 */
 			if (sort == 0)
 			{
+				/*
+				 * Iterate through list of trips
+				 */
 				for (Trip trp: list)
 				{
-					names.add(trp.getName());
+					names.add(trp.getName());	// Add names to string list
 				}
 				return names;	// return list of all names
-		
 			}
+			/*
+			 * If user wants A to Z sort
+			 */
 			else if (sort == 1)
 			{
+				/*
+				 * Iterates through trip list
+				 */
 				for (Trip trp: list)
 				{
-					names.add(trp.getName());
+					names.add(trp.getName());	// add name to temp list
 				}
-				return names.sorted(Comparator.<String>naturalOrder());
+				
+				/*
+				 * Makes a new comparator class to sort strings from A to Z
+				 */
+				Comparator<String> A_TO_Z = new Comparator <String> ()
+				{
+					/*
+					 * Returns compares strings, returns 0 if they're the same 
+					 */
+					public int compare(String str1, String str2)
+					{
+						/*
+						 * Result of comparison between two strings 
+						 */
+						int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
+						
+						/*
+						 * If strings are the the same
+						 */
+						if (res == 0)
+						{
+							res = str1.compareTo(str2);		// compare to see if they are
+															// equal regaurdless of case
+						}
+						return res;		// return sort result
+					}
+				};	
+				return names.sorted(A_TO_Z);	// return sorted list
 			}
+			/*
+			 * If the user wants a Z to A sort
+			 */
+			else if (sort == 2)
+			{
+				/*
+				 * Iterates through trip list
+				 */
+				for (Trip trp: list)
+				{
+					names.add(trp.getName());	// adds name to temp list
+				}
+				
+				/*
+				 * Makes a new comparator class to sort strings from Z to A
+				 */
+				Comparator <String> Z_TO_A = new Comparator <String>()
+				{
+					/*
+					 * Returns compares strings, returns 0 if they're the same 
+					 */
+					public int compare(String str1, String str2)
+					{
+						/*
+						 * Result of comparison between two strings 
+						 */
+						int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
+						/*
+						 * If the two strings are equal
+						 */
+						if (res == 0)
+						{
+							res = str1.compareTo(str2);		// compare to see if they are
+															// equal with consideration of case
+								
+						}
+						return -res;	// returns the opposite of the sorted result
+					}
+				};
+				return names.sorted(Z_TO_A);	// return sorted list of all names 
+			}
+		
 			else
 			{
 				for (Trip trp: list)
 				{
 					names.add(trp.getName());
 				}
-				return names;	// return list of all names 
+				return names;
 			}
 		}	
 	}
-/*
+
+	/**
+	 * NEEDS WORK
+	 * @param name
+	 * @return
+	 */
 	public Boolean checkName (String name)
 	{
-		Boolean t = false;
-		if (getAllNames(fetchXML()) == null)
+		Boolean t = null;
+		if (getAllNames(fetchXML(), 0) == null)
 		{
 			t = false;
 		}
 		
-		else if (getAllNames(fetchXML()) != null)
+		else
 		{
-			for (String nm: getAllNames(fetchXML()))
+			for (String nm: getAllNames(fetchXML(), 0))
 			{
 				if (nm == name)
 				{
 					t = true;
 				}	
+				else
+				{
+					t = false;
+				}
 			}
 		}
 		return t;
 	}
-*/	
+
 	public String getBusses(LocalDate depart, LocalDate ret, int grpSz)
 	{	
 		/*
@@ -154,84 +250,75 @@ public class Main extends Application
 		for (int i = 1; i <= ABCBUSSES; i++)
 		{
 			temp.add(i);
-			System.out.println(temp.toString());
 		}
 		
 		/*
 		 * For loop to check availability during specified dates
 		 */
-		for (Bus bus: getDates(getTripList()))
+		for (Bus bus: getDates(fetchXML()))
 		{
+			/*
+			 * If depart date is after depart date or equal to it
+			 * 							or
+			 * If arrive is before the return date or equal to it
+			 */
 			if ((bus.getDepart().isAfter(depart) || 
 				 bus.getDepart().isEqual(depart)) &&
 				(bus.getRet().isBefore(ret) ||
 				 bus.getRet().isEqual(ret)))
 			{
-				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
-				System.out.println(temp.toString());
+					temp.remove(new Integer(bus.getBusNumber())); // remove bus number
 			}
 		}
-		
+
 		/*
-		 * If all busses are booked
+		 * Int for busses needed for the trip
 		 */
-		if (temp.isEmpty())
-		{
-			return "Need to Subrent!!";
-		}
-		/*
-		 * Else assign busses
-		 */
-		else
-		{
-			/*
-			 * Int for busses needed for the trip
-			 */
-			int bussesNeeded = Integer.parseInt(getBussesNeeded(grpSz));
+		int bussesNeeded = Integer.parseInt(getBussesNeeded(grpSz));
 			
-			String busNumbers = "";	// Blank string 
+		String busNumbers = "";	// Blank string 
+		/*
+		 * For loop to add busses needed
+		 */
+		for (int i = 0; i < bussesNeeded; i++)
+		{
 			/*
-			 * For loop to add busses needed
+			 * If its the first iteration
 			 */
-			for (int i = 0; i < bussesNeeded; i++)
+			if (i == 0)
+			{
+				busNumbers = temp.get(i) + "";	// first bus available
+			}
+			else
 			{
 				/*
-				 * If its the first iteration
+				 * Try to get next bus in list
 				 */
-				if (i == 0)
+				try
 				{
-					busNumbers = temp.get(i) + "";	// first bus available
+					busNumbers = busNumbers + ", " + temp.get(i);	// , next bus
 				}
-				else
+				/**
+				 * 
+				 * 
+				 * NEEDS WORK
+				 * 
+				 * 
+				 */
+				
+				/*
+				 * Catch if there are no more ABC Busses left
+				 */
+				catch (IndexOutOfBoundsException ex)
 				{
-					/*
-					 * Try to get next bus in list
-					 */
-					try
-					{
-						busNumbers = busNumbers + ", " + temp.get(i);	// , next bus
-					}
-					/**
-					 * 
-					 * 
-					 * NEEDS WORK
-					 * 
-					 * 
-					 */
-					/*
-					 * Catch if there are no more ABC Busses left
-					 */
-					catch (IndexOutOfBoundsException ex)
-					{
-						busNumbers =  "" + busNumbers;
-						getSubRent((bussesNeeded - 1));
-						//", You are going to need " +
-						//(bussesNeeded - i) + " more busses from ABD Busses";
-					}
-				}	
-			}
-			return busNumbers;	// return string of bus numbers
+					busNumbers =  "" + busNumbers;
+					getSubRent((bussesNeeded - 1));
+					//", You are going to need " +
+					//(bussesNeeded - i) + " more busses from ABD Busses";
+				}
+			}	
 		}
+		return busNumbers;	// return string of bus numbers
 	}
 	
 	/*
@@ -258,7 +345,7 @@ public class Main extends Application
 		 */
 		if (grpSz % 20 >= 10)
 		{
-			bussesNeeded++;	
+			bussesNeeded++;		// Book another bus
 		}
 		
 		return Integer.toString(bussesNeeded);	// bussesNeeded -> string
@@ -276,21 +363,32 @@ public class Main extends Application
 		 * If there are trips
 		 */
 		if (trip != null)
-		{
+		{	
+			/*
+			 * Iterates through list of trips
+			 */
 			for (Trip trp: trip)
 			{
-				String delims = "[, ]+";
+				String delims = "[, ]+";	// Accepted separators are "," or space
 				String[] str_array = trp.getBusNumbers().split(delims);
-					
+				
+				/*
+				 * Iterates through all of the busses used on the date
+				 */
 				for (int i = 0; i < str_array.length; i++)
 				{
-					System.out.println(str_array[i]);
 					y.add(new Bus(Integer.parseInt(str_array[i]), trp.getDepart(), trp.getArrive()));
 				}
 			}
+			return y;	// Return list of open dates
 		}
-		return y;
+		else
+		{
+			return y;
+		}
+		
 	}
+	
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 
 																		   SAXException, IOException, 
 																		   XPathExpressionException
@@ -306,10 +404,13 @@ public class Main extends Application
 			 */
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(getFilePath()); // uri to your file
+			Document doc = builder.parse(getFilePath()); // url to your file
 			XPathFactory xPathfactory = XPathFactory.newInstance();
 			XPath xpath = xPathfactory.newXPath();
 	
+			/*
+			 * Finds the element with the desired name
+			 */
 			XPathExpression expr = xpath.compile("/Trips/Trip/Name[text()='" + name + "']");
 	
 			NodeList nodeList = (NodeList)(expr.evaluate(doc, XPathConstants.NODESET));
@@ -369,6 +470,9 @@ public class Main extends Application
 
 	public File createFile()
 	{
+		/*
+		 * Try to create file
+		 */
 		try 
 		{
 			File file = new File(getFilePath());	// makes a new file 
@@ -379,7 +483,7 @@ public class Main extends Application
 			if (file.createNewFile()) 
 			{
 				System.out.println("File is created!");
-				return file;
+				return file;	// Return the new file
 			} 
 			/*
 			 * Else return null
@@ -390,6 +494,9 @@ public class Main extends Application
 				return null;
 			}
 		} 
+		/*
+         * Catch can't create file
+         */
 		catch (IOException e) 
 		{
 			e.printStackTrace();
@@ -400,13 +507,13 @@ public class Main extends Application
 	public static ObservableList <Trip> fetchXML()
 	{
 		ObservableList <Trip> tripList = FXCollections.observableArrayList();	// get a list of trips
+		
 		try 
 		{
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 	        Document doc = dBuilder.parse(getFilePath()); 
 	        doc.getDocumentElement().normalize(); 
-	        // System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 	        NodeList nList = doc.getElementsByTagName("Trip");
 
 	        for (int trp = 0; trp < nList.getLength(); trp++)
@@ -423,13 +530,21 @@ public class Main extends Application
 					 tripList.add(new Trip(eElement.getElementsByTagName("Name").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("ID").item(0).getTextContent(),
 				        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
+				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
-				        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
-				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent()));
+				        	  eElement.getElementsByTagName("Return").item(0).getTextContent()
+				        	  ));
 				}
 	        }
-	        return tripList;
-		}
+	        if (tripList.isEmpty())
+	        {
+	        	return null;
+	        }
+	        else
+	        {
+	        	return tripList;
+	        } 	
+	    }
 		catch (Exception e) 
 		{
 	        e.printStackTrace();
@@ -437,11 +552,6 @@ public class Main extends Application
 	        return null;
 	    }
 		
-	}
-	
-	public static ObservableList <Trip> getTripList()
-	{
-		return tripData;
 	}
 	
 	public void writeBlankXmlFile(ObservableList<Trip> list) throws IOException, SAXException
@@ -552,49 +662,82 @@ public class Main extends Application
 
 	public void addToXML(ObservableList<Trip> list) throws IOException
 	{	
+		/*
+		 * Try to open file and marshall to XML
+		 */
 		try
 		{
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 	        Document dom = documentBuilder.parse(getFilePath());
 	        
-	        Element root = dom.getDocumentElement();
+	        Element root = dom.getDocumentElement();	// Get the main element of the file
 	
+	        /*
+	         * Iterate through the list of trips
+	         */
 	        for (Trip trp: list)
 	        {
+	        	/*
+	        	 * Get the last appended element of the file
+	        	 */
 	        	Element Details = dom.createElement("Trip");
 	        	root.appendChild(Details);
 	        	
+	        	/*
+	        	 * Create and add another name element
+	        	 */
 	        	Element name = dom.createElement("Name");
 	            name.appendChild(dom.createTextNode(String.valueOf(trp.getName())));
 	            Details.appendChild(name);
 	            
+	            /*
+	        	 * Create and add another ID element
+	        	 */
 	            Element id = dom.createElement("ID");
 	            id.appendChild(dom.createTextNode(String.valueOf(trp
 	                    .getId())));
 	            Details.appendChild(id);
 
+	            /*
+	        	 * Create and add another group size element
+	        	 */
 	            Element grp = dom.createElement("GroupSize");
 	            grp.appendChild(dom.createTextNode(String.valueOf(trp.getGroupSize())));
 	            Details.appendChild(grp);
 	            
+	            /*
+	        	 * Create and add another bus numbers element
+	        	 */
 	            Element bus = dom.createElement("BusNumbers");
 	            bus.appendChild(dom.createTextNode(String.valueOf(trp.getBusNumbers())));
 	            Details.appendChild(bus);
 	            
+	            /*
+	        	 * Create and add another depart element
+	        	 */
 	            Element dpt = dom.createElement("Depart");
 	            dpt.appendChild(dom.createTextNode(String.valueOf(trp.getDepart())));
 	            Details.appendChild(dpt);
 	            
+	            /*
+	        	 * Create and add another return element
+	        	 */
 	            Element arr = dom.createElement("Return");
 	            arr.appendChild(dom.createTextNode(String.valueOf(trp.getArrive())));
 	            Details.appendChild(arr);
 	            
-		        root.appendChild(Details);
+		        root.appendChild(Details);		// Append the data to the end of the list
 		        
 	        }
+	        /*
+	         * Try to save the new list to the file
+	         */
 	        try 
 	        {
+	        	/*
+	        	 * Format the xml with indented propertys
+	        	 */
 	        	Transformer tr = TransformerFactory.newInstance().newTransformer();
 	            tr.setOutputProperty(OutputKeys.INDENT, "yes");
 	            tr.setOutputProperty(OutputKeys.METHOD, "xml");
@@ -603,7 +746,10 @@ public class Main extends Application
 	            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 	         
 	            DOMSource source = new DOMSource(dom);
-	            // send DOM to file
+	            	
+	            /*
+	             * Sends the DOM to the file
+	             */
 	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	            Transformer transformer = transformerFactory.newTransformer();
 	            StreamResult result = new StreamResult(getFilePath());
@@ -612,47 +758,79 @@ public class Main extends Application
 	        catch (TransformerException te) 
 	        {
 	            System.out.println(te.getMessage());
-	            writeBlankXmlFile(tripData);
+	            // writeBlankXmlFile(tripData);
 	        }
 	    } 
+		/*
+		 * Catch corrupted file
+		 */
 	    catch (ParserConfigurationException pce)
 	    {
 	        System.out.println("UsersXML: Error trying to instantiate DocumentBuilder " + pce);
+	        /*
+	         * Try to write a new file
+	         */
 	        try 
 	        {
 				writeBlankXmlFile(tripData);
 			} 
+	        /*
+	         * Catch can't find file exception
+	         */
 	        catch (SAXException e) 
 	        {
-				e.printStackTrace();
+				e.printStackTrace();	// Print error to console
 			}
 	    }
-		catch ( SAXException sax)
+		/*
+		 * This class can contain basic error or warning information 
+		 * from either the XML parser or the application: a parser writer or 
+		 * application writer can subclass it to provide additional functionality. 
+		 */
+		catch (SAXException sax)
 		{
-			System.out.print(sax.getMessage());
+			System.out.print(sax.getMessage());	// Prints error to console
+			/*
+			 * Try to write a blank file
+			 */
 			try 
 			{
 				writeBlankXmlFile(tripData);
 			} 
+			/*
+	         * Catch can't find file exception
+	         */
 			catch (SAXException e) 
 			{
 
 				e.printStackTrace();
 			}
 		}
+		/*
+		 * Catch Input/Output file error
+		 */
 		catch (IOException e)
 		{
+			/*
+			 * Try to write blank file 
+			 */
 			try 
 			{
 				writeBlankXmlFile(tripData);
 			} 
+			/*
+	         * Catch can't find file exception
+	         */
 			catch (SAXException e1) 
 			{
-				e1.printStackTrace();
+				e1.printStackTrace();	// Print error to console
 			}
 		}
 	}
 
+	/*
+	 * Launches the program
+	 */
 	public static void main(String[] args) 
 	{
 		launch(args);

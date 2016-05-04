@@ -129,9 +129,9 @@ public class CheckoutController extends BookTripController implements Initializa
 					
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/PrintConfirmation.fxml"));
-		root = (AnchorPane) loader.load();
+		root = (AnchorPane) loader.load();   
 		PrinterController controller = loader.<PrinterController>getController();
-    	controller.populateReceipt(name);
+		controller.populateReceipt(name);
 		PrinterJob job = PrinterJob.createPrinterJob();
     	if (job != null && job.showPrintDialog(stage))
     	{

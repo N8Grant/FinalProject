@@ -96,8 +96,8 @@ public class ScheduleWindow extends Main implements Initializable
     		System.out.println(trp.toString());
     		nameLabel.setText(trp.getName());
     		idLabel.setText(trp.getId());
-    		departLabel.setText(trp.getDepartStr());
-    		arriveLabel.setText(trp.getArriveStr());
+    		departLabel.setText(trp.getDepart().toString());
+    		arriveLabel.setText(trp.getArrive().toString());
     		sizeLabel.setText(Integer.toString(trp.getGroupSize()));
     		System.out.println(trp.getBusNumbers());
     		busNumbersLabel.setText(trp.getBusNumbers());
@@ -114,8 +114,9 @@ public class ScheduleWindow extends Main implements Initializable
     	}
     	else if (temp == "Name Z-A")
     	{
-    		
+    		customerSelect.setItems(getAllNames(fetchXML(), 2));
     	}
+    	/*
     	else if (temp == "Group Size Decending")
     	{
     		
@@ -124,6 +125,7 @@ public class ScheduleWindow extends Main implements Initializable
     	{
     		
     	}
+    	*/
     	else
     	{
     		customerSelect.setItems(getAllNames(fetchXML(), 0));
