@@ -78,7 +78,11 @@ public class CheckoutController extends BookTripController implements Initializa
 	/*
 	 * Temp Variables
 	 */
-	public String name;
+	public String nameVariable;
+	public String grpVariable;
+	public String dptVariable;
+	public String retVariable;
+	public String busNmVariable;
 	    
     @FXML
     void finalizeTrip(ActionEvent event) throws IOException, SAXException 
@@ -131,7 +135,8 @@ public class CheckoutController extends BookTripController implements Initializa
 		loader.setLocation(Main.class.getResource("view/PrintConfirmation.fxml"));
 		root = (AnchorPane) loader.load();   
 		PrinterController controller = loader.<PrinterController>getController();
-		controller.populateReceipt(name);
+		controller.populateReceipt(nameVariable, grpVariable, busNmVariable,
+								   dptVariable, retVariable);
 		PrinterJob job = PrinterJob.createPrinterJob();
     	if (job != null && job.showPrintDialog(stage))
     	{
@@ -156,7 +161,11 @@ public class CheckoutController extends BookTripController implements Initializa
 
     public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt, String busNms)
     {
-    	name = org;
+    	nameVariable = org;
+    	grpVariable = grp;
+    	dptVariable = dpt.toString();
+    	retVariable = arr.toString();
+    	busNmVariable = busNms;
     	orgNameLb.setText(org);
     	grpLabel.setText(grp);
     	dptLabel.setText(dpt.toString());

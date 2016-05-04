@@ -735,24 +735,23 @@ public class Main extends Application
 	         */
 	        try 
 	        {
-	        	/*
-	        	 * Format the xml with indented propertys
-	        	 */
-	        	Transformer tr = TransformerFactory.newInstance().newTransformer();
-	            tr.setOutputProperty(OutputKeys.INDENT, "yes");
-	            tr.setOutputProperty(OutputKeys.METHOD, "xml");
-	            tr.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-	            tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "TripFile.xml");
-	            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-	         
-	            DOMSource source = new DOMSource(dom);
-	            	
-	            /*
+	        	// Instantiate new transformer objects
+		        TransformerFactory tranFactory = TransformerFactory.newInstance();
+		        Transformer transformer = tranFactory.newTransformer();
+	
+		        // format the XML nicely
+		        transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+	
+		        transformer.setOutputProperty(
+		                "{http://xml.apache.org/xslt}indent-amount", "4");
+		        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		      
+		        /*
 	             * Sends the DOM to the file
 	             */
-	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	            Transformer transformer = transformerFactory.newTransformer();
-	            StreamResult result = new StreamResult(getFilePath());
+		        DOMSource source = new DOMSource(dom);
+		     
+		        StreamResult result = new StreamResult(getFilePath());
 	            transformer.transform(source, result);
 	        } 
 	        catch (TransformerException te) 
@@ -772,7 +771,7 @@ public class Main extends Application
 	         */
 	        try 
 	        {
-				writeBlankXmlFile(tripData);
+				writeBlankXmlFile(tripData);	// Write if XML file is blank
 			} 
 	        /*
 	         * Catch can't find file exception
@@ -795,7 +794,7 @@ public class Main extends Application
 			 */
 			try 
 			{
-				writeBlankXmlFile(tripData);
+				writeBlankXmlFile(tripData);	// Write if XML file is blank
 			} 
 			/*
 	         * Catch can't find file exception
@@ -816,7 +815,7 @@ public class Main extends Application
 			 */
 			try 
 			{
-				writeBlankXmlFile(tripData);
+				writeBlankXmlFile(tripData);	// Write if XML file is blank
 			} 
 			/*
 	         * Catch can't find file exception
