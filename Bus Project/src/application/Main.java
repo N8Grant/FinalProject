@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -35,6 +34,7 @@ import application.model.Trip;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -90,9 +90,9 @@ public class Main extends Application
 		/*
 		 * If there are no names in the list
 		 */
-		if (list.isEmpty())
+		if (list.isEmpty() || list == null)
 		{
-			return null;
+			return names;
 		}
 		/*
 		 * Else iterate through list and add into list of strings
@@ -196,6 +196,70 @@ public class Main extends Application
 				return names.sorted(Z_TO_A);	// return sorted list of all names 
 			}
 		
+			else if (sort == 3)
+			{
+				/*
+				 * Makes a new comparator class to sort descending group size
+				 */
+				Comparator<Trip> DECENDING = new Comparator <Trip>()
+				{
+					/*
+					 * Returns compares int's, returns 0 if they're the same 
+					 */
+					public int compare(Trip t1, Trip t2) 
+					{
+						int res = Integer.compare(t1.getGroupSize(),t2.getGroupSize());
+						if (res == 0)
+						{
+							res = Integer.compare(t1.getGroupSize(),t2.getGroupSize());
+						}
+						return -res;
+					}
+				};
+				SortedList<Trip> temp = list.sorted(DECENDING);	// return sorted list of all trips 
+			
+				/*
+				 * Iterates through trip list
+				 */
+				for (Trip trp: temp)
+				{
+					names.add(trp.getName());	// adds name to temp list
+				}
+				
+				return names;
+			}
+			else if (sort == 4)
+			{
+				/*
+				 * Makes a new comparator class to sort descending group size
+				 */
+				Comparator<Trip> DECENDING = new Comparator <Trip>()
+				{
+					/*
+					 * Returns compares int's, returns 0 if they're the same 
+					 */
+					public int compare(Trip t1, Trip t2) 
+					{
+						int res = Integer.compare(t1.getGroupSize(),t2.getGroupSize());
+						if (res == 0)
+						{
+							res = Integer.compare(t1.getGroupSize(),t2.getGroupSize());
+						}
+						return res;
+					}
+				};
+				SortedList<Trip> temp = list.sorted(DECENDING);	// return sorted list of all trips 
+			
+				/*
+				 * Iterates through trip list
+				 */
+				for (Trip trp: temp)
+				{
+					names.add(trp.getName());	// adds name to temp list
+				}
+				
+				return names;
+			}
 			else
 			{
 				for (Trip trp: list)
@@ -214,24 +278,20 @@ public class Main extends Application
 	 */
 	public Boolean checkName (String name)
 	{
-		Boolean t = null;
-		if (getAllNames(fetchXML(), 0) == null)
+		Boolean t = false;
+		if (getAllNames(fetchXML(), 0).isEmpty())
 		{
-			t = false;
+			return t;
 		}
 		
 		else
 		{
 			for (String nm: getAllNames(fetchXML(), 0))
 			{
-				if (nm == name)
+				if (nm.equals(name))
 				{
 					t = true;
 				}	
-				else
-				{
-					t = false;
-				}
 			}
 		}
 		return t;
@@ -536,22 +596,15 @@ public class Main extends Application
 				        	  ));
 				}
 	        }
-	        if (tripList.isEmpty())
-	        {
-	        	return null;
-	        }
-	        else
-	        {
-	        	return tripList;
-	        } 	
+	        return tripList;
+	
 	    }
 		catch (Exception e) 
 		{
 	        e.printStackTrace();
 	        System.out.print("Error fetching data!!");
-	        return null;
+	        return tripList;
 	    }
-		
 	}
 	
 	public void writeBlankXmlFile(ObservableList<Trip> list) throws IOException, SAXException

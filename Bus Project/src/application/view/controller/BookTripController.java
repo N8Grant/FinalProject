@@ -223,35 +223,17 @@ public class BookTripController extends Main implements Initializable
 				id = true;
 			}
 			
-			Boolean t = false;
-			try
-			{
-				for (String nm: getAllNames(fetchXML(), 0))
-				{
-					if (nm == inputName.getText())
-					{
-						t = true;
-						System.out.println("Error");
-					}	
-				}
-			}
-			catch (NullPointerException e)
-			{
-				e.getMessage();
-			}
-			
 			/*
 			 * If name has been used
 			 */
-			if (t)
+			if (checkName(inputName.getText()) == true ||
+				checkName(inputName.getText()) == null)
 			{
 				nameError.setText("Name already used!!");
 				in = false;
 			}
-			
 			// Else field is valid
-			 
-			else if (t == false)
+			else
 			{
 				in = true;
 				orgName = inputName.getText();	

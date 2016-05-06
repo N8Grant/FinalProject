@@ -93,13 +93,11 @@ public class ScheduleWindow extends Main implements Initializable
     { 	
     	for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
     	{
-    		System.out.println(trp.toString());
     		nameLabel.setText(trp.getName());
     		idLabel.setText(trp.getId());
     		departLabel.setText(trp.getDepart().toString());
     		arriveLabel.setText(trp.getArrive().toString());
     		sizeLabel.setText(Integer.toString(trp.getGroupSize()));
-    		System.out.println(trp.getBusNumbers());
     		busNumbersLabel.setText(trp.getBusNumbers());
     	}	 
     }
@@ -116,16 +114,14 @@ public class ScheduleWindow extends Main implements Initializable
     	{
     		customerSelect.setItems(getAllNames(fetchXML(), 2));
     	}
-    	/*
     	else if (temp == "Group Size Decending")
     	{
-    		
+    		customerSelect.setItems(getAllNames(fetchXML(), 3));
     	}
     	else if (temp == "Group Size Acending")
     	{
-    		
+    		customerSelect.setItems(getAllNames(fetchXML(), 4));
     	}
-    	*/
     	else
     	{
     		customerSelect.setItems(getAllNames(fetchXML(), 0));
