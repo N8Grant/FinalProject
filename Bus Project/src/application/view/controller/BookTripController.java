@@ -284,6 +284,7 @@ public class BookTripController extends Main implements Initializable
 			tripData.clear();
 			
 			String bsNms = getBusses(dpt, arr, grpSz);
+			double tripCost = getTripCost(grpSz);
 			/*
 			 * Adds the new information to the observable list
 			 * @param Name
@@ -291,7 +292,7 @@ public class BookTripController extends Main implements Initializable
 			 * @param depart
 			 * @param arrive
 			 */
-			tripData.add(new Trip (orgName, grpSz, dpt, arr, bsNms));
+			tripData.add(new Trip (orgName, grpSz, dpt, arr, bsNms, tripCost));
 			
 			/*
 			 * Marshals data to an XML file

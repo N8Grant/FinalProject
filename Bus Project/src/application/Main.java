@@ -3,7 +3,9 @@ package application;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -49,6 +51,7 @@ public class Main extends Application
      * The data as an observable list of Trips.
      */
 	public static ObservableList<Trip> tripData = FXCollections.observableArrayList();
+	protected final DateTimeFormatter mdy = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException
@@ -208,12 +211,15 @@ public class Main extends Application
 					 */
 					public int compare(Trip t1, Trip t2) 
 					{
+						/*
+						 * Compares the two integers, returns either -1, 0, or 1
+						 */
 						int res = Integer.compare(t1.getGroupSize(),t2.getGroupSize());
 						if (res == 0)
 						{
 							res = Integer.compare(t1.getGroupSize(),t2.getGroupSize());
 						}
-						return -res;
+						return -res;	// return the opposite of res
 					}
 				};
 				SortedList<Trip> temp = list.sorted(DECENDING);	// return sorted list of all trips 
@@ -226,14 +232,14 @@ public class Main extends Application
 					names.add(trp.getName());	// adds name to temp list
 				}
 				
-				return names;
+				return names;	// return the list of names
 			}
 			else if (sort == 4)
 			{
 				/*
 				 * Makes a new comparator class to sort descending group size
 				 */
-				Comparator<Trip> DECENDING = new Comparator <Trip>()
+				Comparator<Trip> ASCENDING = new Comparator <Trip>()
 				{
 					/*
 					 * Returns compares int's, returns 0 if they're the same 
@@ -248,7 +254,7 @@ public class Main extends Application
 						return res;
 					}
 				};
-				SortedList<Trip> temp = list.sorted(DECENDING);	// return sorted list of all trips 
+				SortedList<Trip> temp = list.sorted(ASCENDING);	// return sorted list of all trips 
 			
 				/*
 				 * Iterates through trip list
@@ -258,43 +264,56 @@ public class Main extends Application
 					names.add(trp.getName());	// adds name to temp list
 				}
 				
-				return names;
+				return names;	// Return list of sorted names
 			}
+			/*
+			 * Else just return list of names unsorted
+			 */
 			else
 			{
+				/*
+				 * Iterate through the list of trips
+				 */
 				for (Trip trp: list)
 				{
 					names.add(trp.getName());
 				}
-				return names;
+				return names;	// Return a list of unsorted names
 			}
 		}	
 	}
 
-	/**
-	 * NEEDS WORK
-	 * @param name
-	 * @return
-	 */
 	public Boolean checkName (String name)
 	{
-		Boolean t = false;
+		Boolean t = false;	// temp bool value initialized to false
+		
+		/*
+		 * If the XML is empty
+		 */
 		if (getAllNames(fetchXML(), 0).isEmpty())
 		{
-			return t;
+			return t;	// return false
 		}
-		
+		/*
+		 * Else is it is populated
+		 */
 		else
 		{
+			/*
+			 * Iterate through the list of names
+			 */
 			for (String nm: getAllNames(fetchXML(), 0))
 			{
+				/*
+				 * If name in list is equal to checked name
+				 */
 				if (nm.equals(name))
 				{
-					t = true;
+					t = true;	// set t equal to true
 				}	
 			}
 		}
-		return t;
+		return t;	// return bool value
 	}
 
 	public String getBusses(LocalDate depart, LocalDate ret, int grpSz)
@@ -391,9 +410,31 @@ public class Main extends Application
 		
 		return null;
 	}
+	
+	public double getTripCost (int grpSz)
+	{
+		double cost = 0;	// Double for cost
+		DecimalFormat df2 = new DecimalFormat(".##");
+		/*
+		 *  If the last bus is filled 
+		 */
+		if (grpSz % 20 >= 10)
+		{
+			cost = grpSz * 49.99;
+		}
+		/*
+		 * Else it isn't
+		 */
+		else
+		{
+			cost = (grpSz - (grpSz % 20)) * 49.99;
+		}
+		return Double.parseDouble(df2.format(cost));	// Return cost
+	}
+	
 	public String getBussesNeeded(int grpSz)
 	/*
-	 * Precondition:  Program doesnt have value for number of busses needed
+	 * Precondition:  Program doesn't have value for number of busses needed
 	 * Postcondition: String value is passed back with number of busses 
 	 * 				  needed in accordance to group size
 	 */
@@ -488,7 +529,8 @@ public class Main extends Application
 			        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
 			        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 			        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
-			        	  eElement.getElementsByTagName("Return").item(0).getTextContent()
+			        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
+			        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent())
 			        	  ));
 			} 
 			else 
@@ -592,7 +634,8 @@ public class Main extends Application
 				        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
 				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
-				        	  eElement.getElementsByTagName("Return").item(0).getTextContent()
+				        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
+				        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent())
 				        	  ));
 				}
 	        }
@@ -672,7 +715,14 @@ public class Main extends Application
 	            arr.appendChild(doc.createTextNode(String.valueOf(dtl.getArrive())));
 	            Details.appendChild(arr);
 	            
-	            root.appendChild(Details);
+	            /*
+	             * Outputs the cost of the trip
+	             */
+	            Element cst = doc.createElement("Cost");
+	            cst.appendChild(doc.createTextNode(String.valueOf(dtl.getTripCost())));
+	            Details.appendChild(cst);
+	            
+	            root.appendChild(Details);	// Append the new node to the root
 	        }
 	
 	        try
@@ -680,8 +730,9 @@ public class Main extends Application
 		        // Save the document to the disk file
 		        TransformerFactory tranFactory = TransformerFactory.newInstance();
 		        Transformer aTransformer = tranFactory.newTransformer();
-	
-		        // format the XML nicely
+		        /*
+		         * Format the XML nicely
+		         */
 		        aTransformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
 	
 		        aTransformer.setOutputProperty(
@@ -779,6 +830,13 @@ public class Main extends Application
 	            Element arr = dom.createElement("Return");
 	            arr.appendChild(dom.createTextNode(String.valueOf(trp.getArrive())));
 	            Details.appendChild(arr);
+	            
+	            /*
+	             * Create and add another trip cost element
+	             */
+	            Element cst = dom.createElement("Cost");
+	            cst.appendChild(dom.createTextNode(String.valueOf(trp.getTripCost())));
+	            Details.appendChild(cst);
 	            
 		        root.appendChild(Details);		// Append the data to the end of the list
 		        

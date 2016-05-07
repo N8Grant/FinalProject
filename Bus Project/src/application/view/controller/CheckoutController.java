@@ -168,10 +168,11 @@ public class CheckoutController extends BookTripController implements Initializa
     	busNmVariable = busNms;
     	orgNameLb.setText(org);
     	grpLabel.setText(grp);
-    	dptLabel.setText(dpt.toString());
-    	retLabel.setText(arr.toString());
+    	dptLabel.setText(dpt.format(mdy));
+    	retLabel.setText(arr.format(mdy));
     	bussesLabel.setText(getBussesNeeded(Integer.parseInt(grp)));
     	busNumbers.setText(busNms);
+    	totalLabel.setText("$ " + String.format("%.2f", getTripCost(Integer.parseInt(grp))));
     }
     
     @FXML

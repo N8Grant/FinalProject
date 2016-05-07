@@ -2,18 +2,11 @@
 <Trips>
     <Trip>
         <Name>Nate</Name>
-        <ID>610</ID>
-        <GroupSize>80</GroupSize>
-        <BusNumbers>1, 2, 3, 4</BusNumbers>
-        <Depart>2016-05-06</Depart>
-        <Return>2016-05-31</Return>
-    </Trip>
-<Trip>
-        <Name>James</Name>
-        <ID>808</ID>
-        <GroupSize>67</GroupSize>
+        <ID>406</ID>
+        <GroupSize>60</GroupSize>
         <BusNumbers>1, 2, 3</BusNumbers>
         <Depart>2016-05-07</Depart>
-        <Return>2016-05-14</Return>
+        <Return>2016-05-25</Return>
+        <Cost>2999.4</Cost>
     </Trip>
 </Trips>

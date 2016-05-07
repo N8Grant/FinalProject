@@ -58,7 +58,10 @@ public class ScheduleWindow extends Main implements Initializable
 	
 	@FXML
 	private Label nameLabel;
-	    
+	   
+	@FXML
+	private Label costLabel;
+	
 	@FXML 
     private Button homeButton;
 	
@@ -91,14 +94,16 @@ public class ScheduleWindow extends Main implements Initializable
     @FXML
     void loadSelect(ActionEvent event) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException 
     { 	
+    	
     	for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
     	{
     		nameLabel.setText(trp.getName());
     		idLabel.setText(trp.getId());
-    		departLabel.setText(trp.getDepart().toString());
-    		arriveLabel.setText(trp.getArrive().toString());
+    		departLabel.setText(trp.getDepart().format(mdy));
+    		arriveLabel.setText(trp.getArrive().format(mdy));
     		sizeLabel.setText(Integer.toString(trp.getGroupSize()));
     		busNumbersLabel.setText(trp.getBusNumbers());
+    		costLabel.setText("$ " + String.format("%.2f", trp.getTripCost()));
     	}	 
     }
     
@@ -159,6 +164,7 @@ public class ScheduleWindow extends Main implements Initializable
         assert customerSelect != null : "fx:id=\"customerSelect\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
         assert sortButton != null : "fx:id=\"sortButton\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
         assert sortSelect != null : "fx:id=\"sortSelect\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
+        assert costLabel != null : "fx:id=\"costLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
         assert busNumbersLabel != null : "fx:id=\"busNumbersLabel\" was not injected: check your FXML file 'ScheduleWindow.fxml'.";
 	}
 
