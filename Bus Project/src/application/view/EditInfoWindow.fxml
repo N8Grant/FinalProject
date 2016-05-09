@@ -41,7 +41,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <Button fx:id="continueCheckout" layoutX="198.0" layoutY="369.0" mnemonicParsing="false" onAction="#openCheckout" text="Comit Changes" />
+      <Button fx:id="commitChanges" layoutX="298.0" layoutY="370.0" mnemonicParsing="false" onAction="#commitChanges" text="Comit Changes" />
       <Label fx:id="nameError" layoutX="67.0" layoutY="116.0" prefHeight="17.0" textFill="RED" />
       <Label fx:id="peopleError" layoutX="67.0" layoutY="299.0" prefHeight="17.0" textFill="RED" />
       <Label fx:id="returnError" layoutX="298.0" layoutY="217.0" prefHeight="17.0" textFill="RED" />
@@ -52,5 +52,6 @@
          </font>
       </Text>
       <TextField fx:id="destinationName" editable="false" layoutX="296.0" layoutY="273.0" promptText="Not Yet Finished" />
+      <Button fx:id="deleteTrip" layoutX="95.0" layoutY="370.0" mnemonicParsing="false" onAction="#deleteTrip" text="Delete" />
    </children>
 </AnchorPane>

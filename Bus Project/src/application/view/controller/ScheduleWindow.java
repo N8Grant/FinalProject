@@ -88,20 +88,19 @@ public class ScheduleWindow extends Main implements Initializable
 	@FXML
     void editPersonInfo(ActionEvent event) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException
 	{
-			
-		
 		Stage stage;
 		AnchorPane root;
 		stage = (Stage) editPerson.getScene().getWindow();
 							
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/EditWindowController.fxml"));
+		loader.setLocation(Main.class.getResource("view/EditInfoWindow.fxml"));
 		root = (AnchorPane) loader.load(); 
 		for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
     	{
 			EditWindowController controller = loader.<EditWindowController>getController();
 			controller.setInfo(trp.getName(), trp.getDepart(), 
 							   trp.getArrive(), trp.getGroupSize());
+			deleteTrip(trp.getName());
     	}
 				
 		Scene scene = new Scene(root);
