@@ -86,15 +86,32 @@ public class ScheduleWindow extends Main implements Initializable
 	ObservableList<String> sortItems = FXCollections.observableArrayList();
 	
 	@FXML
-    void editPersonInfo(ActionEvent event)
+    void editPersonInfo(ActionEvent event) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException
 	{
+			
 		
+		Stage stage;
+		AnchorPane root;
+		stage = (Stage) editPerson.getScene().getWindow();
+							
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/EditWindowController.fxml"));
+		root = (AnchorPane) loader.load(); 
+		for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
+    	{
+			EditWindowController controller = loader.<EditWindowController>getController();
+			controller.setInfo(trp.getName(), trp.getDepart(), 
+							   trp.getArrive(), trp.getGroupSize());
+    	}
+				
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
     }
 	
     @FXML
     void loadSelect(ActionEvent event) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException 
     { 	
-    	
     	for (Trip trp: getSpecificTrip(customerSelect.getSelectionModel().getSelectedItem()))
     	{
     		nameLabel.setText(trp.getName());
@@ -105,6 +122,7 @@ public class ScheduleWindow extends Main implements Initializable
     		busNumbersLabel.setText(trp.getBusNumbers());
     		costLabel.setText("$ " + String.format("%.2f", trp.getTripCost()));
     	}	 
+    	editPerson.setDisable(false);
     }
     
     @FXML

@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import application.model.Bus;
@@ -936,6 +937,29 @@ public class Main extends Application
 				e1.printStackTrace();	// Print error to console
 			}
 		}
+	}
+	
+	public static void deleteTrip(String trpName) throws ParserConfigurationException, 
+														 SAXException, IOException 
+	{
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(getFilePath()); 
+        
+	    // <trip>
+	    NodeList nodes = doc.getElementsByTagName("Trip");
+
+	    for (int i = 0; i < nodes.getLength(); i++) 
+	    {
+	    	Element person = (Element)nodes.item(i);
+	    	// <name>
+	    	Element name = (Element)person.getElementsByTagName("Name").item(0);
+	    	String pName = name.getTextContent();
+	    	if (pName.equals(trpName)) 
+	    	{
+	    		person.getParentNode().removeChild(person);
+	    	}
+	    }
 	}
 
 	/*
