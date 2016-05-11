@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <Trips>
-    <Trip>
+    
+
+
+
+
+
+
+
+<Trip>
         <Name>Nate</Name>
-        <ID>406</ID>
-        <GroupSize>60</GroupSize>
+        <ID>615</ID>
+        <GroupSize>67</GroupSize>
         <BusNumbers>1, 2, 3</BusNumbers>
-        <Depart>2016-05-07</Depart>
-        <Return>2016-05-25</Return>
+        <Depart>2016-05-12</Depart>
+        <Return>2016-05-31</Return>
         <Cost>2999.4</Cost>
+    </Trip>
+<Trip>
+        <Name>Tim</Name>
+        <ID>193</ID>
+        <GroupSize>44</GroupSize>
+        <BusNumbers>4, 5</BusNumbers>
+        <Depart>2016-05-12</Depart>
+        <Return>2016-05-16</Return>
+        <Cost>1999.6</Cost>
     </Trip>
 </Trips>

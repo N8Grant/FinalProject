@@ -1,52 +1,59 @@
-package application;
+package application;	// Package of class
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
+/*
+ * Imports Section
+ */
+import java.io.File;	// Used to make a text file
+import java.io.FileWriter;	// Used to write data to file
+import java.io.IOException;		// Used for Input/Output error
+import java.text.DecimalFormat;		// Used to format decimals to two places
+import java.time.LocalDate;		// Used for easy date formating and comparison
+import java.time.format.DateTimeFormatter;	// Used to format Local Dates
+import java.util.ArrayList;		// Used for ArrayList data type
+import java.util.Comparator;	// Used to make comparator objects
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.parsers.DocumentBuilder;	// Main document class used for XML data
+import javax.xml.parsers.DocumentBuilderFactory;	// Used to construct the document class
+import javax.xml.parsers.ParserConfigurationException;	// Used if parser can't be constructed
+import javax.xml.transform.OutputKeys;	// Used for XML formatting
+import javax.xml.transform.Transformer;   // Used for transformer constructor
+import javax.xml.transform.TransformerException;	// Error if format can't be recognized
+import javax.xml.transform.TransformerFactory;   // Used to convert XML into DOM
+import javax.xml.transform.dom.DOMSource;	// Used for the location of the XML file
+import javax.xml.transform.stream.StreamResult;		// Transforms into FileOutputStream
+import javax.xml.xpath.XPath;	// Used for XPath helper methods
+import javax.xml.xpath.XPathConstants;		// Used for formating constraints
+import javax.xml.xpath.XPathExpression;		// Used for file path expressions
+import javax.xml.xpath.XPathExpressionException;	// Error indicating that it couldn't be made
+import javax.xml.xpath.XPathFactory;	// Used to construct file saver object
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.w3c.dom.Document;  // Used for XML parser interaction
+import org.w3c.dom.Element;   // The elements of the main nodes, things that store primitive 
+							  // data such as name etc.
+import org.w3c.dom.Node;	// Basic medium for conversions to other parsers
+import org.w3c.dom.NodeList;	// List of nodes from file
+import org.xml.sax.SAXException;	// Used for file could not be read exception
 
-import application.model.Bus;
-import application.model.Trip;
+import application.model.Bus;		// User class for the busses
+import application.model.Trip;		// User class for the trips
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.application.Application;	// Used for the override annotation on the launch
+import javafx.collections.FXCollections;	// Precursor for observable lists
+import javafx.collections.ObservableList;	// Used as a dynamic array list class for use in javaFX
+import javafx.collections.transformation.SortedList;	// Used to sort observable lists
+import javafx.fxml.FXMLLoader;	// Used to load FXML files
+import javafx.scene.Parent;	// Used for window hierarchy 
+import javafx.scene.Scene;	// Used for the base scene 
+import javafx.stage.Stage;	// Used for the stage windows
 
 public class Main extends Application 
 {
-	protected Stage stage;
-	final static int ABCBUSSES = 14;
-	
+	/*
+	 * Variable Section
+	 */
+	protected Stage stage;	// The main stage of the window
+	final static int ABCBUSSES = 14;	// Number of busses owned by ABC
+
 	/*
      * The data as an observable list of Trips.
      */
@@ -61,7 +68,7 @@ public class Main extends Application
 		/*
 		 * Loads the main menu
 		 */
-		FXMLLoader loader;
+		FXMLLoader loader;	// Used to load FXML file
 		loader = new FXMLLoader(Main.class.getResource("view/MainMenu.fxml"));
 		
 		/*
@@ -150,7 +157,7 @@ public class Main extends Application
 						if (res == 0)
 						{
 							res = str1.compareTo(str2);		// compare to see if they are
-															// equal regaurdless of case
+															// equal regardless of case
 						}
 						return res;		// return sort result
 					}
@@ -941,7 +948,8 @@ public class Main extends Application
 	public static void deleteTrip(String trpName) throws ParserConfigurationException, 
 														 SAXException, IOException 
 	{
-		try {
+		try 
+		{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(getFilePath());
@@ -964,8 +972,36 @@ public class Main extends Application
                     	doc.getFirstChild().removeChild(node);
                     } 
                 }
-            }  
+            } 
+            try 
+	        {
+	        	// Instantiate new transformer objects
+		        TransformerFactory tranFactory = TransformerFactory.newInstance();
+		        Transformer transformer = tranFactory.newTransformer();
+	
+		        // format the XML nicely
+		        transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+	
+		        transformer.setOutputProperty(
+		                "{http://xml.apache.org/xslt}indent-amount", "4");
+		        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		      
+		        /*
+	             * Sends the DOM to the file
+	             */
+		        DOMSource source = new DOMSource(doc);
+		     
+		        StreamResult result = new StreamResult(getFilePath());
+	            transformer.transform(source, result);
+	        } 
+	        catch (TransformerException te) 
+	        {
+	            System.out.println(te.getMessage());
+	            // writeBlankXmlFile(tripData);
+	        }
         } 
+		
+		
 		catch (Exception e)
 		{
             System.out.println(e);
