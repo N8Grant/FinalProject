@@ -26,4 +26,13 @@
         <Return>2016-05-16</Return>
         <Cost>1999.6</Cost>
     </Trip>
+<Trip>
+        <Name>Tuckballs</Name>
+        <ID>315</ID>
+        <GroupSize>67</GroupSize>
+        <BusNumbers>1, 2, 3</BusNumbers>
+        <Depart>2016-05-20</Depart>
+        <Return>2016-05-24</Return>
+        <Cost>2999.4</Cost>
+    </Trip>
 </Trips>

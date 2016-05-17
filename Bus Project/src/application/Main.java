@@ -34,6 +34,8 @@ import org.w3c.dom.Node;	// Basic medium for conversions to other parsers
 import org.w3c.dom.NodeList;	// List of nodes from file
 import org.xml.sax.SAXException;	// Used for file could not be read exception
 
+import com.sun.deploy.uitoolkit.impl.fx.ui.FXConsole;
+
 import application.model.Bus;		// User class for the busses
 import application.model.Trip;		// User class for the trips
 
@@ -44,6 +46,7 @@ import javafx.collections.transformation.SortedList;	// Used to sort observable 
 import javafx.fxml.FXMLLoader;	// Used to load FXML files
 import javafx.scene.Parent;	// Used for window hierarchy 
 import javafx.scene.Scene;	// Used for the base scene 
+import javafx.scene.chart.PieChart;
 import javafx.stage.Stage;	// Used for the stage windows
 
 public class Main extends Application 
@@ -417,6 +420,24 @@ public class Main extends Application
 		
 		return null;
 	}
+	public ObservableList<PieChart.Data> getPieChart()
+	{
+		ObservableList<PieChart.Data> dat = FXCollections.observableArrayList();
+		for (Trip trp: fetchXML())
+		{
+			dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+		}
+		return dat;
+	}
+	public double getRevenue()
+	{
+		double revenue = 0;
+		for (Trip trp: fetchXML())
+		{
+			revenue += trp.getTripCost();
+		}
+		return revenue;
+	}
 	
 	public double getTripCost (int grpSz)
 	{
@@ -493,8 +514,7 @@ public class Main extends Application
 		else
 		{
 			return y;
-		}
-		
+		}	
 	}
 	
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 

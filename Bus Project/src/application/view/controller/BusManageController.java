@@ -15,7 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class BusManageController 
+public class BusManageController extends Main
 {
 	/*
 	 * GUI element variables
@@ -61,7 +61,7 @@ public class BusManageController
     }
     
     @FXML
-    void displayBusInfo(ActionEvent event) 
+    void displayBusInfo(ActionEvent event) throws IOException 
     {
     	if(bussesOut.isSelected() == true)
     	{
@@ -73,7 +73,18 @@ public class BusManageController
     	}
     	else if (finances.isSelected() == true)
     	{
-    		System.out.print("Maybe");
+    		Stage stage;
+    		AnchorPane root;
+    		stage = (Stage) viewBusInfo.getScene().getWindow();
+    							
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(Main.class.getResource("view/FinancesWindow.fxml"));
+    		root = (AnchorPane) loader.load();
+    		FinanceWindow controller = loader.<FinanceWindow>getController();
+    		controller.setValues("$ " + String.format("%.2f", getRevenue()), getPieChart());			
+    		Scene scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.show();
     	}
     }
 
