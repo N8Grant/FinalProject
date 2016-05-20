@@ -65,7 +65,18 @@ public class BusManageController extends Main
     {
     	if(bussesOut.isSelected() == true)
     	{
-    		System.out.print("Yes");
+    		Stage stage;
+    		AnchorPane root;
+    		stage = (Stage) viewBusInfo.getScene().getWindow();
+    							
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(Main.class.getResource("view/BussesOutstanding.fxml"));
+    		root = (AnchorPane) loader.load();
+    		BussesOutstandingController controller = loader.<BussesOutstandingController>getController();
+    		controller.dateLabel.setText("No date selected!!");			
+    		Scene scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.show();
     	}
     	else if (subRent.isSelected() == true)
     	{

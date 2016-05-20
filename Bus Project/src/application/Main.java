@@ -420,6 +420,7 @@ public class Main extends Application
 		
 		return null;
 	}
+	
 	public ObservableList<PieChart.Data> getPieChart()
 	{
 		ObservableList<PieChart.Data> dat = FXCollections.observableArrayList();
@@ -429,6 +430,7 @@ public class Main extends Application
 		}
 		return dat;
 	}
+	
 	public double getRevenue()
 	{
 		double revenue = 0;
@@ -515,6 +517,21 @@ public class Main extends Application
 		{
 			return y;
 		}	
+	}
+	
+	public ObservableList<Trip> getTripsOnDate(LocalDate date)
+	{
+		ObservableList<Trip> tripDates = FXCollections.observableArrayList();
+		
+		for (Trip trp: fetchXML())
+		{
+			if ((date.isAfter(trp.getDepart()) || date.isEqual(trp.getDepart()))  &&
+			    (date.isBefore(trp.getArrive()) || date.isEqual(trp.getArrive())))
+			{
+				tripDates.add(trp);
+			}
+		}
+		return tripDates;
 	}
 	
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 

@@ -1,25 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.BussesOutstandingController">
    <children>
       <SplitPane dividerPositions="0.6354515050167224" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background" stylesheets="@JMetroDarkTheme.css" />
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background" stylesheets="@JMetroDarkTheme.css">
                <children>
-                  <DatePicker layoutX="6.0" layoutY="74.0" promptText="Pick a Date" styleClass="combo-box-popup" stylesheets="@JMetroDarkTheme.css" />
-                  <Label layoutX="6.0" layoutY="48.0" text="Pick a date to see schedule:" textFill="WHITE">
+                  <Label fx:id="dateLabel" layoutX="27.0" layoutY="39.0" text="Date: " textFill="WHITE" />
+                  <GridPane fx:id="displayGrid" layoutX="27.0" layoutY="71.0" prefHeight="301.0" prefWidth="332.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background" stylesheets="@JMetroDarkTheme.css">
+               <children>
+                  <DatePicker fx:id="dateSelect" layoutX="6.0" layoutY="92.0" promptText="Pick a Date" styleClass="combo-box-popup" stylesheets="@JMetroDarkTheme.css" />
+                  <Label layoutX="6.0" layoutY="77.0" text="Pick a date to see schedule:" textFill="WHITE">
                      <font>
                         <Font size="12.0" />
                      </font>
                   </Label>
+                  <Button fx:id="viewTrips" layoutX="45.0" layoutY="184.0" mnemonicParsing="false" onAction="#displayTrips" text="View Trips" />
+                  <Button fx:id="homeButton" layoutX="63.0" layoutY="295.0" mnemonicParsing="false" onAction="#returnHome" text="Home" />
+                  <Label fx:id="dateError" layoutX="28.0" layoutY="167.0" textFill="RED" />
                </children>
             </AnchorPane>
         </items>
