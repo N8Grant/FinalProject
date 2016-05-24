@@ -34,8 +34,6 @@ import org.w3c.dom.Node;	// Basic medium for conversions to other parsers
 import org.w3c.dom.NodeList;	// List of nodes from file
 import org.xml.sax.SAXException;	// Used for file could not be read exception
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXConsole;
-
 import application.model.Bus;		// User class for the busses
 import application.model.Trip;		// User class for the trips
 
@@ -46,7 +44,7 @@ import javafx.collections.transformation.SortedList;	// Used to sort observable 
 import javafx.fxml.FXMLLoader;	// Used to load FXML files
 import javafx.scene.Parent;	// Used for window hierarchy 
 import javafx.scene.Scene;	// Used for the base scene 
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart;	// Used for pie chart api
 import javafx.stage.Stage;	// Used for the stage windows
 
 public class Main extends Application 
@@ -67,7 +65,7 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws IOException
 	{
 		createFile();	// makes sure that there is a file that exist
-	
+		filterFile();
 		/*
 		 * Loads the main menu
 		 */
@@ -92,7 +90,7 @@ public class Main extends Application
 		 */
 		catch (IOException e) 
 		{
-			e.printStackTrace();
+			e.printStackTrace();	// prints error to console
 		}
 	}
 	
@@ -445,6 +443,7 @@ public class Main extends Application
 	{
 		double cost = 0;	// Double for cost
 		DecimalFormat df2 = new DecimalFormat(".##");
+		
 		/*
 		 *  If the last bus is filled 
 		 */
@@ -457,7 +456,7 @@ public class Main extends Application
 		 */
 		else
 		{
-			cost = (grpSz - (grpSz % 20)) * 49.99;
+			cost = (grpSz - (grpSz % 20)) * 49.99;	// 
 		}
 		return Double.parseDouble(df2.format(cost));	// Return cost
 	}
@@ -532,6 +531,11 @@ public class Main extends Application
 			}
 		}
 		return tripDates;
+	}
+	
+	public void filterFile()
+	{
+		
 	}
 	
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 

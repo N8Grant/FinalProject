@@ -19,9 +19,10 @@
             <ToggleGroup fx:id="busView" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="subRent" layoutX="148.0" layoutY="100.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="105.0" text="Sub-Renting" toggleGroup="$busView" AnchorPane.leftAnchor="148.0" AnchorPane.rightAnchor="147.0" />
+      <RadioButton fx:id="subRent" layoutX="239.0" layoutY="100.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="105.0" text="Sub-Renting" toggleGroup="$busView" AnchorPane.leftAnchor="239.0" AnchorPane.rightAnchor="56.0" />
       <RadioButton fx:id="finances" layoutX="239.0" layoutY="51.0" mnemonicParsing="false" text="Finances" toggleGroup="$busView" />
       <Button fx:id="viewBusInfo" layoutX="233.0" layoutY="138.0" mnemonicParsing="false" onAction="#displayBusInfo" prefHeight="31.0" prefWidth="83.0" text="View" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="84.0" />
       <Button fx:id="cancelButton" layoutX="82.0" layoutY="138.0" mnemonicParsing="false" onAction="#returntoMain" text="Cancel" />
+      <RadioButton fx:id="completedTrips" layoutX="61.0" layoutY="100.0" mnemonicParsing="false" text="Completed Trips" toggleGroup="$busView" />
    </children>
 </AnchorPane>

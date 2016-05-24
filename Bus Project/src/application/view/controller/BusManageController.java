@@ -32,6 +32,9 @@ public class BusManageController extends Main
     @FXML
     private RadioButton subRent;			// Toggle button for busses from other
     										// company
+    @FXML
+    private RadioButton completedTrips;		// Toggle button for completed trips
+    
     @FXML 
     private Button cancelButton;			// Button to return to main menu
     
@@ -97,6 +100,10 @@ public class BusManageController extends Main
     		stage.setScene(scene);
     		stage.show();
     	}
+    	else if (completedTrips.isSelected() == true)
+    	{
+    		System.out.println("not completed!!");
+    	}
     }
 
     @FXML
@@ -107,5 +114,6 @@ public class BusManageController extends Main
         assert viewBusInfo != null : "fx:id=\"viewBusInfo\" was not injected: check your FXML file 'BusManagement.fxml'.";
         assert bussesOut != null : "fx:id=\"bussesOut\" was not injected: check your FXML file 'BusManagement.fxml'.";
         assert finances != null : "fx:id=\"finances\" was not injected: check your FXML file 'BusManagement.fxml'.";
+        assert completedTrips != null : "fx:id=\"completedTrips\" was not injected: check your FXML file 'BusManagement.fxml'.";
     }
 }
