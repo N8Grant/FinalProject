@@ -42,13 +42,16 @@ public class PrinterController extends CheckoutController implements Initializab
 	}
 
 	public void populateReceipt (String nm, String grpSz,
-								 String busNm, String dpt, String ret)
+								 String busNm, String dpt, String ret, String tot,
+								 String id)
 	{
 		customerLabel.setText(nm);
 		grpSzLabel.setText(grpSz);
 		busNmLabel.setText(busNm);
 		departLabel.setText(dpt);
 		returnLabel.setText(ret);
+		totalLabel.setText(tot);
+		idLabel.setText(id);
 	}
 		
 	@FXML

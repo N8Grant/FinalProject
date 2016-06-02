@@ -83,6 +83,8 @@ public class CheckoutController extends BookTripController implements Initializa
 	public String dptVariable;
 	public String retVariable;
 	public String busNmVariable;
+	public String totVariable;
+	public String idVariable;
 	    
     @FXML
     void finalizeTrip(ActionEvent event) throws IOException, SAXException 
@@ -136,7 +138,7 @@ public class CheckoutController extends BookTripController implements Initializa
 		root = (AnchorPane) loader.load();   
 		PrinterController controller = loader.<PrinterController>getController();
 		controller.populateReceipt(nameVariable, grpVariable, busNmVariable,
-								   dptVariable, retVariable);
+								   dptVariable, retVariable, totVariable, idVariable);
 		PrinterJob job = PrinterJob.createPrinterJob();
     	if (job != null && job.showPrintDialog(stage))
     	{
@@ -159,13 +161,15 @@ public class CheckoutController extends BookTripController implements Initializa
     	//System.out.print(controller.getName());
     }
 
-    public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt, String busNms)
+    public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt, String busNms, String id)
     {
     	nameVariable = org;
     	grpVariable = grp;
     	dptVariable = dpt.toString();
     	retVariable = arr.toString();
+    	totVariable = String.format("%.2f", getTripCost(Integer.parseInt(grp)));
     	busNmVariable = busNms;
+    	idVariable = id;
     	orgNameLb.setText(org);
     	grpLabel.setText(grp);
     	dptLabel.setText(dpt.format(mdy));
