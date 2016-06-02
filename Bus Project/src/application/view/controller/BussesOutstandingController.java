@@ -15,6 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class BussesOutstandingController extends Main
@@ -42,6 +43,10 @@ public class BussesOutstandingController extends Main
 
     @FXML
     private Button homeButton;
+    
+    Label nameLabel;
+    Label idLabel;
+    Label busNumLabel;
 
     @FXML
     void displayTrips(ActionEvent event) 
@@ -52,12 +57,24 @@ public class BussesOutstandingController extends Main
     	}
     	else
     	{
+    		displayGrid.getChildren().removeAll(nameLabel);
+    		displayGrid.getChildren().removeAll(idLabel);
+    		displayGrid.getChildren().removeAll(busNumLabel);
+    		dateLabel.setText("Date: " + dateSelect.getValue().toString());
+    		
     		int r = 0;
+    		
     		for (Trip trp: getTripsOnDate(dateSelect.getValue()))
     		{
-    			displayGrid.add(new Label(trp.getName()), 0, r);
-    			displayGrid.add(new Label(trp.getId()), 1, r);
-    			displayGrid.add(new Label(trp.getBusNumbers()), 2, r);
+    			nameLabel = new Label(trp.getName());
+    			nameLabel.setTextFill(Color.web("#f2ff00"));
+    			displayGrid.add(nameLabel, 0, r);
+    			idLabel = new Label(trp.getId());
+    			idLabel.setTextFill(Color.web("#f2ff00"));
+    			displayGrid.add(idLabel, 1, r);
+    			busNumLabel = new Label(trp.getBusNumbers());
+    			busNumLabel.setTextFill(Color.web("#f2ff00"));
+    			displayGrid.add(busNumLabel, 2, r);
     			r++;
     		}
     	}

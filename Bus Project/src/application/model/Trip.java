@@ -72,10 +72,8 @@ public class Trip
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
     	this.ID = new SimpleStringProperty(ID);
-    	LocalDate dpt1 = LocalDate.parse(dpt, ymd);
-        this.depart = new SimpleObjectProperty<LocalDate>(dpt1);
-        LocalDate arr1 = LocalDate.parse(dpt, ymd);
-        this.arrive = new SimpleObjectProperty<LocalDate>(arr1);
+        this.depart = new SimpleObjectProperty<LocalDate>(LocalDate.parse(dpt));
+        this.arrive = new SimpleObjectProperty<LocalDate>(LocalDate.parse(arr));
         this.busNumbers = new SimpleStringProperty(busNm);
         this.tripCost = new SimpleDoubleProperty(cst);
     }

@@ -11,6 +11,7 @@ import java.time.LocalDate;		// Used for easy date formating and comparison
 import java.time.format.DateTimeFormatter;	// Used to format Local Dates
 import java.util.ArrayList;		// Used for ArrayList data type
 import java.util.Comparator;	// Used to make comparator objects
+import java.util.Optional;
 
 import javax.xml.parsers.DocumentBuilder;	// Main document class used for XML data
 import javax.xml.parsers.DocumentBuilderFactory;	// Used to construct the document class
@@ -45,6 +46,10 @@ import javafx.fxml.FXMLLoader;	// Used to load FXML files
 import javafx.scene.Parent;	// Used for window hierarchy 
 import javafx.scene.Scene;	// Used for the base scene 
 import javafx.scene.chart.PieChart;	// Used for pie chart api
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;	// Used for the stage windows
 
 public class Main extends Application 
@@ -53,7 +58,7 @@ public class Main extends Application
 	 * Variable Section
 	 */
 	protected Stage stage;	// The main stage of the window
-	final static int ABCBUSSES = 14;	// Number of busses owned by ABC
+	final static int ABCBUSSES = 20;	// Number of busses owned by ABC
 
 	/*
      * The data as an observable list of Trips.
@@ -65,7 +70,18 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws IOException
 	{
 		createFile();	// makes sure that there is a file that exist
-		filterFile();
+		try 
+		{
+			filterFile();
+		} 
+		catch (ParserConfigurationException e1) 
+		{
+			e1.printStackTrace();
+		} 
+		catch (SAXException e1) 
+		{
+			e1.printStackTrace();
+		}
 		/*
 		 * Loads the main menu
 		 */
@@ -298,7 +314,7 @@ public class Main extends Application
 		/*
 		 * If the XML is empty
 		 */
-		if (getAllNames(fetchXML(), 0).isEmpty())
+		if (getAllNames(fetchCurrentXML(), 0).isEmpty())
 		{
 			return t;	// return false
 		}
@@ -310,7 +326,7 @@ public class Main extends Application
 			/*
 			 * Iterate through the list of names
 			 */
-			for (String nm: getAllNames(fetchXML(), 0))
+			for (String nm: getAllNames(fetchCurrentXML(), 0))
 			{
 				/*
 				 * If name in list is equal to checked name
@@ -342,7 +358,7 @@ public class Main extends Application
 		/*
 		 * For loop to check availability during specified dates
 		 */
-		for (Bus bus: getDates(fetchXML()))
+		for (Bus bus: getDates(fetchCurrentXML()))
 		{
 			/*
 			 * If depart date is after depart date or equal to it
@@ -364,6 +380,7 @@ public class Main extends Application
 		int bussesNeeded = Integer.parseInt(getBussesNeeded(grpSz));
 			
 		String busNumbers = "";	// Blank string 
+		
 		/*
 		 * For loop to add busses needed
 		 */
@@ -376,6 +393,9 @@ public class Main extends Application
 			{
 				busNumbers = temp.get(i) + "";	// first bus available
 			}
+			/*
+			 * Else the loop has executed at least once
+			 */
 			else
 			{
 				/*
@@ -385,13 +405,6 @@ public class Main extends Application
 				{
 					busNumbers = busNumbers + ", " + temp.get(i);	// , next bus
 				}
-				/**
-				 * 
-				 * 
-				 * NEEDS WORK
-				 * 
-				 * 
-				 */
 				
 				/*
 				 * Catch if there are no more ABC Busses left
@@ -399,44 +412,216 @@ public class Main extends Application
 				catch (IndexOutOfBoundsException ex)
 				{
 					busNumbers =  "" + busNumbers;
-					getSubRent((bussesNeeded - 1));
-					//", You are going to need " +
-					//(bussesNeeded - i) + " more busses from ABD Busses";
+					refundTrip();
 				}
 			}	
 		}
 		return busNumbers;	// return string of bus numbers
 	}
 	
-	/*
-	 * 
-	 * NEEDS WORK
-	 * 
-	 */
-	public String getSubRent (int subNeeded)
+	public void refundTrip() 
 	{
 		
-		return null;
 	}
-	
-	public ObservableList<PieChart.Data> getPieChart()
+
+	public ObservableList<PieChart.Data> getPieChart(int sort)
 	{
 		ObservableList<PieChart.Data> dat = FXCollections.observableArrayList();
-		for (Trip trp: fetchXML())
+		
+		if (sort == 0)
 		{
-			dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+			for (Trip trp: fetchCurrentXML())
+			{
+				dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+			}
+			for (Trip trp: fetchCompletedXML())
+			{
+				dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+			}
+		}
+		else if (sort == 1)
+		{
+			LocalDate startWeek = LocalDate.now().minusDays(7);
+			LocalDate endWeek = LocalDate.now().plusDays(7);
+			
+			for (Trip trp: fetchCurrentXML())
+			{
+				if ((trp.getDepart().isAfter(startWeek) || 
+					trp.getDepart().isEqual(startWeek)) && 
+					(trp.getArrive().isBefore(endWeek)	||
+					 trp.getArrive().isEqual(endWeek)))
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
+			}
+			
+			for (Trip trp: fetchCompletedXML())
+			{
+				if ((trp.getDepart().isAfter(startWeek) || 
+					trp.getDepart().isEqual(startWeek)) && 
+					(trp.getArrive().isBefore(endWeek)	||
+					 trp.getArrive().isEqual(endWeek)))
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
+			}
+		}
+		else if (sort == 2)
+		{
+			LocalDate startMonth = LocalDate.now().minusMonths(1);
+			LocalDate endMonth = LocalDate.now().plusMonths(1);
+			
+			for (Trip trp: fetchCurrentXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					 trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
+			}
+			
+			for (Trip trp: fetchCompletedXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
+			}
+		}
+		else if (sort == 3)
+		{
+			LocalDate startMonth = LocalDate.now().minusMonths(3);
+			LocalDate endMonth = LocalDate.now().plusMonths(3);
+			
+			for (Trip trp: fetchCurrentXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
+			}
+			
+			for (Trip trp: fetchCompletedXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
+			}
 		}
 		return dat;
 	}
 	
-	public double getRevenue()
+	public double getRevenue(int sort)
 	{
 		double revenue = 0;
-		for (Trip trp: fetchXML())
+		DecimalFormat df2 = new DecimalFormat(".##");
+		
+		if (sort == 0)
 		{
-			revenue += trp.getTripCost();
+			for (Trip trp: fetchCurrentXML())
+			{
+				revenue += trp.getTripCost();
+			}
+			for (Trip trp: fetchCompletedXML())
+			{
+				revenue += trp.getTripCost();
+			}
 		}
-		return revenue;
+		else if (sort == 1)
+		{
+			LocalDate startWeek = LocalDate.now().minusDays(7);
+			LocalDate endWeek = LocalDate.now().plusDays(7);
+			
+			for (Trip trp: fetchCurrentXML())
+			{
+				if ((trp.getDepart().isAfter(startWeek) || 
+					trp.getDepart().isEqual(startWeek)) && 
+					(trp.getArrive().isBefore(endWeek)	||
+					 trp.getArrive().isEqual(endWeek)))
+				{
+					revenue += trp.getTripCost();
+				}
+				
+			}
+			
+			for (Trip trp: fetchCompletedXML())
+			{
+				if ((trp.getDepart().isAfter(startWeek) || 
+					trp.getDepart().isEqual(startWeek)) && 
+					(trp.getArrive().isBefore(endWeek)	||
+					 trp.getArrive().isEqual(endWeek)))
+				{
+					revenue += trp.getTripCost();
+				}
+			}
+		}
+		else if (sort == 2)
+		{
+			LocalDate startMonth = LocalDate.now().minusMonths(1);
+			LocalDate endMonth = LocalDate.now().plusMonths(1);
+			
+			for (Trip trp: fetchCurrentXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					revenue += trp.getTripCost();
+				}
+			}
+			
+			for (Trip trp: fetchCompletedXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					revenue += trp.getTripCost();
+				}
+			}
+		}
+		else if (sort == 3)
+		{
+			LocalDate startMonth = LocalDate.now().minusMonths(3);
+			LocalDate endMonth = LocalDate.now().plusMonths(3);
+			
+			for (Trip trp: fetchCurrentXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					revenue += trp.getTripCost();
+				}
+			}
+			
+			for (Trip trp: fetchCompletedXML())
+			{
+				if ((trp.getDepart().isAfter(startMonth) || 
+					trp.getDepart().isEqual(startMonth)) && 
+					(trp.getArrive().isBefore(endMonth)	||
+					 trp.getArrive().isEqual(endMonth)))
+				{
+					revenue += trp.getTripCost();
+				}
+			}
+		}
+		return Double.parseDouble(df2.format(revenue));
 	}
 	
 	public double getTripCost (int grpSz)
@@ -459,6 +644,44 @@ public class Main extends Application
 			cost = (grpSz - (grpSz % 20)) * 49.99;	// 
 		}
 		return Double.parseDouble(df2.format(cost));	// Return cost
+	}
+	
+	public int getRefund (int grpSz)
+	{
+		int temp = grpSz % 20;	// temp variable of remainder
+		
+		if (temp < 10)
+		{
+			/*
+	    	 * Alert to show finalize success
+	    	 */
+	    	Alert alert = new Alert(AlertType.WARNING);
+	    	alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("Refund Warning");
+			alert.setContentText("There arent enough people to occupy another bus so their "
+							   + "ticket costs wont be included in the total!!");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			/*
+			 * If User confirms pop-up dialog box
+			 */
+			if (result.get() == ButtonType.OK)
+			{
+				alert.close();	// closes the alert if cancel is pressed
+
+			}
+			/*
+			 * Else close the alert
+			 */
+			else
+			{
+				alert.close();	   // closes the alert if cancel is pressed
+			}
+			
+			grpSz = grpSz - temp;	// Rounds off the number of people
+		}
+		
+		return grpSz;	// Return the adjusted group size
 	}
 	
 	public String getBussesNeeded(int grpSz)
@@ -522,7 +745,7 @@ public class Main extends Application
 	{
 		ObservableList<Trip> tripDates = FXCollections.observableArrayList();
 		
-		for (Trip trp: fetchXML())
+		for (Trip trp: fetchCurrentXML())
 		{
 			if ((date.isAfter(trp.getDepart()) || date.isEqual(trp.getDepart()))  &&
 			    (date.isBefore(trp.getArrive()) || date.isEqual(trp.getArrive())))
@@ -531,11 +754,6 @@ public class Main extends Application
 			}
 		}
 		return tripDates;
-	}
-	
-	public void filterFile()
-	{
-		
 	}
 	
 	public static ObservableList<Trip> getSpecificTrip(String name) throws ParserConfigurationException, 
@@ -653,8 +871,7 @@ public class Main extends Application
 			return null;
 		}
 	}
-	
-	public static ObservableList <Trip> fetchXML()
+	public ObservableList <Trip> fetchCompletedXML()
 	{
 		ObservableList <Trip> tripList = FXCollections.observableArrayList();	// get a list of trips
 		
@@ -687,15 +904,328 @@ public class Main extends Application
 				        	  ));
 				}
 	        }
-	        return tripList;
+	        return tripList;   // returns list of trips
+		}
+		catch (Exception e) 
+		{
+	        e.printStackTrace();
+	        System.out.print("Error fetching data!!");
+	        return tripList;	// returns list of trips
+	    }
+	}	
+	
+	public static ObservableList <Trip> fetchCurrentXML()
+	{
+		ObservableList <Trip> tripList = FXCollections.observableArrayList();	// get a list of trips
+		
+		try 
+		{
+	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(getFilePath()); 
+	        doc.getDocumentElement().normalize(); 
+	        NodeList nList = doc.getElementsByTagName("Trip");
+
+	        for (int trp = 0; trp < nList.getLength(); trp++)
+	        {
+				Node nNode = nList.item(trp);
+				// System.out.println("\nCurrent Element :" + nNode.getNodeName());
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) 
+				{
+					 Element eElement = (Element) nNode; 
+					 
+					 /*
+					  * Adds info from xml element to trip list
+					  */
+					 tripList.add(new Trip(eElement.getElementsByTagName("Name").item(0).getTextContent(),
+				        	  eElement.getElementsByTagName("ID").item(0).getTextContent(),
+				        	  Integer.parseInt(eElement.getElementsByTagName("GroupSize").item(0).getTextContent()),
+				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
+				        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
+				        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
+				        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent())
+				        	  ));
+				}
+	        }
+	        return tripList;		// returns list of trips
 	
 	    }
 		catch (Exception e) 
 		{
 	        e.printStackTrace();
 	        System.out.print("Error fetching data!!");
-	        return tripList;
+	        return tripList;	// returns list of trips
 	    }
+	}
+	
+	public String completedTripsFilePath()
+	{
+		String filename = "CompletedFile.xml"; // the name of the xml
+		String workingDirectory = System.getProperty("user.dir"); // workspace location
+			
+		String absoluteFilePath = null;	// string for absolute file path
+			
+		//absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
+				absoluteFilePath = workingDirectory + File.separator + "src" + File.separator + "application" 
+						+ File.separator + "model" + File.separator + filename;
+		return absoluteFilePath;
+	}
+	
+	public void filterFile() throws ParserConfigurationException, SAXException, IOException
+	{
+		ObservableList<Trip> temp = FXCollections.observableArrayList();
+		
+		for (Trip trp: fetchCurrentXML())
+		{
+			if (trp.getArrive().isBefore(LocalDate.now()))
+			{
+				System.out.print(trp);
+				temp.add(trp);
+				deleteTrip(trp.getName());
+			}	
+		}
+		
+		try
+		{
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+	        Document dom = documentBuilder.parse(completedTripsFilePath());
+	        
+	        Element root = dom.getDocumentElement();	// Get the main element of the file
+	
+	        /*
+	         * Iterate through the list of trips
+	         */
+	        for (Trip old: temp)
+	        {
+	        	/*
+	        	 * Get the last appended element of the file
+	        	 */
+	        	Element Details = dom.createElement("Trip");
+	        	root.appendChild(Details);
+	        	
+	        	/*
+	        	 * Create and add another name element
+	        	 */
+	        	Element name = dom.createElement("Name");
+	            name.appendChild(dom.createTextNode(String.valueOf(old.getName())));
+	            Details.appendChild(name);
+	            
+	            /*
+	        	 * Create and add another ID element
+	        	 */
+	            Element id = dom.createElement("ID");
+	            id.appendChild(dom.createTextNode(String.valueOf(old
+	                    .getId())));
+	            Details.appendChild(id);
+
+	            /*
+	        	 * Create and add another group size element
+	        	 */
+	            Element grp = dom.createElement("GroupSize");
+	            grp.appendChild(dom.createTextNode(String.valueOf(old.getGroupSize())));
+	            Details.appendChild(grp);
+	            
+	            /*
+	        	 * Create and add another bus numbers element
+	        	 */
+	            Element bus = dom.createElement("BusNumbers");
+	            bus.appendChild(dom.createTextNode(String.valueOf(old.getBusNumbers())));
+	            Details.appendChild(bus);
+	            
+	            /*
+	        	 * Create and add another depart element
+	        	 */
+	            Element dpt = dom.createElement("Depart");
+	            dpt.appendChild(dom.createTextNode(String.valueOf(old.getDepart())));
+	            Details.appendChild(dpt);
+	            
+	            /*
+	        	 * Create and add another return element
+	        	 */
+	            Element arr = dom.createElement("Return");
+	            arr.appendChild(dom.createTextNode(String.valueOf(old.getArrive())));
+	            Details.appendChild(arr);
+	            
+	            /*
+	             * Create and add another trip cost element
+	             */
+	            Element cst = dom.createElement("Cost");
+	            cst.appendChild(dom.createTextNode(String.valueOf(old.getTripCost())));
+	            Details.appendChild(cst);
+	            
+		        root.appendChild(Details);		// Append the data to the end of the list
+		        
+	        }
+	        /*
+	         * Try to save the new list to the file
+	         */
+	        try 
+	        {
+	        	// Instantiate new transformer objects
+		        TransformerFactory tranFactory = TransformerFactory.newInstance();
+		        Transformer transformer = tranFactory.newTransformer();
+	
+		        // format the XML nicely
+		        transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+	
+		        transformer.setOutputProperty(
+		                "{http://xml.apache.org/xslt}indent-amount", "4");
+		        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		      
+		        /*
+	             * Sends the DOM to the file
+	             */
+		        DOMSource source = new DOMSource(dom);
+		     
+		        StreamResult result = new StreamResult(completedTripsFilePath());
+	            transformer.transform(source, result);
+	        } 
+	        catch (TransformerException te) 
+	        {
+	            System.out.println(te.getMessage());
+	            // writeBlankXmlFile(tripData);
+	        }
+	    } 
+		/*
+		 * Catch corrupted file
+		 */
+	    catch (ParserConfigurationException pce)
+	    {
+	        System.out.println("UsersXML: Error trying to instantiate DocumentBuilder " + pce);
+	        writeBlankCompleteFile(tripData);	// Write if XML file is blank
+	    }
+		/*
+		 * This class can contain basic error or warning information 
+		 * from either the XML parser or the application: a parser writer or 
+		 * application writer can subclass it to provide additional functionality. 
+		 */
+		catch (SAXException sax)
+		{
+			System.out.print(sax.getMessage());	// Prints error to console
+			writeBlankCompleteFile(tripData);	// Write if XML file is blank
+		}
+		/*
+		 * Catch Input/Output file error
+		 */
+		catch (IOException e)
+		{
+			writeBlankCompleteFile(tripData);	// Write if XML file is blank
+		}
+	
+	}
+	
+	public void writeBlankCompleteFile(ObservableList<Trip> list)
+	{
+		try
+	    {
+			/*
+			 * XML file builder
+			 */
+	    	DocumentBuilderFactory dFact = DocumentBuilderFactory.newInstance();
+	    	DocumentBuilder build = dFact.newDocumentBuilder();
+			Document doc = build.newDocument();
+			
+	        Element root = doc.createElement("Trips");	// Finds the child "Trips"
+	        doc.appendChild(root);
+	        for (Trip dtl : list) 
+	        {
+	        	/*
+	        	 * Gets the Individual trip child
+	        	 */
+		        Element Details = doc.createElement("Trip");
+		        root.appendChild(Details);
+		        
+		        /*
+		         * Outputs the the customers name to the xml file
+		         */
+	        	Element name = doc.createElement("Name");
+	            name.appendChild(doc.createTextNode(String.valueOf(dtl
+	                    .getName())));
+	            Details.appendChild(name);
+	            
+	            /*
+	             * Outputs the the customers ID to the xml file
+	             */
+	            Element id = doc.createElement("ID");
+	            id.appendChild(doc.createTextNode(String.valueOf(dtl
+	                    .getId())));
+	            Details.appendChild(id);
+	
+	            /*
+	             * Outputs the groups size
+	             */
+	            Element grp = doc.createElement("GroupSize");
+	            grp.appendChild(doc.createTextNode(String.valueOf(dtl.getGroupSize())));
+	            Details.appendChild(grp);
+	            
+	            /*
+	             * Outputs the bus number
+	             */
+	            Element bus = doc.createElement("BusNumbers");
+	            bus.appendChild(doc.createTextNode(String.valueOf(dtl.getBusNumbers())));
+	            Details.appendChild(bus);
+	            
+	            /*
+	             * Outputs the date of departure
+	             */
+	            Element dpt = doc.createElement("Depart");
+	            dpt.appendChild(doc.createTextNode(String.valueOf(dtl.getDepart())));
+	            Details.appendChild(dpt);
+	            
+	            /*
+	             * Outputs the date of return
+	             */
+	            Element arr = doc.createElement("Return");
+	            arr.appendChild(doc.createTextNode(String.valueOf(dtl.getArrive())));
+	            Details.appendChild(arr);
+	            
+	            /*
+	             * Outputs the cost of the trip
+	             */
+	            Element cst = doc.createElement("Cost");
+	            cst.appendChild(doc.createTextNode(String.valueOf(dtl.getTripCost())));
+	            Details.appendChild(cst);
+	            
+	            root.appendChild(Details);	// Append the new node to the root
+	        }
+	
+	        try
+	        {
+		        // Save the document to the disk file
+		        TransformerFactory tranFactory = TransformerFactory.newInstance();
+		        Transformer aTransformer = tranFactory.newTransformer();
+		        /*
+		         * Format the XML nicely
+		         */
+		        aTransformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+	
+		        aTransformer.setOutputProperty(
+		                "{http://xml.apache.org/xslt}indent-amount", "4");
+		        aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	
+		        DOMSource src= new DOMSource(doc);
+		        try 
+		        {
+		            // location and name of XML file you can change as per need
+		            FileWriter fos = new FileWriter(completedTripsFilePath());
+		            StreamResult result = new StreamResult(fos);
+		            aTransformer.transform(src, result);
+		        } 
+		        catch (IOException e) 
+		        {
+		            e.printStackTrace();
+		        }
+		    } 
+		    catch (TransformerException ex) 
+		    {
+		        System.out.println("Error outputting document");
+		    } 
+	    }
+		catch (ParserConfigurationException ex) 
+		{
+		    System.out.println("Error building document");
+		}  
 	}
 	
 	public void writeBlankXmlFile(ObservableList<Trip> list) throws IOException, SAXException
@@ -711,6 +1241,7 @@ public class Main extends Application
 			
 	        Element root = doc.createElement("Trips");	// Finds the child "Trips"
 	        doc.appendChild(root);
+	        
 	        for (Trip dtl : list) 
 	        {
 	        	/*
@@ -1041,8 +1572,6 @@ public class Main extends Application
 	            // writeBlankXmlFile(tripData);
 	        }
         } 
-		
-		
 		catch (Exception e)
 		{
             System.out.println(e);

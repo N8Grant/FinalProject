@@ -67,6 +67,7 @@ public class BookTripController extends Main implements Initializable
 	public LocalDate  arr;
 	public int  grpSz;
 	
+	
 	/*
 	 * GUI Controllers
 	 */
@@ -188,6 +189,11 @@ public class BookTripController extends Main implements Initializable
 			{
 				peopleError.setText("Enter number greater than 0!");
 			}
+			else if ((Integer.parseInt(inputNumPeople.getText()) > 0) &&
+					 (Integer.parseInt(inputNumPeople.getText()) < 10))
+			{
+				peopleError.setText("Enter number greater than 10!!");
+			}
 			/*
 			 * Else field is valid
 			 */
@@ -283,6 +289,7 @@ public class BookTripController extends Main implements Initializable
 		{	
 			tripData.clear();
 			
+			grpSz = getRefund(grpSz);
 			String bsNms = getBusses(dpt, arr, grpSz);
 			double tripCost = getTripCost(grpSz);
 			/*

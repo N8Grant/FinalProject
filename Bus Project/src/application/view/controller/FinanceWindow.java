@@ -2,6 +2,7 @@ package application.view.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -14,13 +15,15 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class FinanceWindow extends Main
 {
-    @FXML
+	@FXML
     private ResourceBundle resources;
 
     @FXML
@@ -34,16 +37,52 @@ public class FinanceWindow extends Main
 
     @FXML
     private Button homeButton;
+
+    @FXML
+    private RadioButton quarterly;
+
+    @FXML
+    private ToggleGroup timeFrame;
+
+    @FXML
+    private RadioButton monthly;
+
+    @FXML
+    private RadioButton weekly;
+
+    @FXML
+    private Button applyTime;
     
     final Label caption = new Label("");
     
     ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+    DecimalFormat df2 = new DecimalFormat(".##");
     
     public void setValues(String total, ObservableList<PieChart.Data> data)
     {
     	totalLabel.setText(total);
     	financeChart.setData(data);
     	pieData = data;
+    }
+    
+    @FXML
+    void applyTime(ActionEvent event) 
+    {	
+    	if (quarterly.isSelected())
+    	{
+    		totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(3))));
+    		financeChart.setData(getPieChart(3));
+    	}
+    	else if (monthly.isSelected())
+    	{
+    		totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(2))));
+    		financeChart.setData(getPieChart(2));
+    	}
+    	else if (weekly.isSelected())
+    	{
+    		totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(1))));
+    		financeChart.setData(getPieChart(1));
+    	}
     }
     
     @FXML
@@ -76,9 +115,13 @@ public class FinanceWindow extends Main
     @FXML
     void initialize() 
     {
-        assert financeChart != null : "fx:id=\"financeChart\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
+    	assert financeChart != null : "fx:id=\"financeChart\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
         assert totalLabel != null : "fx:id=\"totalLabel\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
-        assert homeButton != null : "fx:id=\"returnButton\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
-
+        assert homeButton != null : "fx:id=\"homeButton\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
+        assert quarterly != null : "fx:id=\"quarterly\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
+        assert timeFrame != null : "fx:id=\"timeFrame\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
+        assert monthly != null : "fx:id=\"monthly\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
+        assert weekly != null : "fx:id=\"weekly\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
+        assert applyTime != null : "fx:id=\"applyTime\" was not injected: check your FXML file 'FinancesWindow.fxml'.";
     }
 }

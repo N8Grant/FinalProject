@@ -1,49 +1,39 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <Trips>
-    
-
-
-
-
-
-
-
 <Trip>
-        <Name>Nate</Name>
-        <ID>615</ID>
-        <GroupSize>67</GroupSize>
-        <BusNumbers>1, 2, 3</BusNumbers>
-        <Depart>2016-05-12</Depart>
-        <Return>2016-05-31</Return>
-        <Cost>2999.4</Cost>
-    </Trip>
-
-<Trip>
-        <Name>Tuckballs</Name>
-        <ID>315</ID>
-        <GroupSize>67</GroupSize>
-        <BusNumbers>1, 2, 3</BusNumbers>
-        <Depart>2016-05-20</Depart>
-        <Return>2016-05-24</Return>
-        <Cost>2999.4</Cost>
-    </Trip>
-<Trip>
-        <Name>Tim</Name>
-        <ID>949</ID>
-        <GroupSize>44</GroupSize>
+        <Name>Callie</Name>
+        <ID>221</ID>
+        <GroupSize>40</GroupSize>
         <BusNumbers>1, 2</BusNumbers>
-        <Depart>2016-05-25</Depart>
-        <Return>2016-05-28</Return>
+        <Depart>2016-06-02</Depart>
+        <Return>2016-06-06</Return>
         <Cost>1999.6</Cost>
     </Trip>
-
 <Trip>
-        <Name>Jacob</Name>
-        <ID>429</ID>
+        <Name>Sean</Name>
+        <ID>377</ID>
         <GroupSize>56</GroupSize>
         <BusNumbers>3, 4, 5</BusNumbers>
-        <Depart>2016-05-25</Depart>
-        <Return>2016-05-25</Return>
+        <Depart>2016-06-01</Depart>
+        <Return>2016-06-14</Return>
         <Cost>2799.44</Cost>
+    </Trip>
+<Trip>
+        <Name>Eryk</Name>
+        <ID>801</ID>
+        <GroupSize>11</GroupSize>
+        <BusNumbers>3</BusNumbers>
+        <Depart>2016-06-02</Depart>
+        <Return>2016-06-07</Return>
+        <Cost>549.89</Cost>
+    </Trip>
+<Trip>
+        <Name>Mike</Name>
+        <ID>394</ID>
+        <GroupSize>99</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5</BusNumbers>
+        <Depart>2016-06-06</Depart>
+        <Return>2016-06-09</Return>
+        <Cost>4949.01</Cost>
     </Trip>
 </Trips>

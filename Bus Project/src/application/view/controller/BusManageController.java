@@ -66,7 +66,7 @@ public class BusManageController extends Main
     @FXML
     void displayBusInfo(ActionEvent event) throws IOException 
     {
-    	if(bussesOut.isSelected() == true)
+    	if(completedTrips.isSelected() == true)
     	{
     		Stage stage;
     		AnchorPane root;
@@ -95,7 +95,7 @@ public class BusManageController extends Main
     		loader.setLocation(Main.class.getResource("view/FinancesWindow.fxml"));
     		root = (AnchorPane) loader.load();
     		FinanceWindow controller = loader.<FinanceWindow>getController();
-    		controller.setValues("$ " + String.format("%.2f", getRevenue()), getPieChart());			
+    		controller.setValues("$ " + String.format("%.2f", getRevenue(0)), getPieChart(0));			
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
     		stage.show();

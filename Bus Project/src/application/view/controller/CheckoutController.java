@@ -97,7 +97,7 @@ public class CheckoutController extends BookTripController implements Initializa
 		Optional<ButtonType> result = alert.showAndWait();
 		
 		/*
-		 * If User confrims pop-up dialog box
+		 * If User confirms pop-up dialog box
 		 */
 		if (result.get() == ButtonType.OK)
 		{

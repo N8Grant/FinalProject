@@ -2,6 +2,7 @@ package application.view.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,12 +19,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -131,23 +135,23 @@ public class ScheduleWindow extends Main implements Initializable
     	String temp = sortSelect.getValue();
     	if (temp == "Name A-Z")
     	{
-    		customerSelect.setItems(getAllNames(fetchXML(), 1));
+    		customerSelect.setItems(getAllNames(fetchCurrentXML(), 1));
     	}
     	else if (temp == "Name Z-A")
     	{
-    		customerSelect.setItems(getAllNames(fetchXML(), 2));
+    		customerSelect.setItems(getAllNames(fetchCurrentXML(), 2));
     	}
     	else if (temp == "Group Size Decending")
     	{
-    		customerSelect.setItems(getAllNames(fetchXML(), 3));
+    		customerSelect.setItems(getAllNames(fetchCurrentXML(), 3));
     	}
     	else if (temp == "Group Size Acending")
     	{
-    		customerSelect.setItems(getAllNames(fetchXML(), 4));
+    		customerSelect.setItems(getAllNames(fetchCurrentXML(), 4));
     	}
     	else
     	{
-    		customerSelect.setItems(getAllNames(fetchXML(), 0));
+    		customerSelect.setItems(getAllNames(fetchCurrentXML(), 0));
     	}
     }
 	    
@@ -189,11 +193,32 @@ public class ScheduleWindow extends Main implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		customerSelect.setItems(getAllNames(fetchXML(), 0));
+		
+		customerSelect.setItems(getAllNames(fetchCurrentXML(), 0));
 		sortItems.add("Name A-Z");
 		sortItems.add("Name Z-A");
 		sortItems.add("Group Size Decending");
 		sortItems.add("Group Size Acending");
 		sortSelect.setItems(sortItems);
+		if (fetchCurrentXML().isEmpty())
+		{
+			/*
+	    	 * Alert to show finalize success
+	    	 */
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Error Dialog");
+			alert.setHeaderText("No Trips");
+			alert.setContentText("There are no current trips to view, book a trip to continue!!");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.get() == ButtonType.OK)
+			{
+				alert.close();
+			}
+			else
+			{
+				alert.close();
+			}
+		}
 	}
 }

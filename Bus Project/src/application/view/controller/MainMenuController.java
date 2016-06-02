@@ -52,17 +52,40 @@ public class MainMenuController extends Main
 	@FXML
 	void checkSchedule(ActionEvent event) throws IOException
 	{
-		Stage stage;
-		AnchorPane root;
-		stage = (Stage) busManagement.getScene().getWindow();
-		 		
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/ScheduleWindow.fxml"));
-		root = (AnchorPane) loader.load();  
-		 
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		if (fetchCurrentXML().isEmpty())
+		{
+			/*
+	    	 * Alert to show finalize success
+	    	 */
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Error Dialog");
+			alert.setHeaderText("No Trips");
+			alert.setContentText("There are no current trips to view, book a trip to continue!!");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.get() == ButtonType.OK)
+			{
+				alert.close();
+			}
+			else
+			{
+				alert.close();
+			}
+		}
+		else
+		{
+			Stage stage;
+			AnchorPane root;
+			stage = (Stage) busManagement.getScene().getWindow();
+			 		
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/ScheduleWindow.fxml"));
+			root = (AnchorPane) loader.load();  
+			 
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 	 
 	@FXML
