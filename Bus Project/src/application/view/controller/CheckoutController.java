@@ -54,6 +54,9 @@ public class CheckoutController extends BookTripController implements Initializa
 	@FXML
 	private Label dptLabel;			// Label for depart date
 
+	@FXML 
+	private Label idLabel;
+	
 	@FXML
 	private Label bussesLabel;		// Label for number of busses
 
@@ -176,6 +179,7 @@ public class CheckoutController extends BookTripController implements Initializa
     	retLabel.setText(arr.format(mdy));
     	bussesLabel.setText(getBussesNeeded(Integer.parseInt(grp)));
     	busNumbers.setText(busNms);
+    	idLabel.setText(id);
     	totalLabel.setText("$ " + String.format("%.2f", getTripCost(Integer.parseInt(grp))));
     }
     
