@@ -319,7 +319,7 @@ public class BookTripController extends Main implements Initializable
 			stage.setScene(scene);
 			CheckoutController controller = loader.<CheckoutController>getController();
 			controller.setInfo(orgName, Integer.toString(grpSz), arr, 
-							   dpt, bsNms);
+							   dpt, bsNms, tripData.get(0).getId());
 			stage.show();
 		}
 	}
