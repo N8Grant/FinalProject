@@ -30,9 +30,6 @@ public class BusManageController extends Main
     private ToggleGroup busView;			// The group of toggle buttons
 
     @FXML
-    private RadioButton subRent;			// Toggle button for busses from other
-    										// company
-    @FXML
     private RadioButton completedTrips;		// Toggle button for completed trips
     
     @FXML 
@@ -81,10 +78,6 @@ public class BusManageController extends Main
     		stage.setScene(scene);
     		stage.show();
     	}
-    	else if (subRent.isSelected() == true)
-    	{
-    		System.out.print("No");
-    	}
     	else if (finances.isSelected() == true)
     	{
     		Stage stage;
@@ -110,7 +103,6 @@ public class BusManageController extends Main
     void initialize() 
     {
         assert busView != null : "fx:id=\"busView\" was not injected: check your FXML file 'BusManagement.fxml'.";
-        assert subRent != null : "fx:id=\"subRent\" was not injected: check your FXML file 'BusManagement.fxml'.";
         assert viewBusInfo != null : "fx:id=\"viewBusInfo\" was not injected: check your FXML file 'BusManagement.fxml'.";
         assert bussesOut != null : "fx:id=\"bussesOut\" was not injected: check your FXML file 'BusManagement.fxml'.";
         assert finances != null : "fx:id=\"finances\" was not injected: check your FXML file 'BusManagement.fxml'.";

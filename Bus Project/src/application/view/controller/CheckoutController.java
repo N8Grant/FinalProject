@@ -54,9 +54,6 @@ public class CheckoutController extends BookTripController implements Initializa
 	@FXML
 	private Label dptLabel;			// Label for depart date
 
-	@FXML 
-	private Label idLabel;
-	
 	@FXML
 	private Label bussesLabel;		// Label for number of busses
 
@@ -81,13 +78,13 @@ public class CheckoutController extends BookTripController implements Initializa
 	/*
 	 * Temp Variables
 	 */
-	public String nameVariable;
-	public String grpVariable;
-	public String dptVariable;
-	public String retVariable;
-	public String busNmVariable;
-	public String totVariable;
-	public String idVariable;
+	public String nameVariable;		// temp variable for name for next controller
+	public String grpVariable;		// temp variable for groupSize for next controller
+	public String dptVariable;		// temp variable for departure for next controller
+	public String retVariable;		// temp variable for return for next controller
+	public String busNmVariable;	// temp variable for bus numbers for next controller
+	public String totVariable;		// temp variable for total for next controller
+	public String idVariable;		// temp variable for id for next controller
 	    
     @FXML
     void finalizeTrip(ActionEvent event) throws IOException, SAXException 
@@ -108,7 +105,7 @@ public class CheckoutController extends BookTripController implements Initializa
 		{
 			Stage stage;
 			AnchorPane root;
-			stage = (Stage) cancelTrans.getScene().getWindow();
+			stage = (Stage) Confirm.getScene().getWindow();
 						
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/MainMenu.fxml"));
@@ -152,17 +149,6 @@ public class CheckoutController extends BookTripController implements Initializa
     	    }
     	}
     }
-    
-    @FXML
-    void editInfo(ActionEvent event) 
-    /*
-     * 
-     */
-    {
-    	//FXMLLoader fxmlLoader = new FXMLLoader();
-		//BookTripController controller = fxmlLoader.<BookTripController>getController();
-    	//System.out.print(controller.getName());
-    }
 
     public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt, String busNms, String id)
     {
@@ -179,12 +165,11 @@ public class CheckoutController extends BookTripController implements Initializa
     	retLabel.setText(arr.format(mdy));
     	bussesLabel.setText(getBussesNeeded(Integer.parseInt(grp)));
     	busNumbers.setText(busNms);
-    	idLabel.setText(id);
     	totalLabel.setText("$ " + String.format("%.2f", getTripCost(Integer.parseInt(grp))));
     }
     
     @FXML
-    void returnToMainMenu(ActionEvent event) throws IOException 
+    void returnToMainMenu(ActionEvent event) throws IOException, ParserConfigurationException, SAXException 
     {
     	 Alert alert = new Alert(AlertType.CONFIRMATION);
 		 alert.setTitle("Confirmation Dialog");
@@ -194,6 +179,8 @@ public class CheckoutController extends BookTripController implements Initializa
 		 Optional<ButtonType> result = alert.showAndWait();
 		 if (result.get() == ButtonType.OK)
 		 {
+			deleteTrip(nameVariable);
+			
 			Stage stage;
 			AnchorPane root;
 			stage = (Stage) cancelTrans.getScene().getWindow();
@@ -226,7 +213,7 @@ public class CheckoutController extends BookTripController implements Initializa
         assert retLabel != null : "fx:id=\"retLabel\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert Confirm != null : "fx:id=\"Confirm\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert busNumbers != null : "fx:id=\"busNumbers\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
-        assert tripInfo != null : "fx:id=\"tripInfo\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
+        assert tripInfo != null : "fx:id=\"tripInfo\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";   
     }
 
 	@Override

@@ -36,4 +36,76 @@
         <Return>2016-06-09</Return>
         <Cost>4949.01</Cost>
     </Trip>
+<Trip>
+        <Name>Toby Keith</Name>
+        <ID>849</ID>
+        <GroupSize>60</GroupSize>
+        <BusNumbers>1, 2, 3</BusNumbers>
+        <Depart>2016-06-07</Depart>
+        <Return>2016-06-09</Return>
+        <Cost>2999.4</Cost>
+    </Trip>
+<Trip>
+        <Name>Negro</Name>
+        <ID>564</ID>
+        <GroupSize>56</GroupSize>
+        <BusNumbers>1, 2, 3</BusNumbers>
+        <Depart>2016-06-10</Depart>
+        <Return>2016-06-21</Return>
+        <Cost>2799.44</Cost>
+    </Trip>
+<Trip>
+        <Name>James</Name>
+        <ID>841</ID>
+        <GroupSize>33</GroupSize>
+        <BusNumbers>1, 2</BusNumbers>
+        <Depart>2016-06-16</Depart>
+        <Return>2016-06-23</Return>
+        <Cost>1649.67</Cost>
+    </Trip>
+<Trip>
+        <Name>Zack</Name>
+        <ID>558</ID>
+        <GroupSize>13</GroupSize>
+        <BusNumbers>6</BusNumbers>
+        <Depart>2016-06-04</Depart>
+        <Return>2016-06-09</Return>
+        <Cost>649.87</Cost>
+    </Trip>
+<Trip>
+        <Name>Taunton High</Name>
+        <ID>786</ID>
+        <GroupSize>20</GroupSize>
+        <BusNumbers>1</BusNumbers>
+        <Depart>2016-06-06</Depart>
+        <Return>2016-06-08</Return>
+        <Cost>999.8</Cost>
+    </Trip>
+<Trip>
+        <Name>Patrick</Name>
+        <ID>440</ID>
+        <GroupSize>40</GroupSize>
+        <BusNumbers>1, 2</BusNumbers>
+        <Depart>2016-06-13</Depart>
+        <Return>2016-06-15</Return>
+        <Cost>1999.6</Cost>
+    </Trip>
+<Trip>
+        <Name>Teddy</Name>
+        <ID>402</ID>
+        <GroupSize>20</GroupSize>
+        <BusNumbers>1</BusNumbers>
+        <Depart>2016-06-11</Depart>
+        <Return>2016-06-13</Return>
+        <Cost>999.8</Cost>
+    </Trip>
+<Trip>
+        <Name>Marta</Name>
+        <ID>786</ID>
+        <GroupSize>20</GroupSize>
+        <BusNumbers>2</BusNumbers>
+        <Depart>2016-06-11</Depart>
+        <Return>2016-06-14</Return>
+        <Cost>999.8</Cost>
+    </Trip>
 </Trips>

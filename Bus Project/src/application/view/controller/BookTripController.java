@@ -1,16 +1,21 @@
 package application.view.controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import org.xml.sax.SAXException;
 
 import application.Main;
 import application.model.Trip;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +24,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -46,9 +55,9 @@ public class BookTripController extends Main implements Initializable
 	private Label returnError;				// error under return date picker
 	@FXML
     private Button Return;					// button to return to main menu
-    @FXML
-	private TextField destinationName;		// UNDER CONSTRUCTION
-    @FXML
+	@FXML
+    private TextField destinationName;
+	@FXML
 	private DatePicker inputDepart;			// date picker for departure date
 	@FXML
 	private Label departError;				// error under depart date picker
@@ -66,11 +75,14 @@ public class BookTripController extends Main implements Initializable
 	public LocalDate  dpt;
 	public LocalDate  arr;
 	public int  grpSz;
+	public String destination;
+	public ObservableList<String> destinationList = FXCollections.observableArrayList();
 	
 	
 	/*
 	 * GUI Controllers
 	 */
+	
 	@FXML
 	void inputNameAction(ActionEvent event) 
 	/*
@@ -117,9 +129,9 @@ public class BookTripController extends Main implements Initializable
 	}
 	 
 	@FXML
-	void getDestinationNm(ActionEvent event)
+	void getDestinationNm(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException
 	{
-		 
+		
 	}
 	    
 	@FXML
@@ -159,7 +171,7 @@ public class BookTripController extends Main implements Initializable
 	}
 	 
 	@FXML
-	void openCheckout(ActionEvent event) throws IOException, SAXException
+	void openCheckout(ActionEvent event) throws IOException, SAXException, ParserConfigurationException, TransformerException
 	/*
 	 * Method for when continue button is pressed
 	 */

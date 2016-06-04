@@ -50,7 +50,7 @@ public class PrinterController extends CheckoutController implements Initializab
 		busNmLabel.setText(busNm);
 		departLabel.setText(dpt);
 		returnLabel.setText(ret);
-		totalLabel.setText(tot);
+		totalLabel.setText("$ " + tot);
 		idLabel.setText(id);
 	}
 		

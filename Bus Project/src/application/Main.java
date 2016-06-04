@@ -6,6 +6,9 @@ package application;	// Package of class
 import java.io.File;	// Used to make a text file
 import java.io.FileWriter;	// Used to write data to file
 import java.io.IOException;		// Used for Input/Output error
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;		// Used to format decimals to two places
 import java.time.LocalDate;		// Used for easy date formating and comparison
 import java.time.format.DateTimeFormatter;	// Used to format Local Dates
@@ -18,6 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;	// Used to construct the docume
 import javax.xml.parsers.ParserConfigurationException;	// Used if parser can't be constructed
 import javax.xml.transform.OutputKeys;	// Used for XML formatting
 import javax.xml.transform.Transformer;   // Used for transformer constructor
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;	// Error if format can't be recognized
 import javax.xml.transform.TransformerFactory;   // Used to convert XML into DOM
 import javax.xml.transform.dom.DOMSource;	// Used for the location of the XML file
@@ -49,7 +53,6 @@ import javafx.scene.chart.PieChart;	// Used for pie chart api
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;	// Used for the stage windows
 
 public class Main extends Application 
@@ -67,9 +70,10 @@ public class Main extends Application
 	protected final DateTimeFormatter mdy = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 	
 	@Override
-	public void start(Stage primaryStage) throws IOException
+	public void start(Stage primaryStage) throws IOException, ParserConfigurationException, SAXException, TransformerException
 	{
 		createFile();	// makes sure that there is a file that exist
+		System.out.println(getDestinationKey("Boston"));
 		try 
 		{
 			filterFile();
@@ -682,6 +686,84 @@ public class Main extends Application
 		}
 		
 		return grpSz;	// Return the adjusted group size
+	}
+	
+	public String getStartKey () throws ParserConfigurationException, MalformedURLException,
+										 SAXException, IOException
+	{
+		String start = null;
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(new URL("https://maps.googleapis.com/maps/api/geocode/" +
+		"xml?address=Taunton&key=AIzaSyCiYcQJ2lPsoZva8ZQ57VE3ac6eKLVCv1M").openStream());
+		
+        doc.getDocumentElement().normalize(); 
+        NodeList nList = doc.getElementsByTagName("result");
+
+        for (int trp = 0; trp < nList.getLength(); trp++)
+        {
+			Node nNode = nList.item(trp);
+			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) 
+			{
+				 Element eElement = (Element) nNode; 
+				 
+				 start = eElement.getElementsByTagName("place_id").item(0).getTextContent();
+				 System.out.println(start);
+			}
+        }
+        
+		return start;
+	}
+	
+	public ObservableList<String> getDestinationKey (String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException,
+																		 TransformerException
+	{
+		ObservableList<String> destination = FXCollections.observableArrayList(); 
+		
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(new URL("https://maps.googleapis.com/maps/api/geocode/" +
+		"xml?address=" + dest + "&key=AIzaSyCiYcQJ2lPsoZva8ZQ57VE3ac6eKLVCv1M").openStream());
+		TransformerFactory factory = TransformerFactory.newInstance();
+		Transformer xform = factory.newTransformer();
+		
+		xform.transform(new DOMSource(doc), new StreamResult(System.out));
+		
+        doc.getDocumentElement().normalize(); 
+        NodeList nList = doc.getElementsByTagName("result");
+
+        for (int trp = 0; trp < nList.getLength(); trp++)
+        {
+			Node nNode = nList.item(trp);
+			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) 
+			{
+				 Element eElement = (Element) nNode; 
+				 
+				 destination.add(eElement.getElementsByTagName("formatted_address").item(0).getTextContent());
+				 System.out.println(destination);
+			}
+        }
+        return destination;
+	}
+	
+	public void getTripDistance(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException, TransformerException
+	{
+		double distance = 0;
+	
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(new URL("https://maps.googleapis.com/maps/api/distancematrix/xml?origins=place_id:" +
+		getStartKey() + "&destinations=place_id:"  + getDestinationKey(dest) +
+		"&key=AIzaSyCiYcQJ2lPsoZva8ZQ57VE3ac6eKLVCv1M").openStream());
+		
+		TransformerFactory factory = TransformerFactory.newInstance();
+		Transformer xform = factory.newTransformer();
+		
+		xform.transform(new DOMSource(doc), new StreamResult(System.out));
+		
 	}
 	
 	public String getBussesNeeded(int grpSz)
