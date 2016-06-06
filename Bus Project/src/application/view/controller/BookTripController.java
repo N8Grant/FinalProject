@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.controlsfx.control.textfield.TextFields;
 import org.xml.sax.SAXException;
 
 import application.Main;
@@ -22,16 +23,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -45,6 +43,8 @@ public class BookTripController extends Main implements Initializable
 	private ResourceBundle resources;
     @FXML
     private URL location;					// location in storage of fxml
+    @FXML
+    private Label destinationError;
 	@FXML
 	private TextField inputNumPeople;		// input box for number of people
 	@FXML
@@ -78,11 +78,9 @@ public class BookTripController extends Main implements Initializable
 	public String destination;
 	public ObservableList<String> destinationList = FXCollections.observableArrayList();
 	
-	
 	/*
 	 * GUI Controllers
 	 */
-	
 	@FXML
 	void inputNameAction(ActionEvent event) 
 	/*
@@ -127,12 +125,6 @@ public class BookTripController extends Main implements Initializable
 	{
 		 
 	}
-	 
-	@FXML
-	void getDestinationNm(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException
-	{
-		
-	}
 	    
 	@FXML
 	void returntoMain(ActionEvent event) throws IOException 
@@ -169,6 +161,13 @@ public class BookTripController extends Main implements Initializable
 		    alert.close();	   // closes the alert if cancel is pressed
 		}		
 	}
+	
+	@FXML
+    void updateSuggestions(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException 
+	{
+		TextFields.bindAutoCompletion(destinationName, getDestinationChoices(destinationName.getText()));
+    }
+
 	 
 	@FXML
 	void openCheckout(ActionEvent event) throws IOException, SAXException, ParserConfigurationException, TransformerException
@@ -183,16 +182,19 @@ public class BookTripController extends Main implements Initializable
 		Boolean ip = false;
 		Boolean ir = false;
 		Boolean id = false;
+		Boolean ides = false;
 		peopleError.setText("");
 		nameError.setText("");
 		returnError.setText("");
 		departError.setText("");
+		destinationError.setText("");
 		
 		/*
 		 * If Statement if all fields are filled out
 		 */
 		if (inputName.getText() != null || inputDepart.getValue() != null || 
-			inputReturn.getValue() != null || inputNumPeople.getText() != null)
+			inputReturn.getValue() != null || inputNumPeople.getText() != null ||
+			destinationName.getText() != null)
 		{
 			/*
 			 * If the number entered is less than 0
@@ -256,6 +258,9 @@ public class BookTripController extends Main implements Initializable
 				in = true;
 				orgName = inputName.getText();	
 			}
+			
+			ides = true;
+			destination = destinationName.getText();
 		}
 		
 		/*
@@ -274,33 +279,43 @@ public class BookTripController extends Main implements Initializable
 			/*
 			 * If depart isn't selected
 			 */
-			else if (inputDepart.getValue() == null)
+			if (inputDepart.getValue() == null)
 			{
 				departError.setText("Field cant be empty!!");
 			}
 			/*
 			 * If return isn't selected
 			 */
-			else if (inputReturn.getValue() == null)
+			if (inputReturn.getValue() == null)
 			{
 				returnError.setText("Field cant be empty!!");
 			}
 			/*
 			 * If number of people is selected
 			 */
-			else if (inputNumPeople.getText() == null)
+			if (inputNumPeople.getText() == null)
 			{
 				peopleError.setText("Field cant be empty!!");
 			}
+			if (inputNumPeople.getText() == null)
+			{
+				peopleError.setText("Field cant be empty!!");
+			}
+			if (destinationName.getText() == null)
+			{
+				destinationError.setText("Field cant be empty!!");
+			}
+			
 		}
 		
 		/*
 		 * If all of the vales are acceptable
 		 */
-		if (in == true && ip == true && ir == true && id == true)
+		if (in == true && ip == true && ir == true && id == true && ides == true)
 		{	
 			tripData.clear();
 			
+			getTripDistance(destination);
 			grpSz = getRefund(grpSz);
 			String bsNms = getBusses(dpt, arr, grpSz);
 			double tripCost = getTripCost(grpSz);
@@ -353,7 +368,9 @@ public class BookTripController extends Main implements Initializable
 	    assert peopleError != null : "fx:id=\"peopleError\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputName != null : "fx:id=\"inputName\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputReturn != null : "fx:id=\"InputReturn\" was not injected: check your FXML file 'BookTrip.fxml'.";
-	
+	    assert destinationError != null : "fx:id=\"destinationError\" was not injected: check your FXML file 'BookTrip.fxml'.";
+	    
+	    
 	}
 
 	@Override

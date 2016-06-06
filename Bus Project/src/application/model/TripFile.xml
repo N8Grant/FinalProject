@@ -108,4 +108,22 @@
         <Return>2016-06-14</Return>
         <Cost>999.8</Cost>
     </Trip>
+<Trip>
+        <Name>Joan</Name>
+        <ID>861</ID>
+        <GroupSize>70</GroupSize>
+        <BusNumbers>2, 3, 4, 5</BusNumbers>
+        <Depart>2016-06-06</Depart>
+        <Return>2016-06-08</Return>
+        <Cost>3499.3</Cost>
+    </Trip>
+<Trip>
+        <Name>Eric</Name>
+        <ID>264</ID>
+        <GroupSize>40</GroupSize>
+        <BusNumbers>6, 7</BusNumbers>
+        <Depart>2016-06-06</Depart>
+        <Return>2016-06-08</Return>
+        <Cost>1999.6</Cost>
+    </Trip>
 </Trips>

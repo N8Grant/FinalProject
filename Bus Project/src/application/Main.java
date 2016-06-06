@@ -73,7 +73,7 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws IOException, ParserConfigurationException, SAXException, TransformerException
 	{
 		createFile();	// makes sure that there is a file that exist
-		System.out.println(getDestinationKey("Boston"));
+
 		try 
 		{
 			filterFile();
@@ -717,7 +717,7 @@ public class Main extends Application
 		return start;
 	}
 	
-	public ObservableList<String> getDestinationKey (String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException,
+	public ObservableList<String> getDestinationChoices(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException,
 																		 TransformerException
 	{
 		ObservableList<String> destination = FXCollections.observableArrayList(); 
@@ -749,7 +749,40 @@ public class Main extends Application
         return destination;
 	}
 	
-	public void getTripDistance(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException, TransformerException
+	public String getDestinationKey(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException, TransformerException
+	{   
+        ObservableList<String> destination = FXCollections.observableArrayList(); 
+		String destKey = null;
+		String encodeDest = URLEncoder.encode(dest, "UTF-8");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(new URL("https://maps.googleapis.com/maps/api/geocode/xml?address=" +
+		encodeDest + "&key=AIzaSyCiYcQJ2lPsoZva8ZQ57VE3ac6eKLVCv1M").openStream());
+		TransformerFactory factory = TransformerFactory.newInstance();
+		Transformer xform = factory.newTransformer();
+		
+		xform.transform(new DOMSource(doc), new StreamResult(System.out));
+		
+        doc.getDocumentElement().normalize(); 
+        NodeList nList = doc.getElementsByTagName("result");
+
+        for (int trp = 0; trp < nList.getLength(); trp++)
+        {
+			Node nNode = nList.item(trp);
+			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) 
+			{
+				 Element eElement = (Element) nNode; 
+				 
+				 destKey = eElement.getElementsByTagName("place_id").item(0).getTextContent();
+				 System.out.println(destKey);
+			}
+        }
+  
+		return destKey;
+	}
+	
+	public double getTripDistance(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException, TransformerException
 	{
 		double distance = 0;
 	
@@ -764,6 +797,7 @@ public class Main extends Application
 		
 		xform.transform(new DOMSource(doc), new StreamResult(System.out));
 		
+		return distance;
 	}
 	
 	public String getBussesNeeded(int grpSz)
@@ -828,6 +862,14 @@ public class Main extends Application
 		ObservableList<Trip> tripDates = FXCollections.observableArrayList();
 		
 		for (Trip trp: fetchCurrentXML())
+		{
+			if ((date.isAfter(trp.getDepart()) || date.isEqual(trp.getDepart()))  &&
+			    (date.isBefore(trp.getArrive()) || date.isEqual(trp.getArrive())))
+			{
+				tripDates.add(trp);
+			}
+		}
+		for (Trip trp: fetchCompletedXML())
 		{
 			if ((date.isAfter(trp.getDepart()) || date.isEqual(trp.getDepart()))  &&
 			    (date.isBefore(trp.getArrive()) || date.isEqual(trp.getArrive())))
