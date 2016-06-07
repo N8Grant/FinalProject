@@ -93,10 +93,6 @@ public class BusManageController extends Main
     		stage.setScene(scene);
     		stage.show();
     	}
-    	else if (completedTrips.isSelected() == true)
-    	{
-    		System.out.println("not completed!!");
-    	}
     }
 
     @FXML

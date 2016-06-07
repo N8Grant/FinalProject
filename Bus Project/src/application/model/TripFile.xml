@@ -1,129 +1,89 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <Trips>
-<Trip>
-        <Name>Callie</Name>
-        <ID>221</ID>
+    <Trip>
+        <Name>Nate</Name>
+        <ID>331</ID>
         <GroupSize>40</GroupSize>
         <BusNumbers>1, 2</BusNumbers>
-        <Depart>2016-06-02</Depart>
-        <Return>2016-06-06</Return>
+        <Depart>2016-06-07</Depart>
+        <Return>2016-06-08</Return>
         <Cost>1999.6</Cost>
+        <Distance>23.2</Distance>
+        <Destination>Mansfield, MA, USA</Destination>
+    </Trip>
+
+
+
+<Trip>
+        <Name>Lee</Name>
+        <ID>835</ID>
+        <GroupSize>33</GroupSize>
+        <BusNumbers>3, 4</BusNumbers>
+        <Depart>2016-06-07</Depart>
+        <Return>2016-06-08</Return>
+        <Cost>1649.67</Cost>
+        <Distance>62.5</Distance>
+        <Destination>Boston, MA, USA</Destination>
     </Trip>
 <Trip>
-        <Name>Sean</Name>
-        <ID>377</ID>
-        <GroupSize>56</GroupSize>
-        <BusNumbers>3, 4, 5</BusNumbers>
-        <Depart>2016-06-01</Depart>
-        <Return>2016-06-14</Return>
-        <Cost>2799.44</Cost>
-    </Trip>
-<Trip>
-        <Name>Eryk</Name>
-        <ID>801</ID>
-        <GroupSize>11</GroupSize>
-        <BusNumbers>3</BusNumbers>
-        <Depart>2016-06-02</Depart>
-        <Return>2016-06-07</Return>
-        <Cost>549.89</Cost>
-    </Trip>
-<Trip>
-        <Name>Mike</Name>
-        <ID>394</ID>
-        <GroupSize>99</GroupSize>
-        <BusNumbers>1, 2, 3, 4, 5</BusNumbers>
-        <Depart>2016-06-06</Depart>
-        <Return>2016-06-09</Return>
-        <Cost>4949.01</Cost>
-    </Trip>
-<Trip>
-        <Name>Toby Keith</Name>
-        <ID>849</ID>
+        <Name>Tuck</Name>
+        <ID>701</ID>
         <GroupSize>60</GroupSize>
         <BusNumbers>1, 2, 3</BusNumbers>
-        <Depart>2016-06-07</Depart>
-        <Return>2016-06-09</Return>
-        <Cost>2999.4</Cost>
+        <Depart>2016-08-10</Depart>
+        <Return>2016-08-11</Return>
+        <Cost>7123.08</Cost>
+        <Distance>2036.0</Distance>
+        <Destination>N Indianapolis Ave, Florida 34442, USA</Destination>
     </Trip>
 <Trip>
-        <Name>Negro</Name>
-        <ID>564</ID>
-        <GroupSize>56</GroupSize>
-        <BusNumbers>1, 2, 3</BusNumbers>
+        <Name>Dona</Name>
+        <ID>125</ID>
+        <GroupSize>400</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20</BusNumbers>
+        <Depart>2016-07-07</Depart>
+        <Return>2016-07-09</Return>
+        <Cost>19996.0</Cost>
+        <Distance>62.5</Distance>
+        <Destination>Boston, MA, USA</Destination>
+    </Trip>
+
+<Trip>
+        <Name>Tim</Name>
+        <ID>484</ID>
+        <GroupSize>20</GroupSize>
+        <BusNumbers>1</BusNumbers>
         <Depart>2016-06-10</Depart>
-        <Return>2016-06-21</Return>
-        <Cost>2799.44</Cost>
-    </Trip>
-<Trip>
-        <Name>James</Name>
-        <ID>841</ID>
-        <GroupSize>33</GroupSize>
-        <BusNumbers>1, 2</BusNumbers>
-        <Depart>2016-06-16</Depart>
-        <Return>2016-06-23</Return>
-        <Cost>1649.67</Cost>
-    </Trip>
-<Trip>
-        <Name>Zack</Name>
-        <ID>558</ID>
-        <GroupSize>13</GroupSize>
-        <BusNumbers>6</BusNumbers>
-        <Depart>2016-06-04</Depart>
-        <Return>2016-06-09</Return>
-        <Cost>649.87</Cost>
-    </Trip>
-<Trip>
-        <Name>Taunton High</Name>
-        <ID>786</ID>
-        <GroupSize>20</GroupSize>
-        <BusNumbers>1</BusNumbers>
-        <Depart>2016-06-06</Depart>
-        <Return>2016-06-08</Return>
-        <Cost>999.8</Cost>
-    </Trip>
-<Trip>
-        <Name>Patrick</Name>
-        <ID>440</ID>
-        <GroupSize>40</GroupSize>
-        <BusNumbers>1, 2</BusNumbers>
-        <Depart>2016-06-13</Depart>
-        <Return>2016-06-15</Return>
-        <Cost>1999.6</Cost>
-    </Trip>
-<Trip>
-        <Name>Teddy</Name>
-        <ID>402</ID>
-        <GroupSize>20</GroupSize>
-        <BusNumbers>1</BusNumbers>
-        <Depart>2016-06-11</Depart>
         <Return>2016-06-13</Return>
-        <Cost>999.8</Cost>
+        <Cost>1170.2</Cost>
+        <Distance>180.0</Distance>
+        <Destination>Hartford, CT, USA</Destination>
     </Trip>
+
+
+
+
+
 <Trip>
-        <Name>Marta</Name>
-        <ID>786</ID>
+        <Name>Jake</Name>
+        <ID>594</ID>
         <GroupSize>20</GroupSize>
         <BusNumbers>2</BusNumbers>
-        <Depart>2016-06-11</Depart>
-        <Return>2016-06-14</Return>
+        <Depart>2016-06-10</Depart>
+        <Return>2016-06-13</Return>
         <Cost>999.8</Cost>
+        <Distance>23.2</Distance>
+        <Destination>Mansfield, MA, USA</Destination>
     </Trip>
 <Trip>
-        <Name>Joan</Name>
-        <ID>861</ID>
-        <GroupSize>70</GroupSize>
-        <BusNumbers>2, 3, 4, 5</BusNumbers>
-        <Depart>2016-06-06</Depart>
-        <Return>2016-06-08</Return>
-        <Cost>3499.3</Cost>
-    </Trip>
-<Trip>
-        <Name>Eric</Name>
-        <ID>264</ID>
+        <Name>Yuseph</Name>
+        <ID>549</ID>
         <GroupSize>40</GroupSize>
-        <BusNumbers>6, 7</BusNumbers>
-        <Depart>2016-06-06</Depart>
-        <Return>2016-06-08</Return>
-        <Cost>1999.6</Cost>
+        <BusNumbers>1, 2</BusNumbers>
+        <Depart>2016-06-11</Depart>
+        <Return>2016-06-12</Return>
+        <Cost>12063.85</Cost>
+        <Distance>4825.0</Distance>
+        <Destination>Compton, CA, USA</Destination>
     </Trip>
 </Trips>

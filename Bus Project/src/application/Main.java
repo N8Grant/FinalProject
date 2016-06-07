@@ -39,6 +39,8 @@ import org.w3c.dom.Node;	// Basic medium for conversions to other parsers
 import org.w3c.dom.NodeList;	// List of nodes from file
 import org.xml.sax.SAXException;	// Used for file could not be read exception
 
+import com.sun.corba.se.impl.ior.GenericTaggedComponent;
+
 import application.model.Bus;		// User class for the busses
 import application.model.Trip;		// User class for the trips
 
@@ -53,6 +55,7 @@ import javafx.scene.chart.PieChart;	// Used for pie chart api
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;	// Used for the stage windows
 
 public class Main extends Application 
@@ -73,7 +76,7 @@ public class Main extends Application
 	public void start(Stage primaryStage) throws IOException, ParserConfigurationException, SAXException, TransformerException
 	{
 		createFile();	// makes sure that there is a file that exist
-
+		
 		try 
 		{
 			filterFile();
@@ -366,17 +369,24 @@ public class Main extends Application
 		{
 			/*
 			 * If depart date is after depart date or equal to it
-			 * 							or
+			 * 							and
 			 * If arrive is before the return date or equal to it
 			 */
 			if ((bus.getDepart().isAfter(depart) || 
 				 bus.getDepart().isEqual(depart)) &&
-				(bus.getRet().isBefore(ret) ||
+			    (bus.getRet().isBefore(ret) ||
 				 bus.getRet().isEqual(ret)))
 			{
-					temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+			}
+			else if (bus.getDepart().isEqual(ret) || 
+					 bus.getRet().isEqual(depart))
+			{
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
 			}
 		}
+		
+		System.out.println(temp);
 
 		/*
 		 * Int for busses needed for the trip
@@ -395,7 +405,23 @@ public class Main extends Application
 			 */
 			if (i == 0)
 			{
-				busNumbers = temp.get(i) + "";	// first bus available
+				try
+				{
+					if (temp.isEmpty())
+					{
+						insufficentBusses();
+						return null;
+					}
+					else
+					{
+						busNumbers = temp.get(i) + "";	// first bus available
+					}
+				}
+				catch (IndexOutOfBoundsException e)
+				{
+					insufficentBusses();
+					return null;
+				}
 			}
 			/*
 			 * Else the loop has executed at least once
@@ -416,16 +442,37 @@ public class Main extends Application
 				catch (IndexOutOfBoundsException ex)
 				{
 					busNumbers =  "" + busNumbers;
-					refundTrip();
+					insufficentBusses();
+					return null;
 				}
 			}	
 		}
 		return busNumbers;	// return string of bus numbers
 	}
 	
-	public void refundTrip() 
+	public void insufficentBusses() 
 	{
-		
+		/*
+		 * Makes a new pop-up dialog box
+		 */
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error Dialog");
+		alert.setHeaderText("Insufficent Busses");
+		alert.setContentText("There arent enough of our busses to complete this transcation so " +
+							 "another date must be chosen.");
+		Optional<ButtonType> result = alert.showAndWait();
+		 
+		/*
+		 * If statement to cancel transaction
+		 */
+		if (result.get() == ButtonType.OK)
+		{
+			alert.close();		// closes the alert if cancel is pressed
+		} 
+		else 
+		{ 
+		    alert.close();	   // closes the alert if cancel is pressed
+		}	
 	}
 
 	public ObservableList<PieChart.Data> getPieChart(int sort)
@@ -434,14 +481,18 @@ public class Main extends Application
 		
 		if (sort == 0)
 		{
-			for (Trip trp: fetchCurrentXML())
+			if (fetchCompletedXML() != null)
 			{
-				dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				for (Trip trp: fetchCompletedXML())
+				{
+					dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				}
 			}
-			for (Trip trp: fetchCompletedXML())
+			else
 			{
-				dat.add(new PieChart.Data(trp.getName(), trp.getTripCost()));
+				return null;
 			}
+			
 		}
 		else if (sort == 1)
 		{
@@ -534,10 +585,6 @@ public class Main extends Application
 		
 		if (sort == 0)
 		{
-			for (Trip trp: fetchCurrentXML())
-			{
-				revenue += trp.getTripCost();
-			}
 			for (Trip trp: fetchCompletedXML())
 			{
 				revenue += trp.getTripCost();
@@ -628,33 +675,41 @@ public class Main extends Application
 		return Double.parseDouble(df2.format(revenue));
 	}
 	
-	public double getTripCost (int grpSz)
+	public double getTripCost (int grpSz, double dist)
 	{
-		double cost = 0;	// Double for cost
+		double total = 0;
+		double cost = 49.99;
 		DecimalFormat df2 = new DecimalFormat(".##");
+		
+		if (dist > 100) 
+		{
+			double over = dist - 100;
+			
+			cost =  ((2.13/grpSz) * over) + cost;
+		}
 		
 		/*
 		 *  If the last bus is filled 
 		 */
 		if (grpSz % 20 >= 10)
 		{
-			cost = grpSz * 49.99;
+			total = grpSz * cost;
 		}
 		/*
 		 * Else it isn't
 		 */
 		else
 		{
-			cost = (grpSz - (grpSz % 20)) * 49.99;	// 
+			total = (grpSz - (grpSz % 20)) * cost;	// 
 		}
-		return Double.parseDouble(df2.format(cost));	// Return cost
+		return Double.parseDouble(df2.format(total));	// Return cost
 	}
 	
 	public int getRefund (int grpSz)
 	{
 		int temp = grpSz % 20;	// temp variable of remainder
 		
-		if (temp < 10)
+		if (temp < 10 && temp > 0)
 		{
 			/*
 	    	 * Alert to show finalize success
@@ -751,9 +806,9 @@ public class Main extends Application
 	
 	public String getDestinationKey(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException, TransformerException
 	{   
-        ObservableList<String> destination = FXCollections.observableArrayList(); 
 		String destKey = null;
 		String encodeDest = URLEncoder.encode(dest, "UTF-8");
+		
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document doc = db.parse(new URL("https://maps.googleapis.com/maps/api/geocode/xml?address=" +
@@ -778,13 +833,12 @@ public class Main extends Application
 				 System.out.println(destKey);
 			}
         }
-  
 		return destKey;
 	}
 	
 	public double getTripDistance(String dest) throws ParserConfigurationException, MalformedURLException, SAXException, IOException, TransformerException
 	{
-		double distance = 0;
+		String distance = null;
 	
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
@@ -796,8 +850,28 @@ public class Main extends Application
 		Transformer xform = factory.newTransformer();
 		
 		xform.transform(new DOMSource(doc), new StreamResult(System.out));
+		doc.getDocumentElement().normalize(); 
+        NodeList nList = doc.getElementsByTagName("distance");
+
+		for (int trp = 0; trp < nList.getLength(); trp++)
+        {
+			Node nNode = nList.item(trp);
+			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) 
+			{
+				 Element eElement = (Element) nNode; 
+				 
+				 distance = eElement.getElementsByTagName("text").item(0).getTextContent();
+				 System.out.println(distance);
+			}
+        }
 		
-		return distance;
+		int km = distance.indexOf("km");
+		String stringDist = distance.substring(0, km - 1);
+		stringDist = stringDist.replaceAll(",", "");
+		System.out.println(stringDist);
+		
+		return Double.parseDouble(stringDist);
 	}
 	
 	public String getBussesNeeded(int grpSz)
@@ -848,8 +922,9 @@ public class Main extends Application
 				{
 					y.add(new Bus(Integer.parseInt(str_array[i]), trp.getDepart(), trp.getArrive()));
 				}
+				System.out.println(y);
 			}
-			return y;	// Return list of open dates
+			return y;	// Return list of all busses schedules 
 		}
 		else
 		{
@@ -920,7 +995,9 @@ public class Main extends Application
 			        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 			        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
 			        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
-			        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent())
+			        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent()),
+			        	  Double.parseDouble(eElement.getElementsByTagName("Distance").item(0).getTextContent()),
+			        	  eElement.getElementsByTagName("Destination").item(0).getTextContent()
 			        	  ));
 			} 
 			else 
@@ -1003,7 +1080,7 @@ public class Main extends Application
 		{
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	        Document doc = dBuilder.parse(getFilePath()); 
+	        Document doc = dBuilder.parse(completedTripsFilePath()); 
 	        doc.getDocumentElement().normalize(); 
 	        NodeList nList = doc.getElementsByTagName("Trip");
 
@@ -1024,7 +1101,9 @@ public class Main extends Application
 				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
-				        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent())
+				        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent()),
+				        	  Double.parseDouble(eElement.getElementsByTagName("Distance").item(0).getTextContent()),
+				        	  eElement.getElementsByTagName("Destination").item(0).getTextContent()
 				        	  ));
 				}
 	        }
@@ -1067,12 +1146,13 @@ public class Main extends Application
 				        	  eElement.getElementsByTagName("BusNumbers").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("Depart").item(0).getTextContent(),
 				        	  eElement.getElementsByTagName("Return").item(0).getTextContent(),
-				        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent())
+				        	  Double.parseDouble(eElement.getElementsByTagName("Cost").item(0).getTextContent()),
+				        	  Double.parseDouble(eElement.getElementsByTagName("Distance").item(0).getTextContent()),
+				        	  eElement.getElementsByTagName("Destination").item(0).getTextContent()
 				        	  ));
 				}
 	        }
 	        return tripList;		// returns list of trips
-	
 	    }
 		catch (Exception e) 
 		{
@@ -1178,8 +1258,21 @@ public class Main extends Application
 	            cst.appendChild(dom.createTextNode(String.valueOf(old.getTripCost())));
 	            Details.appendChild(cst);
 	            
-		        root.appendChild(Details);		// Append the data to the end of the list
-		        
+	            /*
+	             * Create and add another trip distance element
+	             */
+	            Element dist = dom.createElement("Distance");
+	            dist.appendChild(dom.createTextNode(String.valueOf(old.getTripDistance())));
+	            Details.appendChild(dist);
+
+	            /*
+	             * Create and add another trip destination element
+	             */
+	            Element dest = dom.createElement("Destination");
+	            dest.appendChild(dom.createTextNode(String.valueOf(old.getTripDestination())));
+	            Details.appendChild(dest);
+	            
+		        root.appendChild(Details);		// Append the data to the end of the list		        
 	        }
 	        /*
 	         * Try to save the new list to the file
@@ -1311,6 +1404,20 @@ public class Main extends Application
 	            cst.appendChild(doc.createTextNode(String.valueOf(dtl.getTripCost())));
 	            Details.appendChild(cst);
 	            
+	            /*
+	             * Create and add another trip distance element
+	             */
+	            Element dist = doc.createElement("Distance");
+	            dist.appendChild(doc.createTextNode(String.valueOf(dtl.getTripDistance())));
+	            Details.appendChild(dist);
+	            
+	            /*
+	             * Create and add another trip distance element
+	             */
+	            Element dest = doc.createElement("Destination");
+	            dest.appendChild(doc.createTextNode(String.valueOf(dtl.getTripDestination())));
+	            Details.appendChild(dest);
+	            
 	            root.appendChild(Details);	// Append the new node to the root
 	        }
 	
@@ -1424,6 +1531,20 @@ public class Main extends Application
 	            Element cst = doc.createElement("Cost");
 	            cst.appendChild(doc.createTextNode(String.valueOf(dtl.getTripCost())));
 	            Details.appendChild(cst);
+	            
+	            /*
+	             * Create and add another trip distance element
+	             */
+	            Element dist = doc.createElement("Distance");
+	            dist.appendChild(doc.createTextNode(String.valueOf(dtl.getTripDistance())));
+	            Details.appendChild(dist);
+	            
+	            /*
+	             * Create and add another trip destination element
+	             */
+	            Element dest = doc.createElement("Destination");
+	            dest.appendChild(doc.createTextNode(String.valueOf(dtl.getTripDestination())));
+	            Details.appendChild(dest);
 	            
 	            root.appendChild(Details);	// Append the new node to the root
 	        }
@@ -1540,6 +1661,20 @@ public class Main extends Application
 	            Element cst = dom.createElement("Cost");
 	            cst.appendChild(dom.createTextNode(String.valueOf(trp.getTripCost())));
 	            Details.appendChild(cst);
+	            
+	            /*
+	             * Create and add another trip distance element
+	             */
+	            Element dist = dom.createElement("Distance");
+	            dist.appendChild(dom.createTextNode(String.valueOf(trp.getTripDistance())));
+	            Details.appendChild(dist);
+	            
+	            /*
+	             * Create and add another trip distance element
+	             */
+	            Element dest = dom.createElement("Destination");
+	            dest.appendChild(dom.createTextNode(String.valueOf(trp.getTripDestination())));
+	            Details.appendChild(dest);
 	            
 		        root.appendChild(Details);		// Append the data to the end of the list
 		        

@@ -30,7 +30,8 @@ public class Trip
     private DoubleProperty tripCost;			// Cost of trip
     private SimpleStringProperty departString;	// String of depart date
     private SimpleStringProperty arriveString;	// String of return date
-    
+    private DoubleProperty tripDistance;		// Distance of the trip
+    private SimpleStringProperty destination; 	// The name of the destination for the trip
     /*
      * The format for the date
      */
@@ -42,7 +43,7 @@ public class Trip
      */
     public Trip() 
     {
-        this(null, 0, null, null, null, 0);
+        this(null, 0, null, null, null, 0, 0, null);
     }
 
     /**
@@ -53,7 +54,8 @@ public class Trip
      * @param departDate
      * @param arriveDate
      */
-    public Trip(String Name, int grpSz, LocalDate dpt, LocalDate arr, String bsNm, double cst) 
+    public Trip(String Name, int grpSz, LocalDate dpt, LocalDate arr, String bsNm,
+    			double cst, double dist, String dest) 
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
@@ -65,9 +67,12 @@ public class Trip
         this.busNumbers = new SimpleStringProperty(bsNm);
         this.tripNote = null;
         this.tripCost = new SimpleDoubleProperty(cst);
+        this.tripDistance = new SimpleDoubleProperty(dist);
+        this.destination = new SimpleStringProperty(dest);
     }
     
-    public Trip(String Name, String ID, int grpSz, String busNm, String dpt, String arr, double cst) 
+    public Trip(String Name, String ID, int grpSz, String busNm, String dpt,
+    			String arr, double cst, double dist, String dest) 
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
@@ -76,6 +81,8 @@ public class Trip
         this.arrive = new SimpleObjectProperty<LocalDate>(LocalDate.parse(arr));
         this.busNumbers = new SimpleStringProperty(busNm);
         this.tripCost = new SimpleDoubleProperty(cst);
+        this.tripDistance = new SimpleDoubleProperty(dist);
+        this.destination = new SimpleStringProperty(dest);
     }
 
     public String getId() 
@@ -226,4 +233,35 @@ public class Trip
 	{
 		this.tripNote.set(trpNt);
 	}
+	
+	public Double getTripDistance()
+	{
+		return tripDistance.get();
+	}
+	
+	public DoubleProperty tripDistanceProperty()
+	{
+		return tripDistance;
+	}
+	
+	public void setTripDistance(double dist)
+	{
+		this.tripDistance.set(dist);
+	}
+	
+	public String getTripDestination()
+	{
+		return destination.get();
+	}
+	
+	public SimpleStringProperty getDestinationProperty()
+	{
+		return destination;
+	}
+	
+	public void setTripDestination(String dest)
+	{
+		destination.set(dest);
+	}
+	
 }

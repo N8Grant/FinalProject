@@ -3,6 +3,7 @@ package application.view.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -13,10 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -55,14 +59,33 @@ public class FinanceWindow extends Main
     
     final Label caption = new Label("");
     
-    ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
     DecimalFormat df2 = new DecimalFormat(".##");
     
     public void setValues(String total, ObservableList<PieChart.Data> data)
     {
+    	if (data == null || data.isEmpty())
+    	{
+    		/*
+	    	 * Alert to show finalize success
+	    	 */
+	    	Alert alert = new Alert(AlertType.CONFIRMATION);
+	    	alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("Confirm Dialog");
+			alert.setContentText("There are no completed trips so there is no revenue, " +
+								 "however you can select one of the given projections for revenue");
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get() == ButtonType.OK)
+			{
+				alert.close();
+			}
+			else
+			{
+				alert.close();
+			}
+    	}
+    	financeChart.getData().clear();
     	totalLabel.setText(total);
     	financeChart.setData(data);
-    	pieData = data;
     }
     
     @FXML

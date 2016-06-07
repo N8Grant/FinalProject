@@ -304,21 +304,22 @@ public class BookTripController extends Main implements Initializable
 			if (destinationName.getText() == null)
 			{
 				destinationError.setText("Field cant be empty!!");
-			}
-			
+			}	
 		}
 		
 		/*
 		 * If all of the vales are acceptable
 		 */
-		if (in == true && ip == true && ir == true && id == true && ides == true)
+		String bsNms = getBusses(dpt, arr, grpSz);
+		
+		if (in == true && ip == true && ir == true && id == true && ides == true && bsNms != null)
 		{	
 			tripData.clear();
 			
-			getTripDistance(destination);
+			double distance = getTripDistance(destination);
 			grpSz = getRefund(grpSz);
-			String bsNms = getBusses(dpt, arr, grpSz);
-			double tripCost = getTripCost(grpSz);
+			double tripCost = getTripCost(grpSz, distance);
+			
 			/*
 			 * Adds the new information to the observable list
 			 * @param Name
@@ -326,7 +327,8 @@ public class BookTripController extends Main implements Initializable
 			 * @param depart
 			 * @param arrive
 			 */
-			tripData.add(new Trip (orgName, grpSz, dpt, arr, bsNms, tripCost));
+			tripData.add(new Trip (orgName, grpSz, dpt, arr, bsNms,
+								   tripCost, distance, destination));
 			
 			/*
 			 * Marshals data to an XML file
@@ -346,7 +348,7 @@ public class BookTripController extends Main implements Initializable
 			stage.setScene(scene);
 			CheckoutController controller = loader.<CheckoutController>getController();
 			controller.setInfo(orgName, Integer.toString(grpSz), arr, 
-							   dpt, bsNms, tripData.get(0).getId());
+							   dpt, bsNms, tripData.get(0).getId(), distance, destination);
 			stage.show();
 		}
 	}
@@ -368,8 +370,7 @@ public class BookTripController extends Main implements Initializable
 	    assert peopleError != null : "fx:id=\"peopleError\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputName != null : "fx:id=\"inputName\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputReturn != null : "fx:id=\"InputReturn\" was not injected: check your FXML file 'BookTrip.fxml'.";
-	    assert destinationError != null : "fx:id=\"destinationError\" was not injected: check your FXML file 'BookTrip.fxml'.";
-	    
+	    assert destinationError != null : "fx:id=\"destinationError\" was not injected: check your FXML file 'BookTrip.fxml'."; 
 	    
 	}
 

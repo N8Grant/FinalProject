@@ -74,6 +74,10 @@ public class CheckoutController extends BookTripController implements Initializa
 
 	@FXML
 	private GridPane tripInfo;		// GridPane to contain trip info
+	
+	@FXML
+    private Label destnationLabel;
+
 
 	/*
 	 * Temp Variables
@@ -85,6 +89,7 @@ public class CheckoutController extends BookTripController implements Initializa
 	public String busNmVariable;	// temp variable for bus numbers for next controller
 	public String totVariable;		// temp variable for total for next controller
 	public String idVariable;		// temp variable for id for next controller
+	public String destVatriable;	// temp variable for destination for next controller
 	    
     @FXML
     void finalizeTrip(ActionEvent event) throws IOException, SAXException 
@@ -150,13 +155,14 @@ public class CheckoutController extends BookTripController implements Initializa
     	}
     }
 
-    public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt, String busNms, String id)
+    public void setInfo (String org, String grp, LocalDate arr, LocalDate dpt,
+    					 String busNms, String id, double dist, String dest)
     {
     	nameVariable = org;
     	grpVariable = grp;
     	dptVariable = dpt.toString();
     	retVariable = arr.toString();
-    	totVariable = String.format("%.2f", getTripCost(Integer.parseInt(grp)));
+    	totVariable = String.format("%.2f", getTripCost(Integer.parseInt(grp), dist));
     	busNmVariable = busNms;
     	idVariable = id;
     	orgNameLb.setText(org);
@@ -165,7 +171,8 @@ public class CheckoutController extends BookTripController implements Initializa
     	retLabel.setText(arr.format(mdy));
     	bussesLabel.setText(getBussesNeeded(Integer.parseInt(grp)));
     	busNumbers.setText(busNms);
-    	totalLabel.setText("$ " + String.format("%.2f", getTripCost(Integer.parseInt(grp))));
+    	totalLabel.setText("$ " + String.format("%.2f", getTripCost(Integer.parseInt(grp), dist)));
+    	destnationLabel.setText(dest);
     }
     
     @FXML
@@ -214,6 +221,7 @@ public class CheckoutController extends BookTripController implements Initializa
         assert Confirm != null : "fx:id=\"Confirm\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert busNumbers != null : "fx:id=\"busNumbers\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
         assert tripInfo != null : "fx:id=\"tripInfo\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";   
+        assert destnationLabel != null : "fx:id=\"destnationLabel\" was not injected: check your FXML file 'CheckoutWindow.fxml'.";
     }
 
 	@Override

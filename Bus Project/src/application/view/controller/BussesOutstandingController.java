@@ -64,18 +64,25 @@ public class BussesOutstandingController extends Main
     		
     		int r = 0;
     		
-    		for (Trip trp: getTripsOnDate(dateSelect.getValue()))
+    		if (getTripsOnDate(dateSelect.getValue()).isEmpty())
     		{
-    			nameLabel = new Label(trp.getName());
-    			nameLabel.setTextFill(Color.web("#f2ff00"));
-    			displayGrid.add(nameLabel, 0, r);
-    			idLabel = new Label(trp.getId());
-    			idLabel.setTextFill(Color.web("#f2ff00"));
-    			displayGrid.add(idLabel, 1, r);
-    			busNumLabel = new Label(trp.getBusNumbers());
-    			busNumLabel.setTextFill(Color.web("#f2ff00"));
-    			displayGrid.add(busNumLabel, 2, r);
-    			r++;
+    			dateError.setText("No trips on this date!!");
+    		}
+    		else
+    		{
+    			for (Trip trp: getTripsOnDate(dateSelect.getValue()))
+        		{
+        			nameLabel = new Label(trp.getName());
+        			nameLabel.setTextFill(Color.web("#f2ff00"));
+        			displayGrid.add(nameLabel, 0, r);
+        			idLabel = new Label(trp.getId());
+        			idLabel.setTextFill(Color.web("#f2ff00"));
+        			displayGrid.add(idLabel, 1, r);
+        			busNumLabel = new Label(trp.getBusNumbers());
+        			busNumLabel.setTextFill(Color.web("#f2ff00"));
+        			displayGrid.add(busNumLabel, 2, r);
+        			r++;
+        		}
     		}
     	}
     }

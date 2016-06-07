@@ -2,10 +2,17 @@ package application.view.controller;
 
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.controlsfx.control.textfield.TextFields;
+import org.xml.sax.SAXException;
 
 import application.Main;
 import application.model.Trip;
@@ -19,6 +26,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -60,6 +68,9 @@ public class EditWindowController extends Main
 
     @FXML
     private Label departError;
+    
+    @FXML
+    private Label destinationError;
 
     @FXML
     private TextField destinationName;
@@ -71,6 +82,7 @@ public class EditWindowController extends Main
 	private LocalDate depart;
 	private LocalDate arrive;
 	private int groupSize;
+	private String destination;
 
 	@FXML
 	void deleteTrip(ActionEvent event) throws IOException 
@@ -112,8 +124,14 @@ public class EditWindowController extends Main
 		
 	}
 	
+	@FXML
+    void updateOptions(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException 
+	{
+		TextFields.bindAutoCompletion(destinationName, getDestinationChoices(destinationName.getText()));
+    }
+	
     @FXML
-    void commitChanges(ActionEvent event) throws IOException 
+    void commitChanges(ActionEvent event) throws IOException, ParserConfigurationException, SAXException, TransformerException 
     {
     	/*
 		 * Resets all values and fields
@@ -122,16 +140,19 @@ public class EditWindowController extends Main
 		Boolean ip = false;
 		Boolean ir = false;
 		Boolean id = false;
+		Boolean idest = false;
 		peopleError.setText("");
 		nameError.setText("");
 		returnError.setText("");
 		departError.setText("");
+		destinationError.setText("");
 		
 		/*
 		 * If Statement if all fields are filled out
 		 */
 		if (inputName.getText() != null || inputDepart.getValue() != null || 
-			inputReturn.getValue() != null || inputNumPeople.getText() != null)
+			inputReturn.getValue() != null || inputNumPeople.getText() != null ||
+			destinationName.getText() != null)
 		{
 			/*
 			 * If the number entered is less than 0
@@ -190,6 +211,9 @@ public class EditWindowController extends Main
 				in = true;
 				name = inputName.getText();	
 			}
+			
+			idest = true;
+			destination = destinationName.getText();
 		}
 		
 		/*
@@ -208,61 +232,86 @@ public class EditWindowController extends Main
 			/*
 			 * If depart isn't selected
 			 */
-			else if (inputDepart.getValue() == null)
+			if (inputDepart.getValue() == null)
 			{
 				departError.setText("Field cant be empty!!");
 			}
 			/*
 			 * If return isn't selected
 			 */
-			else if (inputReturn.getValue() == null)
+			if (inputReturn.getValue() == null)
 			{
 				returnError.setText("Field cant be empty!!");
 			}
 			/*
 			 * If number of people is selected
 			 */
-			else if (inputNumPeople.getText() == null)
+			if (inputNumPeople.getText() == null)
 			{
 				peopleError.setText("Field cant be empty!!");
 			}
+			if (destinationName.getText() == null)
+			{
+				destinationError.setText("Feild cant be empty!!");
+			}
 		}
+		
+		String bsNms = getBusses(depart, arrive, groupSize);
 		
 		/*
 		 * If all of the vales are acceptable
 		 */
-		if (in == true && ip == true && ir == true && id == true)
+		if (in == true && ip == true && ir == true && id == true && bsNms != null)
 		{	
-			tripData.clear();
-			
-			String bsNms = getBusses(depart, arrive, groupSize);
-			double tripCost = getTripCost(groupSize);
-			/*
-			 * Adds the new information to the observable list
-			 * @param Name
-			 * @param size
-			 * @param depart
-			 * @param arrive
-			 */
-			tripData.add(new Trip (name, groupSize, depart, arrive, bsNms, tripCost));
 			
 			/*
-			 * Marshals data to an XML file
-			 */
-			addToXML(tripData);
+	    	 * Alert to show finalize success
+	    	 */
+	    	Alert alert = new Alert(AlertType.CONFIRMATION);
+	    	alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("Confirm Dialog");
+			alert.setContentText("Are you sure you want to modify this trip?");
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get() == ButtonType.OK)
+			{
+				tripData.clear();
+				
+				double distance = getTripDistance(destination);
+				double tripCost = getTripCost(groupSize, distance);
+				
+				/*
+				 * Adds the new information to the observable list
+				 * @param Name
+				 * @param size
+				 * @param depart
+				 * @param arrive
+				 */
+				tripData.add(new Trip (name, groupSize, depart, arrive, bsNms,
+									   tripCost, distance, destination));
+				
+				/*
+				 * Marshals data to an XML file
+				 */
+				addToXML(tripData);
+				
+				/*
+				 * Loads the checkout window
+				 */
+				Stage stage;
+				AnchorPane root;
+				stage = (Stage) commitChanges.getScene().getWindow();	
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("view/ScheduleWindow.fxml"));
+				root = (AnchorPane) loader.load();   
+				Scene scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
+			}
+			else
+			{
+				alert.close();
+			}
 			
-			/*
-			 * Loads the checkout window
-			 */
-			Stage stage;
-			AnchorPane root;
-			stage = (Stage) commitChanges.getScene().getWindow();	
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/ScheduleWindow.fxml"));
-			root = (AnchorPane) loader.load();   
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
 		}
     }
 
@@ -279,9 +328,10 @@ public class EditWindowController extends Main
         assert returnError != null : "fx:id=\"returnError\" was not injected: check your FXML file 'EditInfoWindow.fxml'.";
         assert departError != null : "fx:id=\"departError\" was not injected: check your FXML file 'EditInfoWindow.fxml'.";
         assert destinationName != null : "fx:id=\"destinationName\" was not injected: check your FXML file 'EditInfoWindow.fxml'.";
+        assert destinationError != null : "fx:id=\"destinationError\" was not injected: check your FXML file 'EditInfoWindow.fxml'.";
     }
     
-    public void setInfo (String nm, LocalDate dpt, LocalDate ret, int grpSz)
+    public void setInfo (String nm, LocalDate dpt, LocalDate ret, int grpSz, String dest)
     {
     	name = nm;
     	depart = dpt;
@@ -292,5 +342,6 @@ public class EditWindowController extends Main
     	inputDepart.setValue(dpt);
     	inputReturn.setValue(ret);
     	inputNumPeople.setText(Integer.toString(grpSz));
+    	destinationName.setText(dest);
     }
 }    

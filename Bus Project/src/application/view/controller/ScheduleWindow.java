@@ -103,7 +103,7 @@ public class ScheduleWindow extends Main implements Initializable
     	{
 			EditWindowController controller = loader.<EditWindowController>getController();
 			controller.setInfo(trp.getName(), trp.getDepart(), 
-							   trp.getArrive(), trp.getGroupSize());
+							   trp.getArrive(), trp.getGroupSize(), trp.getTripDestination());
 			
 			deleteTrip(trp.getName());
     	}
