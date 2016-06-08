@@ -6,6 +6,10 @@ import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -89,7 +93,7 @@ public class FinanceWindow extends Main
     }
     
     @FXML
-    void applyTime(ActionEvent event) 
+    void applyTime(ActionEvent event) throws NumberFormatException, ParserConfigurationException, SAXException, IOException 
     {	
     	if (quarterly.isSelected())
     	{

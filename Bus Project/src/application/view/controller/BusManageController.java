@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,8 +40,11 @@ public class BusManageController extends Main
     private Button cancelButton;			// Button to return to main menu
     
     @FXML
-    private Button viewBusInfo;				// Button to select the currently chosen
-    										// radio button
+    private Button viewBusInfo;				// Button to select the currently chosen radio button
+    		
+    @FXML
+    private RadioButton checkAvailable;		// Toggle button for available button
+    
     @FXML
     private RadioButton bussesOut;			// Toggle button for busses that are out
    
@@ -61,9 +68,9 @@ public class BusManageController extends Main
     }
     
     @FXML
-    void displayBusInfo(ActionEvent event) throws IOException 
+    void displayBusInfo(ActionEvent event) throws IOException, ParserConfigurationException, SAXException 
     {
-    	if(completedTrips.isSelected() == true)
+    	if(completedTrips.isSelected())
     	{
     		Stage stage;
     		AnchorPane root;
@@ -78,7 +85,7 @@ public class BusManageController extends Main
     		stage.setScene(scene);
     		stage.show();
     	}
-    	else if (finances.isSelected() == true)
+    	else if (finances.isSelected())
     	{
     		Stage stage;
     		AnchorPane root;
@@ -92,6 +99,10 @@ public class BusManageController extends Main
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
     		stage.show();
+    	}
+    	else if (checkAvailable.isSelected())
+    	{
+    		
     	}
     }
 

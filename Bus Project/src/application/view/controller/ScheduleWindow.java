@@ -130,7 +130,7 @@ public class ScheduleWindow extends Main implements Initializable
     }
     
     @FXML
-    void sortAction(ActionEvent event)
+    void sortAction(ActionEvent event) throws ParserConfigurationException, SAXException, IOException
     {
     	String temp = sortSelect.getValue();
     	if (temp == "Name A-Z")
@@ -193,32 +193,49 @@ public class ScheduleWindow extends Main implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		
-		customerSelect.setItems(getAllNames(fetchCurrentXML(), 0));
+		/*
+		 * Initialize all elements
+		 */
 		sortItems.add("Name A-Z");
 		sortItems.add("Name Z-A");
 		sortItems.add("Group Size Decending");
 		sortItems.add("Group Size Acending");
 		sortSelect.setItems(sortItems);
-		if (fetchCurrentXML().isEmpty())
+		
+		/*
+		 * Try to fetch XML
+		 */
+		try 
 		{
-			/*
-	    	 * Alert to show finalize success
-	    	 */
-	    	Alert alert = new Alert(AlertType.ERROR);
-	    	alert.setTitle("Error Dialog");
-			alert.setHeaderText("No Trips");
-			alert.setContentText("There are no current trips to view, book a trip to continue!!");
-			Optional<ButtonType> result = alert.showAndWait();
+			customerSelect.setItems(getAllNames(fetchCurrentXML(), 0));
 			
-			if (result.get() == ButtonType.OK)
+			if (fetchCurrentXML().isEmpty())
 			{
-				alert.close();
+				/*
+				 * Alert to show finalize success
+				 */
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error Dialog");
+				alert.setHeaderText("No Trips");
+				alert.setContentText("There are no current trips to view, book a trip to continue!!");
+				Optional<ButtonType> result = alert.showAndWait();
+				
+				if (result.get() == ButtonType.OK)
+				{
+					alert.close();
+				}
+				else
+				{
+					alert.close();
+				}
 			}
-			else
-			{
-				alert.close();
-			}
+		} 
+		/*
+		 * Catch all exceptions
+		 */
+		catch (ParserConfigurationException | SAXException | IOException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 }

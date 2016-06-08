@@ -3,6 +3,10 @@ package application.view.controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,7 +54,7 @@ public class MainMenuController extends Main
 	}
 	 
 	@FXML
-	void checkSchedule(ActionEvent event) throws IOException
+	void checkSchedule(ActionEvent event) throws IOException, ParserConfigurationException, SAXException
 	{
 		if (fetchCurrentXML().isEmpty())
 		{

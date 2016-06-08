@@ -36,17 +36,7 @@
         <Distance>2036.0</Distance>
         <Destination>N Indianapolis Ave, Florida 34442, USA</Destination>
     </Trip>
-<Trip>
-        <Name>Dona</Name>
-        <ID>125</ID>
-        <GroupSize>400</GroupSize>
-        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20</BusNumbers>
-        <Depart>2016-07-07</Depart>
-        <Return>2016-07-09</Return>
-        <Cost>19996.0</Cost>
-        <Distance>62.5</Distance>
-        <Destination>Boston, MA, USA</Destination>
-    </Trip>
+
 
 <Trip>
         <Name>Tim</Name>
@@ -86,4 +76,5 @@
         <Distance>4825.0</Distance>
         <Destination>Compton, CA, USA</Destination>
     </Trip>
+
 </Trips>

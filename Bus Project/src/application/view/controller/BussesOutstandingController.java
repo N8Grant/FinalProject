@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import application.Main;
 import application.model.Trip;
 import javafx.event.ActionEvent;
@@ -49,7 +53,7 @@ public class BussesOutstandingController extends Main
     Label busNumLabel;
 
     @FXML
-    void displayTrips(ActionEvent event) 
+    void displayTrips(ActionEvent event) throws ParserConfigurationException, SAXException, IOException 
     {
     	if (dateSelect.getValue() == null)
     	{
