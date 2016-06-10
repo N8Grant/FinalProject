@@ -1,23 +1,26 @@
-package application.view.controller;
+package application.view.controller;	// Package that the class is contained in 
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+/*
+ * Import Section
+ */
+import java.io.IOException;		// Exception for input and output
+import java.net.URL;		// Import for use if URL connection
+import java.util.ResourceBundle;	// Used for the location of FXML files
 
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.ParserConfigurationException;	// Exception for parser error
 
-import org.xml.sax.SAXException;
+import org.xml.sax.SAXException;	// Exception for writer error
 
-import application.Main;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import application.Main;	// Import for use of function in main
+import javafx.event.ActionEvent;	// Used for basic action of buttons
+import javafx.fxml.FXML;		// Used for FXML handling
+import javafx.fxml.FXMLLoader;		// Used to load FXML files
+import javafx.scene.Scene;		// The scene which the window is outputted to
+import javafx.scene.control.Button;		// Button GUI element
+import javafx.scene.control.RadioButton;	// Button which can be selected
+import javafx.scene.control.ToggleGroup;	// Groups all toggle buttons together
+import javafx.scene.layout.AnchorPane;		// Base pane used for GUI
+import javafx.stage.Stage;	// Import for screen manipulation
 
 public class BusManageController extends Main
 {
@@ -53,7 +56,15 @@ public class BusManageController extends Main
     										// balance sheet
     @FXML
     void returntoMain(ActionEvent event) throws IOException 
+    /*
+     * Precondition:  User clicks on the home button
+     * Postcondition: Returns to main menu if user confirms the 
+     * 				  warning popup
+     */
     {
+    	/*
+    	 * Loads new stage and window
+    	 */
     	Stage stage;
 		AnchorPane root;
 		stage = (Stage) cancelButton.getScene().getWindow();
@@ -69,9 +80,19 @@ public class BusManageController extends Main
     
     @FXML
     void displayBusInfo(ActionEvent event) throws IOException, ParserConfigurationException, SAXException 
+    /*
+     * Precondition:  User clicks on view
+     * Postcondition: Displays teh selected window
+     */
     {
+    	/*
+    	 * If completed trips is selected
+    	 */
     	if(completedTrips.isSelected())
     	{
+    		/*
+    		 * Loads the completed trips window
+    		 */
     		Stage stage;
     		AnchorPane root;
     		stage = (Stage) viewBusInfo.getScene().getWindow();
@@ -85,8 +106,14 @@ public class BusManageController extends Main
     		stage.setScene(scene);
     		stage.show();
     	}
+    	/*
+    	 * Else if finances is selected
+    	 */
     	else if (finances.isSelected())
     	{
+    		/*
+    		 * Loads finance window
+    		 */
     		Stage stage;
     		AnchorPane root;
     		stage = (Stage) viewBusInfo.getScene().getWindow();
@@ -100,9 +127,24 @@ public class BusManageController extends Main
     		stage.setScene(scene);
     		stage.show();
     	}
+    	/*
+    	 * Else if check available is selected
+    	 */
     	else if (checkAvailable.isSelected())
     	{
-    		
+    		/*
+    		 * Loads available busses window
+    		 */
+    		Stage stage;
+    		AnchorPane root;
+    		stage = (Stage) viewBusInfo.getScene().getWindow();
+    							
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(Main.class.getResource("view/AvailableBussesController.fxml"));
+    		root = (AnchorPane) loader.load();
+    		Scene scene = new Scene(root);
+    		stage.setScene(scene);
+    		stage.show();
     	}
     }
 

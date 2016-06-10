@@ -35,6 +35,9 @@ public class PrinterController extends CheckoutController implements Initializab
 
 	@FXML
 	private Label returnLabel;
+	
+    @FXML
+    private Label destinationLabel;
 
 	public Label getCustomerLabel() 
 	{
@@ -43,7 +46,7 @@ public class PrinterController extends CheckoutController implements Initializab
 
 	public void populateReceipt (String nm, String grpSz,
 								 String busNm, String dpt, String ret, String tot,
-								 String id)
+								 String id, String dest)
 	{
 		customerLabel.setText(nm);
 		grpSzLabel.setText(grpSz);
@@ -52,6 +55,7 @@ public class PrinterController extends CheckoutController implements Initializab
 		returnLabel.setText(ret);
 		totalLabel.setText("$ " + tot);
 		idLabel.setText(id);
+		destinationLabel.setText(dest);
 	}
 		
 	@FXML
@@ -64,6 +68,7 @@ public class PrinterController extends CheckoutController implements Initializab
         assert departLabel != null : "fx:id=\"departLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
         assert totalLabel != null : "fx:id=\"totalLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
         assert returnLabel != null : "fx:id=\"returnLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
+        assert destinationLabel != null : "fx:id=\"returnLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
 	}
 	    
 	@Override

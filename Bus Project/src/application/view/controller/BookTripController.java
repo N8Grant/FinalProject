@@ -1,133 +1,105 @@
-package application.view.controller;
+package application.view.controller;	// Package that the class is contained in
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
+/*
+ * Import Section
+ */
+import java.io.IOException;			//  Exception for input and output
+import java.net.MalformedURLException;		// Exception for bad URL connection
+import java.net.URL;				// Import for use with URL connection
+import java.time.LocalDate;			// Used for LocalDate class to handle date
+import java.util.Optional;			// Used for popup handling
+import java.util.ResourceBundle;	// Used for location of windows in memory
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import javax.xml.parsers.ParserConfigurationException;	// Exception for bad parser handling
+import javax.xml.transform.TransformerException;	// Exception for transformer error
 
-import org.controlsfx.control.textfield.TextFields;
-import org.xml.sax.SAXException;
+import org.controlsfx.control.textfield.TextFields;		// Textfield hander
+import org.xml.sax.SAXException;		// Exception for writer error
 
-import application.Main;
-import application.model.Trip;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import application.Main;		// Import for the main classes methods
+import application.model.Trip;	// Import for user class
+import javafx.event.ActionEvent;	// Import for JavaFX event handling
+import javafx.fxml.FXML;	// Import for FXML file format
+import javafx.fxml.FXMLLoader;	// Import for FXML loaders
+import javafx.scene.Scene;		// Used for the base scene
+import javafx.scene.control.Alert;	// Used for easy pop up windows
+import javafx.scene.control.Alert.AlertType;	// Used for customizing alerts
+import javafx.scene.control.Button;		// Used for button GUI handling
+import javafx.scene.control.ButtonType;		// Used to control popup interaction
+import javafx.scene.control.DatePicker;		// Used for date picker compatibility
+import javafx.scene.control.Label;		// Used for text label handling
+import javafx.scene.control.TextField;	// Used for text field information handling
+import javafx.scene.input.KeyEvent;		// Handles user key strikes
+import javafx.scene.layout.AnchorPane;	// The base pane or windows
+import javafx.stage.Stage;		// The base stage for the panes to be outputted to
 
-public class BookTripController extends Main implements Initializable
+public class BookTripController extends Main
 {
 	/*
 	 * Declares all of the GUI elements
 	 * @FXML
 	 */
 	@FXML
-	private ResourceBundle resources;
+	private ResourceBundle resources;		// Location of FXML in computer
+	
     @FXML
-    private URL location;					// location in storage of fxml
+    private URL location;					// Location in storage of FXML
+    
     @FXML
-    private Label destinationError;
+    private Label destinationError;			// Error message for destination
+    
 	@FXML
-	private TextField inputNumPeople;		// input box for number of people
+	private TextField inputNumPeople;		// Input box for number of people
+	
 	@FXML
-	private Label nameError;				// error message under name box
+	private Label nameError;				// Error message under name box
+	
 	@FXML
-	private Button continueCheckout;		// button to continue to next window
+	private Button continueCheckout;		// Button to continue to next window
+	
 	@FXML
-	private Label returnError;				// error under return date picker
+	private Label returnError;				// Error under return date picker
+	
 	@FXML
-    private Button Return;					// button to return to main menu
+    private Button Return;					// Button to return to main menu
+	
 	@FXML
-    private TextField destinationName;
+    private TextField destinationName;		// TextField for the name of the trips destination
+	
 	@FXML
-	private DatePicker inputDepart;			// date picker for departure date
+	private DatePicker inputDepart;			// Date picker for departure date
+	
 	@FXML
-	private Label departError;				// error under depart date picker
+	private Label departError;				// Error under depart date picker
+	
 	@FXML
-	private Label peopleError;				// error under number people box
+	private Label peopleError;				// Error under number people box
+	
 	@FXML
-	private TextField inputName;			// input box for customer/organization name
+	private TextField inputName;			// Input box for customer / organization name
+	
 	@FXML
 	private DatePicker inputReturn;			// input box for date of return
 
 	/******************/
 	/* Temp Variables */
 	/******************/
-	public String orgName;
-	public LocalDate  dpt;
-	public LocalDate  arr;
-	public int  grpSz;
-	public String destination;
-	public ObservableList<String> destinationList = FXCollections.observableArrayList();
+	public String orgName;		// String for name to be passes to next window
+	public LocalDate  dpt;		// LocalDate for depart to be passed to the next window
+	public LocalDate  arr;		// LocalDate for return to be passed to the next window
+	public int  grpSz;			// Int for group size to be passed to the next window
+	public String destination;	// String for the destination of the trip to be passed 			
+								// to the next window
 	
 	/*
 	 * GUI Controllers
-	 */
-	@FXML
-	void inputNameAction(ActionEvent event) 
-	/*
-	 * Precondition:  The program wants a value for the 
-	 * 			   organizations name
-	 * Postcondition: The program gets a value for the 
-	 * 			   organizations name
-	 */
-	{
-		 
-	}
-
-	@FXML
-	void inputDepartAction(ActionEvent event) 
-	/* 
-	 * Precondition:  Program wants a value fort the date of 
-	 * 			   departure
-	 * Postcondition: The program gets a value in the form of 
-	 * 			   a LocalDate
-	 */
-	{
-		
-	}
-
-	@FXML
-	void inputReturnAction(ActionEvent event) 
-	/*
-	 * Precondition:  Program wants value for the date of return
-	 * Postcondition: The program gets a value in the form of 
-	 * 			      a LocalDate
-	 */
-	{
-		
-	}
-
-	@FXML
-	void inputPeopleAction(ActionEvent event) 
-	/* 
-	 * Precondition:  Program wants value for number of people
-	 * Postcondition: The program gets a value for group size
-	 */
-	{
-		 
-	}
-	    
+	 */   
 	@FXML
 	void returntoMain(ActionEvent event) throws IOException 
+	/*
+	 * Precondition:  User clicks on the home button
+	 * Postcondition: User is sent to the home page if they confirm their action
+	 */
 	{
 		/*
 		 * Makes a new pop-up dialog box
@@ -163,7 +135,11 @@ public class BookTripController extends Main implements Initializable
 	}
 	
 	@FXML
-    void updateSuggestions(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException 
+    void updateSuggestions(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException
+    /*
+     * Precondition:  User types in the destination box
+     * Postcondition: The Suggestion box is updated with possible suggestions 
+     */
 	{
 		TextFields.bindAutoCompletion(destinationName, getDestinationChoices(destinationName.getText()));
     }
@@ -172,7 +148,8 @@ public class BookTripController extends Main implements Initializable
 	@FXML
 	void openCheckout(ActionEvent event) throws IOException, SAXException, ParserConfigurationException, TransformerException
 	/*
-	 * Method for when continue button is pressed
+	 * Precondition:  User clicks on the confirm button
+	 * Postcondition: If all requirements are filled out then it goes to the checkout window
 	 */
 	{
 		/*
@@ -203,6 +180,9 @@ public class BookTripController extends Main implements Initializable
 			{
 				peopleError.setText("Enter number greater than 0!");
 			}
+			/*
+			 * Else if user entered number below 10
+			 */
 			else if ((Integer.parseInt(inputNumPeople.getText()) > 0) &&
 					 (Integer.parseInt(inputNumPeople.getText()) < 10))
 			{
@@ -252,13 +232,18 @@ public class BookTripController extends Main implements Initializable
 				nameError.setText("Name already used!!");
 				in = false;
 			}
-			// Else field is valid
+			/*
+			 * Else field is valid
+			 */
 			else
 			{
 				in = true;
 				orgName = inputName.getText();	
 			}
 			
+			/*
+			 * Destination field is automatically valid if filled out
+			 */
 			ides = true;
 			destination = destinationName.getText();
 		}
@@ -291,31 +276,50 @@ public class BookTripController extends Main implements Initializable
 				returnError.setText("Field cant be empty!!");
 			}
 			/*
-			 * If number of people is selected
+			 * If number of people isn't filled out
 			 */
 			if (inputNumPeople.getText() == null)
 			{
 				peopleError.setText("Field cant be empty!!");
 			}
-			if (inputNumPeople.getText() == null)
-			{
-				peopleError.setText("Field cant be empty!!");
-			}
+			/*
+			 * If destination name is empty
+			 */
 			if (destinationName.getText() == null)
 			{
 				destinationError.setText("Field cant be empty!!");
 			}	
 		}
 		
+		String bsNms;	// String of all of the bus numbers for the trip
+		
+		/*
+		 * Gets the bus numbers for the trip before the confirmation 
+		 * because it has to be checked for null values where there aren't 
+		 * enough busses left for the trip they want to book
+		 */
+		try
+		{
+			bsNms = getBusses(dpt, arr, grpSz);
+		}
+		/*
+		 * Catch no data entered exception
+		 */
+		catch (NumberFormatException e)
+		{
+			bsNms = null;
+		}
+		
 		/*
 		 * If all of the vales are acceptable
 		 */
-		String bsNms = getBusses(dpt, arr, grpSz);
-		
 		if (in == true && ip == true && ir == true && id == true && ides == true && bsNms != null)
 		{	
-			tripData.clear();
+			tripData.clear();	// Clears the tripList before values are added
 			
+			/*
+			 * Gets calculated data before adding a new Trip to tripList
+			 */
 			double distance = getTripDistance(destination);
 			grpSz = getRefund(grpSz);
 			double tripCost = getTripCost(grpSz, distance);
@@ -331,7 +335,7 @@ public class BookTripController extends Main implements Initializable
 								   tripCost, distance, destination));
 			
 			/*
-			 * Marshals data to an XML file
+			 * Adds the trip list to the xml file
 			 */
 			addToXML(tripData);
 			
@@ -370,13 +374,6 @@ public class BookTripController extends Main implements Initializable
 	    assert peopleError != null : "fx:id=\"peopleError\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputName != null : "fx:id=\"inputName\" was not injected: check your FXML file 'BookTrip.fxml'.";
 	    assert inputReturn != null : "fx:id=\"InputReturn\" was not injected: check your FXML file 'BookTrip.fxml'.";
-	    assert destinationError != null : "fx:id=\"destinationError\" was not injected: check your FXML file 'BookTrip.fxml'."; 
-	    
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) 
-	{
-		
+	    assert destinationError != null : "fx:id=\"destinationError\" was not injected: check your FXML file 'BookTrip.fxml'.";  
 	}
 }
