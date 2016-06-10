@@ -62,7 +62,7 @@ import javafx.scene.Parent;	// Used for window hierarchy
 import javafx.scene.Scene;	// Used for the base scene 
 import javafx.scene.chart.PieChart;	// Used for pie chart API
 import javafx.scene.control.Alert;		// Used for easy pop up windows
-import javafx.scene.control.Alert.AlertType;	// Used for customizinf alerts
+import javafx.scene.control.Alert.AlertType;	// Used for customizing alerts
 import javafx.scene.control.ButtonType;			// Used to control popup interaction
 import javafx.stage.Stage;	// Used for the stage windows
 

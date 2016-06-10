@@ -32,16 +32,17 @@ public class Trip
     private SimpleStringProperty arriveString;	// String of return date
     private DoubleProperty tripDistance;		// Distance of the trip
     private SimpleStringProperty destination; 	// The name of the destination for the trip
-    /*
-     * The format for the date
-     */
-    final DateTimeFormatter ymd = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    final DateTimeFormatter mdy = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+    final DateTimeFormatter ymd = DateTimeFormatter.ofPattern("yyyy-MM-dd");		// year month day format
+    final DateTimeFormatter mdy = DateTimeFormatter.ofPattern("MM-dd-yyyy");		// month day year format
 
     /**
      * Default constructor.
      */
     public Trip() 
+    /*
+     * Precondition:  User wants to make a blank Trip object
+     * Postcondition: Trip object created with no values
+     */
     {
         this(null, 0, null, null, null, 0, 0, null);
     }
@@ -56,6 +57,11 @@ public class Trip
      */
     public Trip(String Name, int grpSz, LocalDate dpt, LocalDate arr, String bsNm,
     			double cst, double dist, String dest) 
+    /*
+     * Precondition:  Program wants to make an object and has date values
+     * 			      in LocalDate form 
+     * Postcondition: Trip object is made with given values
+     */
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
@@ -73,6 +79,11 @@ public class Trip
     
     public Trip(String Name, String ID, int grpSz, String busNm, String dpt,
     			String arr, double cst, double dist, String dest) 
+    /*
+     * Precondition:  Program wants to make an object and has date values
+     * 			      in String form 
+     * Postcondition: Trip object is made with given values
+     */
     {
     	this.organizationName = new SimpleStringProperty(Name);
     	this.groupSize = new SimpleIntegerProperty(grpSz);
@@ -87,7 +98,8 @@ public class Trip
 
     public String getId() 
     /*
-     * Getter for string of trip ID
+     * Precondition:  User wants the trip ID number
+     * Postcondition: String with user ID is returned
      */
     {
         return ID.get();
@@ -95,7 +107,8 @@ public class Trip
 
     public void setId(String id)
     /*
-     * Setter for trip ID
+     * Precondition:  User wants to change the ID number
+     * Postcondition: The trips ID number is changed
      */
     {
         this.ID.set(id);
@@ -103,35 +116,55 @@ public class Trip
 
     public StringProperty ID() 
     /*
-     * Returns a string representation of this StringProperty object
+     * Precondition:  User wants a string representation of the ID property
+     * Postcondition: String with users ID is returned
      */
     {
         return ID;
     }
+    
     public String getName() 
+    /*
+     * Precondition:  User wants the customers name
+     * Postcondition: String of the customers name s returned to the user
+     */
     {
         return organizationName.get();
     }
 
     public void setName(String nm) 
+    /*
+     * Precondition:  User wants to change the customers name
+     * Postcondition: The name is changed
+     * 
+     */
     {
         this.organizationName.set(nm);
     }
 
     public StringProperty nameProperty()
     /*
-     * Returns a string representation of this StringProperty object
+     * Precondition:  User wants a string representation of the name property
+     * Postcondition: String with users name is returned
      */
     {
         return organizationName;
     }
 
     public int getGroupSize() 
+    /*
+     * Precondition:  User wants the group size
+     * Postcondition: Group size is returned as an int
+     */
     {
         return groupSize.get();
     }
 
     public void setGroupSize(int size)
+    /*
+     * Precondition:  
+     * Postcondition: 
+     */
     {
         this.groupSize.set(size);
     }

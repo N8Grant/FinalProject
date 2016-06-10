@@ -21,6 +21,6 @@
       <Button fx:id="viewBusInfo" layoutX="235.0" layoutY="138.0" mnemonicParsing="false" onAction="#displayBusInfo" prefHeight="31.0" prefWidth="83.0" text="View" AnchorPane.leftAnchor="235.0" AnchorPane.rightAnchor="82.0" />
       <Button fx:id="cancelButton" layoutX="65.0" layoutY="138.0" mnemonicParsing="false" onAction="#returntoMain" text="Cancel" />
       <RadioButton fx:id="completedTrips" layoutX="65.0" layoutY="51.0" mnemonicParsing="false" text="Completed Trips" toggleGroup="$busView" />
-      <RadioButton fx:id="checkAvailable" layoutX="143.0" layoutY="89.0" mnemonicParsing="false" text="Check Availability" toggleGroup="$busView" />
+      <RadioButton fx:id="checkAvailable" layoutX="127.0" layoutY="89.0" mnemonicParsing="false" text="Check Availability" toggleGroup="$busView" />
    </children>
 </AnchorPane>

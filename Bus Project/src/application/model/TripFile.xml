@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <Trips>
-    <Trip>
-        <Name>Nate</Name>
-        <ID>331</ID>
-        <GroupSize>40</GroupSize>
-        <BusNumbers>1, 2</BusNumbers>
-        <Depart>2016-06-07</Depart>
-        <Return>2016-06-08</Return>
-        <Cost>1999.6</Cost>
-        <Distance>23.2</Distance>
-        <Destination>Mansfield, MA, USA</Destination>
-    </Trip>
+    
 
 
 
-<Trip>
-        <Name>Lee</Name>
-        <ID>835</ID>
-        <GroupSize>33</GroupSize>
-        <BusNumbers>3, 4</BusNumbers>
-        <Depart>2016-06-07</Depart>
-        <Return>2016-06-08</Return>
-        <Cost>1649.67</Cost>
-        <Distance>62.5</Distance>
-        <Destination>Boston, MA, USA</Destination>
-    </Trip>
+
 <Trip>
         <Name>Tuck</Name>
         <ID>701</ID>
