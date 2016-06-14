@@ -22,4 +22,26 @@
         <Distance>62.5</Distance>
         <Destination>Boston, MA, USA</Destination>
     </Trip>
+<Trip>
+        <Name>Yuseph</Name>
+        <ID>549</ID>
+        <GroupSize>40</GroupSize>
+        <BusNumbers>1, 2</BusNumbers>
+        <Depart>2016-06-11</Depart>
+        <Return>2016-06-12</Return>
+        <Cost>12063.85</Cost>
+        <Distance>4825.0</Distance>
+        <Destination>Compton, CA, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>Sean</Name>
+        <ID>838</ID>
+        <GroupSize>40</GroupSize>
+        <BusNumbers>3, 4</BusNumbers>
+        <Depart>2016-06-13</Depart>
+        <Return>2016-06-13</Return>
+        <Cost>12044.68</Cost>
+        <Distance>4816.0</Distance>
+        <Destination>Los Angeles, CA, USA</Destination>
+    </Trip>
 </Trips>

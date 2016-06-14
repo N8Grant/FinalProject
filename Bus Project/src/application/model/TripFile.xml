@@ -5,56 +5,40 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <Trip>
         <Name>Tuck</Name>
-        <ID>701</ID>
+        <ID>530</ID>
         <GroupSize>60</GroupSize>
         <BusNumbers>1, 2, 3</BusNumbers>
-        <Depart>2016-08-10</Depart>
-        <Return>2016-08-11</Return>
+        <Depart>2016-08-13</Depart>
+        <Return>2016-08-16</Return>
         <Cost>7123.08</Cost>
         <Distance>2036.0</Distance>
         <Destination>N Indianapolis Ave, Florida 34442, USA</Destination>
     </Trip>
-
-
 <Trip>
-        <Name>Tim</Name>
-        <ID>484</ID>
-        <GroupSize>20</GroupSize>
-        <BusNumbers>1</BusNumbers>
-        <Depart>2016-06-10</Depart>
-        <Return>2016-06-13</Return>
-        <Cost>1170.2</Cost>
-        <Distance>180.0</Distance>
-        <Destination>Hartford, CT, USA</Destination>
+        <Name>Nate</Name>
+        <ID>367</ID>
+        <GroupSize>160</GroupSize>
+        <BusNumbers>1, 2, 5, 6, 7, 8, 9, 10</BusNumbers>
+        <Depart>2016-06-13</Depart>
+        <Return>2016-06-15</Return>
+        <Cost>8383.93</Cost>
+        <Distance>281.0</Distance>
+        <Destination>North Conway, Conway, NH, USA</Destination>
     </Trip>
-
-
-
-
-
-<Trip>
-        <Name>Jake</Name>
-        <ID>594</ID>
-        <GroupSize>20</GroupSize>
-        <BusNumbers>2</BusNumbers>
-        <Depart>2016-06-10</Depart>
-        <Return>2016-06-13</Return>
-        <Cost>999.8</Cost>
-        <Distance>23.2</Distance>
-        <Destination>Mansfield, MA, USA</Destination>
-    </Trip>
-<Trip>
-        <Name>Yuseph</Name>
-        <ID>549</ID>
-        <GroupSize>40</GroupSize>
-        <BusNumbers>1, 2</BusNumbers>
-        <Depart>2016-06-11</Depart>
-        <Return>2016-06-12</Return>
-        <Cost>12063.85</Cost>
-        <Distance>4825.0</Distance>
-        <Destination>Compton, CA, USA</Destination>
-    </Trip>
-
 </Trips>

@@ -1,94 +1,104 @@
-package application.view.controller;
+package application.view.controller;		// Package that the class is in
 
+/*
+ * Import Section
+ */
+import java.io.IOException;			//  Exception for input and output
+import java.net.MalformedURLException;		// Exception for bad URL connection
+import java.net.URL;				// Import for use with URL connection
+import java.time.LocalDate;			// Used for LocalDate class to handle date
+import java.util.Optional;			// Used for popup handling
+import java.util.ResourceBundle;	// Used for location of windows in memory
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import javax.xml.parsers.ParserConfigurationException;	// Exception for bad parser handling
+import javax.xml.transform.TransformerException;	// Exception for transformer error
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import org.controlsfx.control.textfield.TextFields;		// Textfield hander
+import org.xml.sax.SAXException;		// Exception for writer error
 
-import org.controlsfx.control.textfield.TextFields;
-import org.xml.sax.SAXException;
+import application.Main;		// Import for the main classes methods
+import application.model.Trip;	// Import for user class
+import javafx.event.ActionEvent;	// Import for JavaFX event handling
+import javafx.fxml.FXML;	// Import for FXML file format
+import javafx.fxml.FXMLLoader;	// Import for FXML loaders
+import javafx.scene.Scene;		// Used for the base scene
+import javafx.scene.control.Alert;	// Used for easy pop up windows
+import javafx.scene.control.Alert.AlertType;	// Used for customizing alerts
+import javafx.scene.control.Button;		// Used for button GUI handling
+import javafx.scene.control.ButtonType;		// Used to control popup interaction
+import javafx.scene.control.DatePicker;		// Used for date picker compatibility
+import javafx.scene.control.Label;		// Used for text label handling
+import javafx.scene.control.TextField;	// Used for text field information handling
+import javafx.scene.input.KeyEvent;		// Handles user key strikes
+import javafx.scene.layout.AnchorPane;	// The base pane or windows
+import javafx.stage.Stage;		// The base stage for the panes to be outputted to
 
-import application.Main;
-import application.model.Trip;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class EditWindowController extends Main
 {
+	/*
+	 * GUI Elements
+	 */
 	@FXML
-    private ResourceBundle resources;
+	private ResourceBundle resources;		// Location of FXML in computer
+	
+    @FXML
+    private URL location;					// Location in storage of FXML
 
     @FXML
-    private URL location;
+    private TextField inputName;			// Input box for customer / organization name
 
     @FXML
-    private TextField inputName;
+    private DatePicker inputDepart;			// Date picker for departure date
 
     @FXML
-    private DatePicker inputDepart;
+    private DatePicker inputReturn;			// input box for date of return
+
+    @FXML	
+    private TextField inputNumPeople;		// Input box for number of people
 
     @FXML
-    private DatePicker inputReturn;
-
-    @FXML
-    private TextField inputNumPeople;
-
-    @FXML
-    private Button commitChanges;
+    private Button commitChanges;			// Button to apply the changes made
     
     @FXML
-    private Button deleteTrip;
+    private Button deleteTrip;				// Button to delete the selected trip
 
     @FXML
-    private Label nameError;
+    private Label nameError;			// Label for name error
 
     @FXML
-    private Label peopleError;
+    private Label peopleError;			// Error label for the number of people
 
     @FXML
-    private Label returnError;
+    private Label returnError;			// Error for the return date
 
     @FXML
-    private Label departError;
+    private Label departError;			// Error for the depart date
     
     @FXML
-    private Label destinationError;
+    private Label destinationError;		// Error for the destination name
 
     @FXML
-    private TextField destinationName;
+    private TextField destinationName;		// TextField to input destination name
 
     /*
-     * 
+     * Temp Variables
      */
-	private String name;
-	private LocalDate depart;
-	private LocalDate arrive;
-	private int groupSize;
-	private String destination;
+	private String name;		// Temp variable for customer name
+	private LocalDate depart;	// Temp variable for depart date
+	private LocalDate arrive;	// Temp variable for return date
+	private int groupSize;		// Temp variable for group size
+	private String destination;	// Temp variable for the destination name
 
 	@FXML
 	void deleteTrip(ActionEvent event) throws IOException 
+	/*
+	 * Precondition:  User clicks on the delete trip button
+	 * Postcondition: The selected trip is deleted if user confirms popup
+	 */
 	{
 		/*
-    	 * Alert to show finalize success
+    	 * Alert to show delete customer
     	 */
     	Alert alert = new Alert(AlertType.CONFIRMATION);
     	alert.setTitle("Confirmation Dialog");
@@ -126,20 +136,29 @@ public class EditWindowController extends Main
 	
 	@FXML
     void updateOptions(KeyEvent event) throws MalformedURLException, ParserConfigurationException, SAXException, IOException, TransformerException 
+	/*
+	 * Precondition:  The user presses a button on their keyboard
+	 * Postcondition: The suggestion box is updated in response to the users input
+	 */
 	{
 		TextFields.bindAutoCompletion(destinationName, getDestinationChoices(destinationName.getText()));
     }
 	
     @FXML
     void commitChanges(ActionEvent event) throws IOException, ParserConfigurationException, SAXException, TransformerException 
+    /*
+     * Precondition:  User clicks on the commit changes button
+     * Postcondition: The changes are made to the trip if they meet certain criteria and 
+     * 				  if all fields are filled out
+     */
     {
     	/*
-		 * Resets all values and fields
+		 * Resets all values and errors
 		 */
 		Boolean in = false;
 		Boolean ip = false;
 		Boolean ir = false;
-		Boolean id = false;
+		Boolean id = true;
 		Boolean idest = false;
 		peopleError.setText("");
 		nameError.setText("");
@@ -256,14 +275,25 @@ public class EditWindowController extends Main
 			}
 		}
 		
-		String bsNms = getBusses(depart, arrive, groupSize);
+		/*
+		 * The program must get a value for the bus numbers before the user
+		 * can continue because there may be no busses left
+		 */
+		String bsNms = null;	// Bus numbers is set to null unless change otherwise
+		
+		/*
+		 * If all fields are correctly filled out
+		 */
+		if (in == true && ip == true && ir == true && id == true)
+		{
+			bsNms = getBusses(depart, arrive, groupSize);		// Gets the bus numbers
+		}
 		
 		/*
 		 * If all of the vales are acceptable
 		 */
 		if (in == true && ip == true && ir == true && id == true && bsNms != null)
 		{	
-			
 			/*
 	    	 * Alert to show finalize success
 	    	 */
@@ -272,10 +302,17 @@ public class EditWindowController extends Main
 			alert.setHeaderText("Confirm Dialog");
 			alert.setContentText("Are you sure you want to modify this trip?");
 			Optional<ButtonType> result = alert.showAndWait();
+			
+			/*
+			 * If user clicks on the ok button
+			 */
 			if(result.get() == ButtonType.OK)
 			{
-				tripData.clear();
+				tripData.clear();		// Clears the trip list so trips arent saved more than once
 				
+				/*
+				 * Gets values for the trip distance and cost
+				 */
 				double distance = getTripDistance(destination);
 				double tripCost = getTripCost(groupSize, distance);
 				
@@ -307,16 +344,22 @@ public class EditWindowController extends Main
 				stage.setScene(scene);
 				stage.show();
 			}
+			/*
+			 * Else user clicks on close
+			 */
 			else
 			{
-				alert.close();
+				alert.close();		// Closes the popup
 			}
-			
 		}
     }
 
     @FXML
     void initialize() 
+    /*
+     * Precondition:  There is an error injecting the GUI elements
+     * Postcondition: Error message is spit out
+     */
     {
         assert inputName != null : "fx:id=\"inputName\" was not injected: check your FXML file 'EditInfoWindow.fxml'.";
         assert inputDepart != null : "fx:id=\"inputDepart\" was not injected: check your FXML file 'EditInfoWindow.fxml'.";
@@ -332,16 +375,44 @@ public class EditWindowController extends Main
     }
     
     public void setInfo (String nm, LocalDate dpt, LocalDate ret, int grpSz, String dest)
+    /*
+     * Precondition:  User wanted to modify a customer
+     * Postcondition: Window is filled with given data
+     */
     {
+    	/*
+    	 * Sets all variables 
+    	 */
     	name = nm;
     	depart = dpt;
     	arrive = ret;
     	groupSize = grpSz;
     	
+    	/*
+    	 * Pre fills all of the text boxes to the 
+    	 * values of the current trip
+    	 */
     	inputName.setText(nm);
-    	inputDepart.setValue(dpt);
     	inputReturn.setValue(ret);
     	inputNumPeople.setText(Integer.toString(grpSz));
     	destinationName.setText(dest);
+    	
+    	/*
+    	 * If the date of departure is before todays date
+    	 */
+    	if (dpt.isBefore(LocalDate.now()))
+    	{
+    		/*
+    		 * Makes it so the depart date is un-editable
+    		 */
+    		inputDepart.setEditable(false);
+    	}
+    	/*
+    	 * Else it is after todays date
+    	 */
+    	else
+    	{
+    		inputDepart.setValue(dpt);		
+    	}
     }
 }    

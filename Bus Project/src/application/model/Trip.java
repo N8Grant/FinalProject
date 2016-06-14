@@ -1,24 +1,25 @@
 package application.model; // Package containing bus class
 
+
 /*
  * Imports Section
  */
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;		// Import for date manipulation
+import java.time.format.DateTimeFormatter;	// Used to format the date a certain way
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.DoubleProperty;	// Used to make 
+import javafx.beans.property.IntegerProperty;	// Used for integers in observable lists
+import javafx.beans.property.ObjectProperty;		// Used for objects in observable lists
+import javafx.beans.property.SimpleDoubleProperty;	// Used for doubles in observable lists
+import javafx.beans.property.SimpleIntegerProperty;	// Used for integers in observable lists
+import javafx.beans.property.SimpleObjectProperty;	// Used for objects in observable lists
+import javafx.beans.property.SimpleStringProperty;	// Used for strings in observable lists
+import javafx.beans.property.StringProperty;		// Used for longer strings
 
 public class Trip
 {
 	/*
-	 * Variables
+	 * Instance Variables
 	 */
 	private StringProperty organizationName;	// Name of organization
     private IntegerProperty groupSize;			// Size of group
@@ -114,15 +115,6 @@ public class Trip
         this.ID.set(id);
     }
 
-    public StringProperty ID() 
-    /*
-     * Precondition:  User wants a string representation of the ID property
-     * Postcondition: String with users ID is returned
-     */
-    {
-        return ID;
-    }
-    
     public String getName() 
     /*
      * Precondition:  User wants the customers name
@@ -142,15 +134,6 @@ public class Trip
         this.organizationName.set(nm);
     }
 
-    public StringProperty nameProperty()
-    /*
-     * Precondition:  User wants a string representation of the name property
-     * Postcondition: String with users name is returned
-     */
-    {
-        return organizationName;
-    }
-
     public int getGroupSize() 
     /*
      * Precondition:  User wants the group size
@@ -162,139 +145,155 @@ public class Trip
 
     public void setGroupSize(int size)
     /*
-     * Precondition:  
-     * Postcondition: 
+     * Precondition:  User wants to change the value for group size
+     * Postcondition: The trips group size is changed
      */
     {
         this.groupSize.set(size);
     }
 
-    public IntegerProperty groupSize() 
-    /*
-     * Returns a int representation of this StringProperty object
-     */
-    {
-        return groupSize;
-    }
-
     public LocalDate getDepart() 
+    /*
+     * Precondition:  The user wants the value for the departure date of the trip
+     * Postcondition: The date is passed back to the user in LocalDate format
+     */
     {
         return depart.get();
     }
 
     public void setDepart(LocalDate depart) 
+    /*
+     * Precondition:  The user wants to set the date of departure
+     * Postcondition: The date of departure is changed
+     */
     {
         this.depart.set(depart);
     }
     
     public String getDepartStr ()
+    /*
+     * Precondition:  The user wants the date  of departure in a string format
+     * Postcondition: The date is sent in a string format
+     */
     {
     	return departString.get();
     }
-
-    public ObjectProperty<LocalDate> departProperty() 
-    /*
-     * Returns a object representation of this StringProperty object
-     */
-    {
-        return depart;
-    }
     
     public LocalDate getArrive() 
+    /*
+     * Precondition:  The user wants the value for the return date of the trip
+     * Postcondition: The date is passed back to the user in LocalDate format
+     */
     {
         return arrive.get();
     }
     
     public String getArriveStr ()
+    /*
+     * Precondition:  The user wants the date  of return in a string format
+     * Postcondition: The date is sent in a string format
+     */
     {
     	return arriveString.get();
     }
 
     public void setArrive(LocalDate arrive) 
+    /*
+     * Precondition:  The user wants to set the date of return
+     * Postcondition: The return date is changed
+     */
     {
         this.arrive.set(arrive);
     }
 
-    public ObjectProperty<LocalDate> arriveProperty() 
-    /*
-     * Returns a object representation of this StringProperty object
-     */
-    {
-        return arrive;
-    }
-
 	public String getBusNumbers()
+	/*
+	 * Precondition:  The user wants a string of all of the bus numbers that the trip 
+	 * 				  is using
+	 * Postcondition: The bus numbers re sent back as a string separated by commas
+	 */
 	{
 		return busNumbers.get();
 	}
-	public StringProperty busNumbersProperty()
-	{
-        return busNumbers;
-    }
 
 	public void setBusNumbers(String busNumber) 
+	/*
+	 * Precondition:  The user wants to change the value for the bus numbers
+	 * Postcondition: The bus numbers for the trip are changed
+	 */
 	{
 		this.busNumbers.set(busNumber);;
 	}
 	
 	public Double getTripCost()
+	/*
+	 * Precondition:  The user wants the total cost of teh trip in a double format
+	 * Postcondition: THe total trip cost is sent to the user
+	 */
 	{
 		return tripCost.get();
 	}
 	
-	public DoubleProperty tripCostProperty ()
-	{
-		return tripCost;
-	}
-	
 	public void setTripCost(double tripCst)
+	/*
+	 * Precondition:  The user wants to change the trip cost
+	 * Postcondition: The double value for total cost is changed 
+	 */
 	{
 		this.tripCost.set(tripCst);
 	}
 	
 	public String getTripNote()
+	/*
+	 * Precondition:  The user wants the value for the trip notes 
+	 * Postcondition: A long string of info will be returned to the user
+	 */
 	{
 		return tripNote.get();
 	}
 	
-	public StringProperty tripNoteProperty()
-	{
-		return tripNote;
-	}
-	
 	public void setTripNote(String trpNt)
+	/*
+	 * Precondition:  The user either wants to change the trip note or make a new one
+	 * Postcondition: The trip note for the trip is modified
+	 */
 	{
 		this.tripNote.set(trpNt);
 	}
 	
 	public Double getTripDistance()
+	/*
+	 * Precondition:  The user wants the double value for the distance of the trip
+	 * Postcondition: Double value for the trips distance is given to the user
+	 */
 	{
 		return tripDistance.get();
 	}
 	
-	public DoubleProperty tripDistanceProperty()
-	{
-		return tripDistance;
-	}
-	
 	public void setTripDistance(double dist)
+	/*
+	 * Precondition:  The user wants to modify the distance of the trip
+	 * Postcondition: Trips distance is modified
+	 */
 	{
 		this.tripDistance.set(dist);
 	}
 	
 	public String getTripDestination()
+	/*
+	 * Precondition:  The user wants the String of the trip destination
+	 * Postcondition: String of destination is returned to user
+	 */
 	{
 		return destination.get();
 	}
 	
-	public SimpleStringProperty getDestinationProperty()
-	{
-		return destination;
-	}
-	
 	public void setTripDestination(String dest)
+	/*
+	 * Precondition:  User wants to set the trip destination
+	 * Postcondition: trips destination is modified
+	 */
 	{
 		destination.set(dest);
 	}
-	
 }

@@ -140,7 +140,7 @@ public class BusManageController extends Main
     		stage = (Stage) viewBusInfo.getScene().getWindow();
     							
     		FXMLLoader loader = new FXMLLoader();
-    		loader.setLocation(Main.class.getResource("view/AvailableBussesController.fxml"));
+    		loader.setLocation(Main.class.getResource("view/AvailableBussesWndow.fxml"));
     		root = (AnchorPane) loader.load();
     		Scene scene = new Scene(root);
     		stage.setScene(scene);
@@ -150,6 +150,10 @@ public class BusManageController extends Main
 
     @FXML
     void initialize() 
+    /*
+     * Precondition:  There is an error injecting the GUI elements
+     * Postcondition: Error message is spit out
+     */
     {
         assert busView != null : "fx:id=\"busView\" was not injected: check your FXML file 'BusManagement.fxml'.";
         assert viewBusInfo != null : "fx:id=\"viewBusInfo\" was not injected: check your FXML file 'BusManagement.fxml'.";

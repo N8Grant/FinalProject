@@ -1,53 +1,59 @@
-package application.view.controller;
+package application.view.controller;		// Package that the class is contained in
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.net.URL;				// Import for use with URL connection
+import java.util.ResourceBundle;	// Used for location of windows in memory
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.fxml.FXML;			// Import for FXML file format
+import javafx.scene.control.Label;		// Used for text label handling
 
-public class PrinterController extends CheckoutController implements Initializable
+
+public class PrinterController extends CheckoutController
 {
+	/*
+	 * GUI Elements
+	 */
 	@FXML
-	private ResourceBundle resources;
-
-	@FXML
-	private URL location;
-	  
-	@FXML
-	private Label customerLabel;
-	
-	@FXML
-	private Label idLabel;
-
-	@FXML
-	private Label grpSzLabel;
-
-	@FXML
-	private Label busNmLabel;
-
-	@FXML
-	private Label departLabel;
-
-	@FXML
-	private Label totalLabel;
-
-	@FXML
-	private Label returnLabel;
+	private ResourceBundle resources;		// Location of FXML in computer
 	
     @FXML
-    private Label destinationLabel;
+    private URL location;					// Location in storage of FXML
+	  
+	@FXML
+	private Label customerLabel;			// The label for the customers name
+	
+	@FXML
+	private Label idLabel;					// The label for the ID
 
-	public Label getCustomerLabel() 
-	{
-		return customerLabel;
-	}
+	@FXML
+	private Label grpSzLabel;				// The label for the group size
+
+	@FXML
+	private Label busNmLabel;				// Label for the bus numbers
+
+	@FXML
+	private Label departLabel;				// Label for the date of departure
+
+	@FXML
+	private Label totalLabel;				// Label for the total cost of the trip
+
+	@FXML		
+	private Label returnLabel;				// Label for the date of return
+	
+    @FXML
+    private Label destinationLabel;			// Label for the name of the destination
 
 	public void populateReceipt (String nm, String grpSz,
 								 String busNm, String dpt, String ret, String tot,
 								 String id, String dest)
+	/*
+	 * Precondition:  User wants to print a receipt
+	 * Postcondition: The data is sent to the printer window and the 
+	 * 				  label values are set to be printed
+	 */
 	{
+		/*
+		 * Sets all of the labels for all of the trips data
+		 */
 		customerLabel.setText(nm);
 		grpSzLabel.setText(grpSz);
 		busNmLabel.setText(busNm);
@@ -60,6 +66,10 @@ public class PrinterController extends CheckoutController implements Initializab
 		
 	@FXML
 	void initialize() 
+	 /*
+     * Precondition:  There is an error injecting the GUI elements
+     * Postcondition: Error message is spit out
+     */
 	{
 		assert customerLabel != null : "fx:id=\"customerLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
         assert idLabel != null : "fx:id=\"idLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
@@ -69,11 +79,5 @@ public class PrinterController extends CheckoutController implements Initializab
         assert totalLabel != null : "fx:id=\"totalLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
         assert returnLabel != null : "fx:id=\"returnLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
         assert destinationLabel != null : "fx:id=\"returnLabel\" was not injected: check your FXML file 'PrintConfirmation.fxml'.";
-	}
-	    
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) 
-	{
-			
 	}
 }

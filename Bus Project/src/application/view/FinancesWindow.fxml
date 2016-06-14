@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="468.0" styleClass="background" stylesheets="@JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.FinanceWindow">
    <children>
-      <PieChart fx:id="financeChart" labelLineLength="10.0" layoutX="24.0" layoutY="47.0" legendVisible="false" onMouseClicked="#showSingleRevenue" prefHeight="315.0" prefWidth="328.0" styleClass="label" stylesheets="@JMetroDarkTheme.css" />
+      <PieChart fx:id="financeChart" labelLineLength="10.0" layoutX="24.0" layoutY="47.0" legendVisible="false" prefHeight="315.0" prefWidth="328.0" style="-fx-background-color: #ffffff;" styleClass="label" stylesheets="@JMetroDarkTheme.css" />
       <Label layoutX="184.0" layoutY="14.0" text="Finances" textFill="#00901f">
          <font>
             <Font size="24.0" />
@@ -34,5 +34,6 @@
       <RadioButton fx:id="weekly" layoutX="365.0" layoutY="218.0" mnemonicParsing="false" text="Weekly" toggleGroup="$timeFrame" />
       <Button fx:id="applyTime" layoutX="358.0" layoutY="273.0" mnemonicParsing="false" onAction="#applyTime" text="Apply" />
       <Label layoutX="365.0" layoutY="91.0" text="Projections" textFill="#00901f" />
+      <Label fx:id="selectError" layoutX="335.0" layoutY="304.0" textFill="RED" />
    </children>
 </AnchorPane>

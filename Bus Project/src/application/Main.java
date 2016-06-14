@@ -1,4 +1,4 @@
-/*
+/**
  * INFORMATOIN SECTION
  * Nathan Grant
  * Bus Program
@@ -10,7 +10,6 @@
  * The program can book trips, keep track of availability, modify or 
  * delete trips, and even keep track of finances. 
  */
-
 package application;	// Package of class
 
 /*
@@ -79,8 +78,8 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws IOException, ParserConfigurationException, SAXException, TransformerException
 	/*
-	 * Precondition:  User runs program
-	 * Postcondition: Program is run
+	 * Precondition:  User executes program
+	 * Postcondition: Program is compiled and ran
 	 */
 	{
 		createFile();	// Makes sure that there is a file that exist
@@ -113,7 +112,9 @@ public class Main extends Application
 			e.printStackTrace();	// prints error to console
 		}
 	}
-	
+	/**************************************************************/
+	/*    				   	METHODS SECTION				          */
+	/**************************************************************/
 	public ObservableList<String> getAllNames(ObservableList <Trip> list, int sort)
 	/*
 	 * Precondition:  User wants a list of all of the names in a given list
@@ -231,6 +232,9 @@ public class Main extends Application
 				return names.sorted(Z_TO_A);	// return sorted list of all names 
 			}
 		
+			/*
+			 * If user wants descending group size
+			 */
 			else if (sort == 3)
 			{
 				/*
@@ -266,6 +270,9 @@ public class Main extends Application
 				
 				return names;	// return the list of names
 			}
+			/*
+			 * If user wants ascending group size
+			 */
 			else if (sort == 4)
 			{
 				/*
@@ -349,7 +356,72 @@ public class Main extends Application
 				}	
 			}
 		}
-		return t;	// return bool value
+		return t;	// return boolean value
+	}
+	
+	public String getAvailable(LocalDate depart, LocalDate ret) throws ParserConfigurationException, SAXException, IOException
+	/*
+	 * Precondition:  User wants to see the number of busses available on a certain day 
+	 * Postcondition: A string value is returned representing the total number of busses on the 
+	 * 			      given day
+	 */
+	{
+		/*
+		 * A temporary list of integers representing all of the busses
+		 */
+		ArrayList <Integer> temp = new ArrayList <Integer>();
+		
+		String busses = "";		// Empty string for the number of busses
+		int total = 0;		// The total number of busses available on the given day
+		
+		/*
+		 * For loop to insert bus numbers into list
+		 */
+		for (int i = 1; i <= ABCBUSSES; i++)
+		{
+			temp.add(i);
+		}
+		
+		/*
+		 * For loop to check availability during specified dates
+		 */
+		for (Bus bus: getDates(fetchCurrentXML()))
+		{
+			/*
+			 * If depart date is after depart date or equal to it
+			 * 							and
+			 * If arrive is before the return date or equal to it
+			 */
+			if ((bus.getDepart().isAfter(depart) || 
+				 bus.getDepart().isEqual(depart)) &&
+			    (bus.getRet().isBefore(ret) ||
+				 bus.getRet().isEqual(ret)))
+			{
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+			}
+			/*
+			 * Else if the depart date is equal the return date and vise versa
+			 */
+			else if (bus.getDepart().isEqual(ret) || 
+					 bus.getRet().isEqual(depart))
+			{
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+			}
+		}
+				
+		/*
+		 * If there are no available busses 
+		 */
+		if (temp.isEmpty())
+		{
+			return null;	// return null
+		}
+
+		total = temp.size();	// The total number of busses is equal 
+								// to the size of the available busses
+		busses = String.valueOf(total);		// Gets the string value of the total number of busses
+
+		return busses;		// Return number of busses
 	}
 
 	public String getBusses(LocalDate depart, LocalDate ret, int grpSz) throws ParserConfigurationException, SAXException, IOException
@@ -696,8 +768,8 @@ public class Main extends Application
 		 */
 		else if (sort == 1)
 		{
-			LocalDate startWeek = LocalDate.now().minusDays(7);
-			LocalDate endWeek = LocalDate.now().plusDays(7);
+			LocalDate startWeek = LocalDate.now().minusDays(7);		// Gets the date 7 days before todays date
+			LocalDate endWeek = LocalDate.now().plusDays(7);		// Gets the date 7 days after todays date
 			
 			/*
 			 * Iterates through current trips
@@ -835,9 +907,9 @@ public class Main extends Application
 		/*
 		 * If trip dstance is over 100 kilometers
 		 */
-		if (dist > 100) 
+		if (dist > 300) 
 		{
-			double over = dist - 100;	// the kilometers over 100
+			double over = dist - 300;	// the kilometers over 100
 			
 			cost =  ((2.13/grpSz) * over) + cost;	// Cost of gas divided by the number of people
 													// times the distance over 100, all added to
@@ -1109,7 +1181,7 @@ public class Main extends Application
 															// km stamp so it can be converted
 		stringDist = stringDist.replaceAll(",", "");	// Removes all the commas in the number
 														// and replaces them with a blank charSequence
-		return Double.parseDouble(stringDist);	// returns a parsed string to a type double
+		return Double.parseDouble(stringDist) * 2;	// returns a parsed string to a type double
 	}
 	
 	public String getBussesNeeded(int grpSz)
@@ -1247,7 +1319,10 @@ public class Main extends Application
 		 * Gets all of the nodes and makes them into a list
 		 */
 		NodeList nodeList = (NodeList)(expr.evaluate(doc, XPathConstants.NODESET));
-			
+		
+		/*
+		 * If there is an element in the node list
+		 */
 		if (nodeList.getLength() == 1) 
 		{
 		    // we've found a 'name' element with value 'Trip'
@@ -1268,7 +1343,7 @@ public class Main extends Application
 		        	  ));
 		} 
 		/*
-		 * Else file cant be found
+		 * Else file can't be found
 		 */
 		else 
 		{
@@ -1321,7 +1396,7 @@ public class Main extends Application
 	public File createFile()
 	/*
 	 * Precondition:  Program is started 
-	 * Postcondition: 
+	 * Postcondition: File is checked for being blank or non existent
 	 */
 	{
 		/*
@@ -1953,7 +2028,6 @@ public class Main extends Application
 		    catch (TransformerException ex) 
 		    {
 		        System.out.println("Error outputting document");
-	
 		    } 
 	    }
 		/*
@@ -2060,8 +2134,7 @@ public class Main extends Application
 	            dest.appendChild(dom.createTextNode(String.valueOf(trp.getTripDestination())));
 	            Details.appendChild(dest);
 	            
-		        root.appendChild(Details);		// Append the data to the end of the list
-		        
+		        root.appendChild(Details);		// Append the data to the end of the list 
 	        }
 	        /*
 	         * Try to save the new list to the file
