@@ -359,7 +359,7 @@ public class Main extends Application
 		return t;	// return boolean value
 	}
 	
-	public String getAvailable(LocalDate depart, LocalDate ret) throws ParserConfigurationException, SAXException, IOException
+	public String getAvailable(LocalDate date) throws ParserConfigurationException, SAXException, IOException
 	/*
 	 * Precondition:  User wants to see the number of busses available on a certain day 
 	 * Postcondition: A string value is returned representing the total number of busses on the 
@@ -388,25 +388,18 @@ public class Main extends Application
 		for (Bus bus: getDates(fetchCurrentXML()))
 		{
 			/*
-			 * If depart date is after depart date or equal to it
-			 * 							and
-			 * If arrive is before the return date or equal to it
+			 * Else if the depart date is equal the return date and vice versa
 			 */
-			if ((bus.getDepart().isAfter(depart) || 
-				 bus.getDepart().isEqual(depart)) &&
-			    (bus.getRet().isBefore(ret) ||
-				 bus.getRet().isEqual(ret)))
+		    if (date.isAfter(bus.getDepart()) &&
+		    	date.isBefore(bus.getRet()))
 			{
 				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
 			}
-			/*
-			 * Else if the depart date is equal the return date and vise versa
-			 */
-			else if (bus.getDepart().isEqual(ret) || 
-					 bus.getRet().isEqual(depart))
-			{
-				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
-			}
+		    else if (date.isEqual(bus.getDepart()) ||
+		    		 date.isEqual(bus.getRet()))
+		    {
+		    	temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+		    }
 		}
 				
 		/*
@@ -448,31 +441,45 @@ public class Main extends Application
 		 * For loop to check availability during specified dates
 		 */
 		for (Bus bus: getDates(fetchCurrentXML()))
-		{
+		{	
+			/*
+			 * Else if the depart date is equal the return date and vice versa
+			 */
+		    if (bus.getDepart().isEqual(ret) || 
+				bus.getRet().isEqual(depart))
+			{
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+			}
 			/*
 			 * If depart date is after depart date or equal to it
 			 * 							and
 			 * If arrive is before the return date or equal to it
 			 */
-			if ((bus.getDepart().isAfter(depart) || 
-				 bus.getDepart().isEqual(depart)) &&
-			    (bus.getRet().isBefore(ret) ||
-				 bus.getRet().isEqual(ret)))
+			else if (bus.getDepart().isAfter(depart) && 
+					 bus.getDepart().isBefore(ret))
 			{
 				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
 			}
-			/*
-			 * Else if the depart date is equal the return date and vise versa
-			 */
-			else if (bus.getDepart().isEqual(ret) || 
-					 bus.getRet().isEqual(depart))
+		    /*
+		     * If depart is equal to depart or return is equal
+		     */
+			else if (bus.getDepart().isEqual(depart) ||
+				     bus.getRet().isEqual(ret))
+			{
+				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
+			}
+		    /*
+		     * If depart is after bus depart and its before the return
+		     */
+			else if (depart.isAfter(bus.getDepart()) &&
+					 ret.isBefore(bus.getRet()))
 			{
 				temp.remove(new Integer(bus.getBusNumber())); // remove bus number
 			}
 		}
 
 		/*
-		 * Int for busses needed for the trip
+		 * Integer for busses needed for the trip
 		 */
 		int bussesNeeded = Integer.parseInt(getBussesNeeded(grpSz));
 			
@@ -489,7 +496,7 @@ public class Main extends Application
 			if (i == 0)
 			{
 				/*
-				 * Try to add firt element to string of bus numbers
+				 * Try to add first element to string of bus numbers
 				 */
 				try
 				{
@@ -502,7 +509,7 @@ public class Main extends Application
 						return null;	// returns null / no busses
 					}
 					/*
-					 * Else add to begining of string
+					 * Else add to beginning of string
 					 */
 					else
 					{
@@ -510,7 +517,7 @@ public class Main extends Application
 					}
 				}
 				/*
-				 * Catch index out of bouds
+				 * Catch index out of bounds
 				 */
 				catch (IndexOutOfBoundsException e)
 				{

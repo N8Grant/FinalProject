@@ -41,4 +41,32 @@
         <Distance>281.0</Distance>
         <Destination>North Conway, Conway, NH, USA</Destination>
     </Trip>
+<Trip>
+        <Name>Brick</Name>
+        <ID>934</ID>
+        <GroupSize>380</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19</BusNumbers>
+        <Depart>2016-07-23</Depart>
+        <Return>2016-07-25</Return>
+        <Cost>18996.2</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
+    </Trip>
+
+
+
+
+
+
+<Trip>
+        <Name>Brick2</Name>
+        <ID>701</ID>
+        <GroupSize>20</GroupSize>
+        <BusNumbers>20</BusNumbers>
+        <Depart>2016-07-23</Depart>
+        <Return>2016-07-24</Return>
+        <Cost>1046.66</Cost>
+        <Distance>322.0</Distance>
+        <Destination>Springfield, MA, USA</Destination>
+    </Trip>
 </Trips>

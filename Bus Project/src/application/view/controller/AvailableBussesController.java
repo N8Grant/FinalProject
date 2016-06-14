@@ -76,7 +76,7 @@ public class AvailableBussesController extends Main
     		/*
     		 * If there are no busses available of the date
     		 */
-    		if (getAvailable(dateSelect.getValue(), dateSelect.getValue()) == null)
+    		if (getAvailable(dateSelect.getValue()) == null)
     		{
     			busNumbersLabel.setText("Busses Available: 0");
     		}
@@ -85,7 +85,7 @@ public class AvailableBussesController extends Main
     		 */
     		else
     		{
-    			busNumbersLabel.setText("Busses Available: " + getAvailable(dateSelect.getValue(), dateSelect.getValue()));
+    			busNumbersLabel.setText("Busses Available: " + getAvailable(dateSelect.getValue()));
     	    	
     		}
     	}
