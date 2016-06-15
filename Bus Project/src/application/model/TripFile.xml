@@ -1,72 +1,154 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <Trips>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <Trip>
-        <Name>Tuck</Name>
-        <ID>530</ID>
-        <GroupSize>60</GroupSize>
-        <BusNumbers>1, 2, 3</BusNumbers>
-        <Depart>2016-08-13</Depart>
-        <Return>2016-08-16</Return>
-        <Cost>7123.08</Cost>
-        <Distance>2036.0</Distance>
-        <Destination>N Indianapolis Ave, Florida 34442, USA</Destination>
+        <Name>Taunton High School</Name>
+        <ID>102</ID>
+        <GroupSize>100</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5</BusNumbers>
+        <Depart>2016-12-05</Depart>
+        <Return>2016-12-05</Return>
+        <Cost>4999.0</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
     </Trip>
 <Trip>
-        <Name>Nate</Name>
-        <ID>367</ID>
+        <Name>Boston Academy</Name>
+        <ID>619</ID>
+        <GroupSize>156</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8</BusNumbers>
+        <Depart>2016-12-09</Depart>
+        <Return>2016-12-09</Return>
+        <Cost>7883.64</Cost>
+        <Distance>340.0</Distance>
+        <Destination>Concord, NH, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>Bristol Plymouth</Name>
+        <ID>624</ID>
         <GroupSize>160</GroupSize>
-        <BusNumbers>1, 2, 5, 6, 7, 8, 9, 10</BusNumbers>
-        <Depart>2016-06-13</Depart>
-        <Return>2016-06-15</Return>
-        <Cost>8383.93</Cost>
-        <Distance>281.0</Distance>
-        <Destination>North Conway, Conway, NH, USA</Destination>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8</BusNumbers>
+        <Depart>2016-12-14</Depart>
+        <Return>2016-12-14</Return>
+        <Cost>7998.4</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
     </Trip>
 <Trip>
-        <Name>Brick</Name>
-        <ID>934</ID>
-        <GroupSize>380</GroupSize>
-        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19</BusNumbers>
-        <Depart>2016-07-23</Depart>
-        <Return>2016-07-25</Return>
-        <Cost>18996.2</Cost>
+        <Name>Coyle &amp; Cassidy</Name>
+        <ID>944</ID>
+        <GroupSize>210</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11</BusNumbers>
+        <Depart>2016-11-25</Depart>
+        <Return>2016-11-25</Return>
+        <Cost>10497.9</Cost>
+        <Distance>67.8</Distance>
+        <Destination>Stoughton, MA 02072, USA</Destination>
+    </Trip>
+
+<Trip>
+        <Name>Snow Bird Ski Club</Name>
+        <ID>523</ID>
+        <GroupSize>140</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7</BusNumbers>
+        <Depart>2016-12-15</Depart>
+        <Return>2016-12-15</Return>
+        <Cost>6998.6</Cost>
+        <Distance>4.6</Distance>
+        <Destination>77 Briggs St, Taunton, MA 02780, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>Taunton Ski Club</Name>
+        <ID>113</ID>
+        <GroupSize>120</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6</BusNumbers>
+        <Depart>2016-11-18</Depart>
+        <Return>2016-11-18</Return>
+        <Cost>5998.8</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>Love To Ski Club</Name>
+        <ID>332</ID>
+        <GroupSize>100</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5</BusNumbers>
+        <Depart>2016-12-01</Depart>
+        <Return>2016-12-01</Return>
+        <Cost>4999.0</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>BCC Ski Club</Name>
+        <ID>270</ID>
+        <GroupSize>95</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5</BusNumbers>
+        <Depart>2016-11-15</Depart>
+        <Return>2016-11-15</Return>
+        <Cost>4749.05</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>ABC Ski Club</Name>
+        <ID>680</ID>
+        <GroupSize>54</GroupSize>
+        <BusNumbers>1, 2, 3</BusNumbers>
+        <Depart>2016-11-16</Depart>
+        <Return>2016-11-16</Return>
+        <Cost>2699.46</Cost>
         <Distance>125.0</Distance>
         <Destination>Boston, MA, USA</Destination>
     </Trip>
 
-
-
-
-
-
 <Trip>
-        <Name>Brick2</Name>
-        <ID>701</ID>
-        <GroupSize>20</GroupSize>
-        <BusNumbers>20</BusNumbers>
-        <Depart>2016-07-23</Depart>
-        <Return>2016-07-24</Return>
-        <Cost>1046.66</Cost>
-        <Distance>322.0</Distance>
-        <Destination>Springfield, MA, USA</Destination>
+        <Name>SnowShoes and SnowBoots Ski Club</Name>
+        <ID>574</ID>
+        <GroupSize>120</GroupSize>
+        <BusNumbers>4, 5, 6, 7, 8, 9</BusNumbers>
+        <Depart>2016-11-16</Depart>
+        <Return>2016-11-16</Return>
+        <Cost>5998.8</Cost>
+        <Distance>125.0</Distance>
+        <Destination>Boston, MA, USA</Destination>
     </Trip>
+<Trip>
+        <Name>RunAway Ski Club</Name>
+        <ID>934</ID>
+        <GroupSize>170</GroupSize>
+        <BusNumbers>1, 2, 3, 4, 5, 6, 7, 8, 9</BusNumbers>
+        <Depart>2016-11-19</Depart>
+        <Return>2016-11-19</Return>
+        <Cost>8498.3</Cost>
+        <Distance>226.0</Distance>
+        <Destination>Wachusett, Westminster, MA 01473, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>Lets Ski Club</Name>
+        <ID>956</ID>
+        <GroupSize>75</GroupSize>
+        <BusNumbers>10, 11, 12, 13</BusNumbers>
+        <Depart>2016-11-16</Depart>
+        <Return>2016-11-16</Return>
+        <Cost>3749.25</Cost>
+        <Distance>226.0</Distance>
+        <Destination>Wachusett, Westminster, MA 01473, USA</Destination>
+    </Trip>
+<Trip>
+        <Name>CrossSabers</Name>
+        <ID>194</ID>
+        <GroupSize>152</GroupSize>
+        <BusNumbers>6, 7, 8, 9, 10, 11, 12, 13</BusNumbers>
+        <Depart>2016-12-05</Depart>
+        <Return>2016-12-05</Return>
+        <Cost>8160.8</Cost>
+        <Distance>564.0</Distance>
+        <Destination>Attitash Ln, North Conway, NH 03860, USA</Destination>
+    </Trip>
+
+
+
+
+
+
 </Trips>

@@ -137,24 +137,132 @@ public class FinanceWindow extends Main
     	 */
     	if (quarterly.isSelected())
     	{
-    		totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(3))));
-    		financeChart.setData(getPieChart(3));
+    		/*
+    		 * If there are no trips in the next quarter
+    		 */
+    		if (getRevenue(3) == 0)
+    		{
+    			/*
+    			 * Makes a new pop-up dialog box
+    			 */
+    			Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error Message");
+    			alert.setHeaderText("Error");
+    			alert.setContentText("There are no trips within the next quarter so no projections " +
+    								 "can be made.");
+    			Optional<ButtonType> result = alert.showAndWait();
+    			 
+    			/*
+    			 * If statement to continue
+    			 */
+    			if (result.get() == ButtonType.OK)
+    			{
+    				alert.close();		// closes the alert if cancel is pressed
+    			} 
+    			/*
+    			 * Else continue
+    			 */
+    			else 
+    			{ 
+    			    alert.close();	   // closes the alert if cancel is pressed
+    			}	
+    		}
+    		/*
+    		 * Else there are
+    		 */
+    		else
+    		{
+    			totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(3))));
+        		financeChart.setData(getPieChart(3));
+    		}
     	}
     	/*
     	 * If monthly scope is selected
     	 */
     	else if (monthly.isSelected())
     	{
-    		totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(2))));
-    		financeChart.setData(getPieChart(2));
+    		/*
+    		 * If there are no trips in the next month
+    		 */
+    		if (getRevenue(2) == 0)
+    		{
+    			/*
+    			 * Makes a new pop-up dialog box
+    			 */
+    			Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error Message");
+    			alert.setHeaderText("Error");
+    			alert.setContentText("There are no trips within the next month so no projections " +
+    								 "can be made.");
+    			Optional<ButtonType> result = alert.showAndWait();
+    			 
+    			/*
+    			 * If statement to continue
+    			 */
+    			if (result.get() == ButtonType.OK)
+    			{
+    				alert.close();		// closes the alert if cancel is pressed
+    			} 
+    			/*
+    			 * Else continue
+    			 */
+    			else 
+    			{ 
+    			    alert.close();	   // closes the alert if cancel is pressed
+    			}	
+    		}
+    		/*
+    		 * Else there are
+    		 */
+    		else 
+    		{
+    			totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(2))));
+        		financeChart.setData(getPieChart(2));
+    		}
     	}
     	/*
     	 * If weekly scope is selected
     	 */
     	else if (weekly.isSelected())
     	{
-    		totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(1))));
-    		financeChart.setData(getPieChart(1));
+    		/*
+    		 * If there are no trips in the next week
+    		 */
+    		if (getRevenue(1) == 0)
+    		{
+    			/*
+    			 * Makes a new pop-up dialog box
+    			 */
+    			Alert alert = new Alert(AlertType.ERROR);
+    			alert.setTitle("Error Message");
+    			alert.setHeaderText("Error");
+    			alert.setContentText("There are no trips within the next week so no projections " +
+    								 "can be made.");
+    			Optional<ButtonType> result = alert.showAndWait();
+    			 
+    			/*
+    			 * If statement to continue
+    			 */
+    			if (result.get() == ButtonType.OK)
+    			{
+    				alert.close();		// closes the alert if cancel is pressed
+    			} 
+    			/*
+    			 * Else continue
+    			 */
+    			else 
+    			{ 
+    			    alert.close();	   // closes the alert if cancel is pressed
+    			}	
+    		}
+    		/*
+    		 * Else there are
+    		 */
+    		else
+    		{
+    			totalLabel.setText("$ " + Double.parseDouble(df2.format(getRevenue(1))));
+        		financeChart.setData(getPieChart(1));
+    		}
     	}
     	/*
     	 * Else there is no button selected

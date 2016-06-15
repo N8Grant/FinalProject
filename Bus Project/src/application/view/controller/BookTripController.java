@@ -173,18 +173,35 @@ public class BookTripController extends Main
 			inputReturn.getValue() != null || inputNumPeople.getText() != null ||
 			destinationName.getText() != null)
 		{
+			Boolean temp = true;		// Temp variable if string can be converted
+			
+			/*
+			 * Try to convert group size to int
+			 */
+			try
+			{
+				grpSz = Integer.parseInt(inputNumPeople.getText());
+			}
+			/*
+			 * Catch formating error
+			 */
+			catch (NumberFormatException e)
+			{
+				temp = false;
+				peopleError.setText("Must input a number!!");
+			}
+			
 			/*
 			 * If the number entered is less than 0
 			 */
-			if (Integer.parseInt(inputNumPeople.getText()) <= 0)
+			if (grpSz <= 0 && temp == true)
 			{
 				peopleError.setText("Enter number greater than 0!");
 			}
 			/*
 			 * Else if user entered number below 10
 			 */
-			else if ((Integer.parseInt(inputNumPeople.getText()) > 0) &&
-					 (Integer.parseInt(inputNumPeople.getText()) < 10))
+			else if ((grpSz > 0) && (grpSz < 10) && temp == true)
 			{
 				peopleError.setText("Enter number greater than 10!!");
 			}
@@ -194,7 +211,6 @@ public class BookTripController extends Main
 			else
 			{
 				ip = true;
-				grpSz = Integer.parseInt(inputNumPeople.getText());
 			}
 			
 			/*

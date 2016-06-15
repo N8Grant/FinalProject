@@ -86,6 +86,30 @@ public class Main extends Application
 		filterFile();	// Filter file for trips that have been completed
 	
 		/*
+		 * Makes a new pop-up dialog box
+		 */
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Program Description");
+		alert.setHeaderText("Information");
+		alert.setContentText("This program helps ABC bus comapny manage all of their" +
+						     " busses and also keeps track of their fiancnces.");
+		Optional<ButtonType> result = alert.showAndWait();
+		 
+		/*
+		 * If statement to continue
+		 */
+		if (result.get() == ButtonType.OK)
+		{
+			alert.close();		// closes the alert if cancel is pressed
+		} 
+		/*
+		 * Else continue
+		 */
+		else 
+		{ 
+		    alert.close();	   // closes the alert if cancel is pressed
+		}	
+		/*
 		 * Loads the main menu
 		 */
 		FXMLLoader loader;	// Used to load FXML file
