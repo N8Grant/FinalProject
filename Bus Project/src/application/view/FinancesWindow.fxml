@@ -8,32 +8,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="468.0" styleClass="background" stylesheets="@JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.FinanceWindow">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="560.0" styleClass="background" stylesheets="@JMetroDarkTheme.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.controller.FinanceWindow">
    <children>
-      <PieChart fx:id="financeChart" labelLineLength="10.0" layoutX="24.0" layoutY="47.0" legendVisible="false" prefHeight="315.0" prefWidth="328.0" style="-fx-background-color: #ffffff;" styleClass="label" stylesheets="@JMetroDarkTheme.css" />
+      <PieChart fx:id="financeChart" labelLineLength="10.0" labelsVisible="false" layoutX="24.0" layoutY="47.0" prefHeight="366.0" prefWidth="423.0" style="-fx-background-color: #ffffff;" styleClass="label" stylesheets="@JMetroDarkTheme.css" />
       <Label layoutX="184.0" layoutY="14.0" text="Finances" textFill="#00901f">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="373.0" stylesheets="@JMetroDarkTheme.css" text="Total:" textFill="WHITE">
+      <Label layoutX="46.0" layoutY="436.0" stylesheets="@JMetroDarkTheme.css" text="Total:" textFill="WHITE">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="totalLabel" layoutX="105.0" layoutY="373.0" text="Label" textFill="#00901f">
+      <Label fx:id="totalLabel" layoutX="107.0" layoutY="436.0" text="Label" textFill="#00901f">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Button fx:id="homeButton" layoutX="357.0" layoutY="347.0" mnemonicParsing="false" onAction="#returnHome" text="Home" />
-      <RadioButton fx:id="quarterly" layoutX="365.0" layoutY="117.0" mnemonicParsing="false" styleClass="radio" text="Quarterly">
+      <Button fx:id="homeButton" layoutX="456.0" layoutY="381.0" mnemonicParsing="false" onAction="#returnHome" text="Home" />
+      <RadioButton fx:id="quarterly" layoutX="460.0" layoutY="114.0" mnemonicParsing="false" styleClass="radio" text="Quarterly">
          <toggleGroup>
             <ToggleGroup fx:id="timeFrame" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="monthly" layoutX="365.0" layoutY="167.0" mnemonicParsing="false" text="Monthly" toggleGroup="$timeFrame" />
-      <RadioButton fx:id="weekly" layoutX="365.0" layoutY="218.0" mnemonicParsing="false" text="Weekly" toggleGroup="$timeFrame" />
-      <Button fx:id="applyTime" layoutX="358.0" layoutY="273.0" mnemonicParsing="false" onAction="#applyTime" text="Apply" />
-      <Label layoutX="365.0" layoutY="91.0" text="Projections" textFill="#00901f" />
+      <RadioButton fx:id="monthly" layoutX="461.0" layoutY="170.0" mnemonicParsing="false" text="Monthly" toggleGroup="$timeFrame" />
+      <RadioButton fx:id="weekly" layoutX="460.0" layoutY="224.0" mnemonicParsing="false" text="Weekly" toggleGroup="$timeFrame" />
+      <Button fx:id="applyTime" layoutX="456.0" layoutY="289.0" mnemonicParsing="false" onAction="#applyTime" text="Apply" />
+      <Label layoutX="477.0" layoutY="90.0" text="Projections" textFill="#00901f" />
       <Label fx:id="selectError" layoutX="335.0" layoutY="304.0" textFill="RED" />
    </children>
 </AnchorPane>
